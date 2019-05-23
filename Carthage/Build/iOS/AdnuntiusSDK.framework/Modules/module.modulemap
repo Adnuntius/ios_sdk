@@ -1,0 +1,11 @@
+framework module AdnuntiusSDK {
+  umbrella header "AdnuntiusSDK.h"
+
+  export *
+  module * { export * }
+}
+
+module AdnuntiusSDK.Swift {
+    header "AdnuntiusSDK-Swift.h"
+    requires objc
+}

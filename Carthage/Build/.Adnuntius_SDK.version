@@ -1,0 +1,19 @@
+{
+  "Mac" : [
+
+  ],
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+
+  ],
+  "commitish" : "d7c7f631eabd2f488d0ff3889f1d5352b09a284f",
+  "iOS" : [
+    {
+      "name" : "AdnuntiusSDK",
+      "hash" : "9032397a5dc76ac216d07219fc3dfb6bec728e1871d2895d18acd37dfe536054",
+      "swiftToolchainVersion" : "4.2.1 (swiftlang-1000.11.42 clang-1000.11.45.1)"
+    }
+  ]
+}
