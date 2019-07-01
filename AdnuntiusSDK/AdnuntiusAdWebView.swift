@@ -8,14 +8,14 @@
 import UIKit
 import WebKit
 
-public class AdnuntiusAdWebView: UIWebView {
+public class AdnuntiusAdWebView: UIWebView, UIWebViewDelegate {
     var tapAction : String = ""
     var clickUrl: String = ""
+
     @IBInspectable var adViewName = ""
     public var creativeRatio: Double = 0.0
     
     override public init(frame: CGRect) {
-        print("init frame with conf")
         super.init(frame: frame)
         addBehavior()
     }
@@ -32,14 +32,6 @@ public class AdnuntiusAdWebView: UIWebView {
     override open func draw(_ rect: CGRect) {
         super.draw(rect)
     }
-    func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
-        print("Create webview")
-        if navigationAction.targetFrame == nil {
-            webView.load(navigationAction.request)
-        }
-        return nil
-    }
-    
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
@@ -54,7 +46,8 @@ public class AdnuntiusAdWebView: UIWebView {
         }
     }
     open func addBehavior() {
-        print("DEBUG: addBehaviour")
+        print("DEBUG: SDK VERSION: 1.1.4")
+
         if(AdnuntiusSDK.adScript != "") {
             print("DEBUG: load from the script")
             self.loadHTMLString(AdnuntiusSDK.adScript, baseURL: nil)
