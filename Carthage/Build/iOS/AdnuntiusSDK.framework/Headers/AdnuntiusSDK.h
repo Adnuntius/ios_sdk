@@ -2,8 +2,8 @@
 //  AdnuntiusSDK.h
 //  AdnuntiusSDK
 //
-//  Created by Mateusz Grzywa on 27/08/2018.
-//  Copyright © 2018 Mateusz Grzywa. All rights reserved.
+//
+//  Copyright (c) 2019 Adnuntius AS.  All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
