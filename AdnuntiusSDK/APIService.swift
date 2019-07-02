@@ -2,12 +2,12 @@
 //  Request.swift
 //  AdnuntiusSDK
 //
-//  Created by Mateusz Grzywa on 27/08/2018.
-//  Copyright © 2018 Mateusz Grzywa. All rights reserved.
+//
+//  Copyright (c) 2019 Adnuntius AS.  All rights reserved.
 //
 
 import UIKit
-///https://delivery.adnuntius.com/i?tzo=-120&format=json&usi=jg28mcwbihwdny9e&siteId=1131763067966473843&auId=000000000002c3eb&c=sports
+
 class APIService: NSObject {
     public static func getAds(completion: @escaping (_ ads: AdApi) -> Void?) {
         let url = URL(string: "https://delivery.adnuntius.com/i?format=json")
