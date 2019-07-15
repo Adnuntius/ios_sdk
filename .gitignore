@@ -1,4 +1,6 @@
 .DS_STORE
-.Carthage
-.build
+Carthage
+build
+xcuserdata
+Cartfile.resolved
 

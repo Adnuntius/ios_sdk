@@ -1,12 +1,19 @@
-# Adnuntius Mobile SDK
+# Adnuntius iOS SDK
 
-Adnuntius Mobile SDK (AMSDK) is a sdk which allows business partner to embed Adnuntius ads in thier native mobile applications.
+Adnuntius iOS SDK is an ios sdk which allows business partner to embed Adnuntius ads in thier native mobile applications.
+
+
+# Building
+
+Use Carthage cli to build the AdnuntiusSDK.framework and import into your project.   Create or modify your Cartfile to include:
+
+github "Adnuntius/ios_sdk"
+
+Run carthage update 
+
+Drag and drop the Carthage/Build/iOS/AdnuntiusSDK.framework into your project as an embedded binary.
 
 # Integration
-
-[logo]: https://i.imgsafe.org/79/799e4a08ca.png
-- In your Xcode project add Adnuntius.framework as a Linked Framework
-![logo]
 
 - Add UIWebView to your storyboard and create outlet
 - Inside UIViewController extend class by: UIWebViewDelegate
