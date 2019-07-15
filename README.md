@@ -27,17 +27,13 @@ self.adView.delegate = self
 import AdnuntiusSDK
 ```
 ```swift
-    AdnuntiusSDK.config = ["siteId": "1131763067966473843",
-                           "adUnits": [
-                            ["auId": "0000000000000fe6", "c": ["sports"]],
-                                        ["auId": "0000000000000fe6", "c": ["sports"]]]]
     AdnuntiusSDK.adScript =
     """
         <html>
         <head />
         <body>
         <div id="adn-0000000000000fe6" style="display:none"></div>
-        <script type="text/javascript">(function(d, s, e, t) { e = d.createElement(s); e.type = 'text/java' + s; e.async = 'async'; e.src = 'http' + ('https:' === location.protocol ? 's' : '') + '://cdn.adnuntius.com/adn.js'; t = d.getElementsByTagName(s)[0]; t.parentNode.insertBefore(e, t); })(document, 'script');window.adn = window.adn || {}; adn.calls = adn.calls || []; adn.calls.push(function() { adn.request({ adUnits: [ {auId: '0000000000000fe6', auW: 320, auH: 480 } ]}); });</script>
+        <script type="text/javascript">(function(d, s, e, t) { e = d.createElement(s); e.type = 'text/java' + s; e.async = 'async'; e.src = 'https://cdn.adnuntius.com/adn.js'; t = d.getElementsByTagName(s)[0]; t.parentNode.insertBefore(e, t); })(document, 'script');window.adn = window.adn || {}; adn.calls = adn.calls || []; adn.calls.push(function() { adn.request({ adUnits: [ {auId: '0000000000000fe6', auW: 320, auH: 480 } ]}); });</script>
         </body>
         </html>
     """
@@ -78,14 +74,7 @@ func webViewDidFinishLoad(_ webView: UIWebView) {
         if !page.contains("<iframe") {
             // Ad is not present
             // Do any behaviour that you want to hide an ad
-            // Ex. self.adView.isHidden = true
-        } else {
-            // Fix image url for ads
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                if let image = webView.stringByEvaluatingJavaScript(from: "document.body.getElementsByTagName('iframe')[0].contentWindow.document.getElementsByTagName('img')[0].getAttribute('src')") {
-                    webView.stringByEvaluatingJavaScript(from: "document.body.getElementsByTagName('iframe')[0].contentWindow.document.getElementsByTagName('img')[0].setAttribute('src', 'https:"+image+"')")
-                }
-            }
+            // Ex. self.adView.isHidden = true        
         }
     }
 }
