@@ -31,13 +31,6 @@ class ViewController: UIViewController, UIWebViewDelegate {
                 // Ad is not present
                 // Do any behaviour that you want to hide an ad
                 // Ex. self.adView.isHidden = true
-            } else {
-                // Fix image url for ads
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                    if let image = webView.stringByEvaluatingJavaScript(from: "document.body.getElementsByTagName('iframe')[0].contentWindow.document.getElementsByTagName('img')[0].getAttribute('src')") {
-                        webView.stringByEvaluatingJavaScript(from: "document.body.getElementsByTagName('iframe')[0].contentWindow.document.getElementsByTagName('img')[0].setAttribute('src', 'https:"+image+"')")
-                    }
-                }
             }
         }
     }

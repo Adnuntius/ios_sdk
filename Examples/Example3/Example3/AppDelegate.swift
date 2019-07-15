@@ -22,8 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         <html>
         <head />
         <body>
-        <div id="adn-0000000000042bf0" style="display:none"></div>
-        <script type="text/javascript">(function(d, s, e, t) { e = d.createElement(s); e.type = 'text/java' + s; e.async = 'async'; e.src = 'http' + ('https:' === location.protocol ? 's' : '') + '://cdn.adnuntius.com/adn.js'; t = d.getElementsByTagName(s)[0]; t.parentNode.insertBefore(e, t); })(document, 'script');window.adn = window.adn || {}; adn.calls = adn.calls || []; adn.calls.push(function() { adn.request({ adUnits: [ {auId: '0000000000042bf0', auW: 300, auH: 250 } ]}); });</script>
+        <div id="adn-0000000000023ae5" style="display:none"></div>
+        <script type="text/javascript">(function(d, s, e, t) { e = d.createElement(s); e.type = 'text/java' + s; e.async = 'async'; e.src = 'https://cdn.adnuntius.com/adn.js'; t = d.getElementsByTagName(s)[0]; t.parentNode.insertBefore(e, t); })(document, 'script');window.adn = window.adn || {}; adn.calls = adn.calls || []; adn.calls.push(function() { adn.request({ adUnits: [ {auId: '0000000000023ae5', auW: 300, auH: 250 } ]}); });</script>
         </body>
         </html>
         """
