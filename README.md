@@ -1,7 +1,6 @@
 # Adnuntius iOS SDK
 
-Adnuntius iOS SDK is an ios sdk which allows business partner to embed Adnuntius ads in thier native mobile applications.
-
+Adnuntius iOS SDK is an ios sdk which allows business partners to embed Adnuntius ads in their native ios applications.
 
 # Building
 
