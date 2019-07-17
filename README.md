@@ -2,7 +2,7 @@
 
 Adnuntius iOS SDK is an ios sdk which allows business partners to embed Adnuntius ads in their native ios applications.
 
-# Building
+## Building
 
 Use Carthage cli to build the AdnuntiusSDK.framework and import into your project.   Create or modify your Cartfile to include:
 
@@ -12,7 +12,7 @@ Run carthage update
 
 The framework should be added to your project as a linked framework, refer to [If you're building for iOS, tvOS, or watchOS](https://github.com/Carthage/Carthage#if-youre-building-for-ios-tvos-or-watchos) for more information.
 
-# Integration
+## Integration
 
 - Add UIWebView to your storyboard and create outlet
 - Inside UIViewController extend class by: UIWebViewDelegate
@@ -89,3 +89,7 @@ func webViewDidFinishLoad(_ webView: UIWebView) {
   <true/>
 </dict>
 ```
+
+## Examples
+
+Some examples of using the SDK are available from https://github.com/Adnuntius/ios_sdk_examples
