@@ -10,7 +10,7 @@ github "Adnuntius/ios_sdk"
 
 Run carthage update 
 
-Drag and drop the Carthage/Build/iOS/AdnuntiusSDK.framework into your project as an embedded binary.
+The framework should be added to your project as a linked framework, refer to [If you're building for iOS, tvOS, or watchOS](https://github.com/Carthage/Carthage#if-youre-building-for-ios-tvos-or-watchos) for more information.
 
 # Integration
 
