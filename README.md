@@ -10,7 +10,13 @@ github "Adnuntius/ios_sdk"
 
 Run carthage update 
 
-The framework should be added to your project as a linked framework, refer to [If you're building for iOS, tvOS, or watchOS](https://github.com/Carthage/Carthage#if-youre-building-for-ios-tvos-or-watchos) for more information.
+The framework should be added to your project as a linked framework.  Drag and drop the Carthage/Build/iOS/AdnuntiusSDK.framework onto your project.
+
+Add a Run Script Build Phase to your project
+![Build Phases Run Script]
+(https://i.imgsafe.org/fd/fd1ea7b820.png)
+
+For more information about Carthage, refer to [If you're building for iOS, tvOS, or watchOS](https://github.com/Carthage/Carthage#if-youre-building-for-ios-tvos-or-watchos) for more information.
 
 ## Integration
 
