@@ -18,7 +18,7 @@ Add a Run Script Build Phase to your project, make sure you fill in the Input Fi
 
 ![Build Phases Run Script](https://i.imgsafe.org/fd/fd1ea7b820.png)
 
-For more information about Carthage, refer to [If you're building for iOS, tvOS, or watchOS](https://github.com/Carthage/Carthage#if-youre-building-for-ios-tvos-or-watchos) for more information.
+For more information about Carthage, refer to [If you're building for iOS, tvOS, or watchOS](https://github.com/Carthage/Carthage#if-youre-building-for-ios-tvos-or-watchos)
 
 ## Integration
 
