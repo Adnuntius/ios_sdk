@@ -14,6 +14,8 @@ public protocol AdnuntiusSDKProtocol {
 }
 
 open class AdnuntiusSDK: NSObject {
+    public static let sdk_version = "1.1.5"
+
     public static let shared = AdnuntiusSDK()
     public static var hasErrors = false
     public static var config: [String: Any] = Dictionary<String, Any>()

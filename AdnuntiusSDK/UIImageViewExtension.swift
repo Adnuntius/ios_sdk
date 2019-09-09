@@ -6,6 +6,8 @@
 //  Copyright (c) 2019 Adnuntius AS.  All rights reserved.
 //
 
+import UIKit
+
 extension UIImageView {
     func downloaded(from url: URL, contentMode mode: UIView.ContentMode = .scaleAspectFit) {
         contentMode = mode

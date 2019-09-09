@@ -32,12 +32,12 @@ import UIKit
     override open func draw(_ rect: CGRect) {
         super.draw(rect)
         imageView.frame = rect
-
-        
     }
+    
     open func adView () -> AdnuntiusAdView {
         return self
     }
+    
     @objc func adTap(_ sender:UITapGestureRecognizer){
         if let url = URL(string: self.tapAction) {
             if #available(iOS 10.0, *) {
@@ -47,13 +47,11 @@ import UIKit
             }
         }
     }
+
     open func addBehavior() {
         self.imageView.contentMode = .scaleToFill
         
-        
         let gesture = UITapGestureRecognizer(target: self, action:  #selector (self.adTap (_:)))
         self.addGestureRecognizer(gesture)
-
-
     }
 }

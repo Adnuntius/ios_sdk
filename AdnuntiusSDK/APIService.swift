@@ -12,7 +12,6 @@ class APIService: NSObject {
     public static func getAds(completion: @escaping (_ ads: AdApi) -> Void?) {
         let url = URL(string: "https://delivery.adnuntius.com/i?format=json")
         
-        
         let jsonData = try? JSONSerialization.data(withJSONObject: AdnuntiusSDK.config)
         
         var request = URLRequest(url: url!)
@@ -41,7 +40,6 @@ class APIService: NSObject {
                 print("hasErrors")
                 print(jsonError)
             }
-            
             
             }.resume()
     }

@@ -25,7 +25,6 @@
 		39143D1F21412F430072614B /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39143D1E21412F430072614B /* Asset.swift */; };
 		39143D2121412F680072614B /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39143D2021412F680072614B /* Image.swift */; };
 		39143D23214130A20072614B /* AdApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39143D22214130A20072614B /* AdApi.swift */; };
-		395193DD21345ABE008F961C /* AdnuntiusSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 395193DB21345ABE008F961C /* AdnuntiusSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		395193E421345ADF008F961C /* AdnuntiusSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395193E321345ADF008F961C /* AdnuntiusSDK.swift */; };
 		395193FE21345D91008F961C /* AdnuntiusAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395193FD21345D91008F961C /* AdnuntiusAdView.swift */; };
 		3951941D2134835F008F961C /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3951941C2134835F008F961C /* APIService.swift */; };
@@ -40,7 +39,6 @@
 		39143D2021412F680072614B /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
 		39143D22214130A20072614B /* AdApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdApi.swift; sourceTree = "<group>"; };
 		395193D821345ABE008F961C /* AdnuntiusSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AdnuntiusSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		395193DB21345ABE008F961C /* AdnuntiusSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdnuntiusSDK.h; sourceTree = "<group>"; };
 		395193DC21345ABE008F961C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		395193E321345ADF008F961C /* AdnuntiusSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdnuntiusSDK.swift; sourceTree = "<group>"; };
 		395193FD21345D91008F961C /* AdnuntiusAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdnuntiusAdView.swift; sourceTree = "<group>"; };
@@ -82,7 +80,6 @@
 			isa = PBXGroup;
 			children = (
 				3951941E21348C52008F961C /* Models */,
-				395193DB21345ABE008F961C /* AdnuntiusSDK.h */,
 				395193DC21345ABE008F961C /* Info.plist */,
 				395193E321345ADF008F961C /* AdnuntiusSDK.swift */,
 				395193FD21345D91008F961C /* AdnuntiusAdView.swift */,
@@ -119,7 +116,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				395193DD21345ABE008F961C /* AdnuntiusSDK.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,7 +147,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0940;
-				ORGANIZATIONNAME = "Mateusz Grzywa";
+				ORGANIZATIONNAME = "Adnuntius AS";
 				TargetAttributes = {
 					395193D721345ABE008F961C = {
 						CreatedOnToolsVersion = 9.4.1;
