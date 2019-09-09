@@ -28,15 +28,19 @@ public class AdnuntiusAdWebView: UIWebView, UIWebViewDelegate {
         self.layoutIfNeeded()
         addBehavior()
     }
+    
     override open func draw(_ rect: CGRect) {
         super.draw(rect)
     }
+    
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
+    
     open func adView () -> AdnuntiusAdWebView {
         return self
     }
+    
     @objc func adTap(_ sender:UITapGestureRecognizer){
         if #available(iOS 10.0, *) {
             UIApplication.shared.open(URL(string: self.clickUrl)!)
@@ -44,8 +48,9 @@ public class AdnuntiusAdWebView: UIWebView, UIWebViewDelegate {
             UIApplication.shared.openURL(URL(string: self.clickUrl)!)
         }
     }
+    
     open func addBehavior() {
-        print("DEBUG: SDK VERSION: 1.1.4")
+        print("DEBUG: SDK VERSION: " + AdnuntiusSDK.sdk_version)
 
         if(AdnuntiusSDK.adScript != "") {
             print("DEBUG: load from the script")
@@ -53,12 +58,22 @@ public class AdnuntiusAdWebView: UIWebView, UIWebViewDelegate {
         } else {
             print("DEBUG: load from the api")
             APIService.getAds(completion: {(ads) in
-                self.loadHTMLString(ads.adUnits[0].ads[0].html.replacingOccurrences(of: "src=\"//", with: "src=\"https://").replacingOccurrences(of: "href=", with: "target=\"_blank\" href="), baseURL: nil)
-                self.clickUrl = ads.adUnits[0].ads[0].clickUrl
-                self.creativeRatio = Double(ads.adUnits[0].ads[0].creativeHeight)! / Double(ads.adUnits[0].ads[0].creativeWidth)!
-                self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.width, height: CGFloat(Double(UIScreen.main.bounds.width) * self.creativeRatio))
-                self.heightAnchor.constraint(equalToConstant: self.frame.height)
-                self.layoutIfNeeded()
+                if (ads.adUnits.count > 0) {
+                    if (ads.adUnits[0].ads.count > 0) {
+                        let html = ads.adUnits[0].ads[0].html
+                        let filtered = html.replacingOccurrences(of: "href=", with: "target=\"_blank\" href=")
+                        self.loadHTMLString(filtered, baseURL: nil)
+                        self.clickUrl = ads.adUnits[0].ads[0].clickUrl
+                        self.creativeRatio = Double(ads.adUnits[0].ads[0].creativeHeight)! / Double(ads.adUnits[0].ads[0].creativeWidth)!
+                        self.frame = CGRect(x: self.frame.origin.x, y: self.frame.origin.y, width: self.frame.width, height:    CGFloat(Double(UIScreen.main.bounds.width) * self.creativeRatio))
+                        self.heightAnchor.constraint(equalToConstant: self.frame.height)
+                        self.layoutIfNeeded()
+                    } else {
+                        print("DEBUG: No ads returned")
+                    }
+                } else {
+                    print("DEBUG: No ad units returned")
+                }
                 return nil
             })
             let gesture = UITapGestureRecognizer(target: self, action:  #selector (self.adTap (_:)))
