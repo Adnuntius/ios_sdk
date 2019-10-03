@@ -2,7 +2,6 @@
 //  AdnuntiusAdView.swift
 //  AdnuntiusSDK
 //
-//
 //  Copyright (c) 2019 Adnuntius AS.  All rights reserved.
 //
 
@@ -12,6 +11,7 @@ import UIKit
     var imageView : UIImageView
     var tapAction : String = ""
     @IBInspectable var adViewName = ""
+    
     override public init(frame: CGRect) {
         self.imageView = UIImageView()
         super.init(frame: frame)
