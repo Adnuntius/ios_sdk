@@ -8,12 +8,20 @@
 
 import UIKit
 
+public struct AdnuntiusHttpError: Error {
+    let code: Int
+    let message: String
+}
+
 class APIService: NSObject {
-    public static func getAds(_ adConfig: AdConfig, completion: @escaping (_ ads: AdApi) -> Void?) {
-        let url = URL(string: "https://delivery.adnuntius.com/i?format=json")
+    public static func getAds(_ config: [String: Any] = [:], completion: @escaping (_ ads: AdApi?, _ error: Error?) -> Void?) {
+        let url = URL(string: "https://delivery.adnuntius.com/i?format=json&sdk=ios:" + AdnuntiusSDK.sdk_version)
         
-        let jsonData = try? JSONSerialization.data(withJSONObject: adConfig.getConfig())
+        let jsonData = try? JSONSerialization.data(withJSONObject: config)
         
+        let theJSONText = String(data: jsonData!, encoding: .utf8)
+        Logger.debug("Json Request: " + theJSONText!)
+
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
         request.httpBody = jsonData
@@ -22,24 +30,32 @@ class APIService: NSObject {
         URLSession.shared.dataTask(with: request) {
             (data, response, error) in
             if error != nil {
-                adConfig.setHasErrors(true)
-                print(error!.localizedDescription)
+                DispatchQueue.main.async {
+                    completion(nil, error)
+                }
             }
             
             guard let data = data else { return }
-            //Implement JSON decoding and parsing
             do {
-                //Decode retrived data with JSONDecoder and assign type of AdApi object
-                let ads = try JSONDecoder().decode(AdApi.self, from: data)
+                let hresponse = response as! HTTPURLResponse
+                if hresponse.statusCode != 200 {
+                    let theData = String(data: data, encoding: .utf8)
+                    DispatchQueue.main.async {
+                        completion(nil, AdnuntiusHttpError(code: hresponse.statusCode, message: theData!))
+                    }
+                } else {
+                    //Decode retrived data with JSONDecoder and assign type of AdApi object
+                    let ads = try JSONDecoder().decode(AdApi.self, from: data)
                 
-                //Get back to the main queue
-                DispatchQueue.main.async {
-                    completion(ads)
+                    //Get back to the main queue
+                    DispatchQueue.main.async {
+                        completion(ads, nil)
+                    }
                 }
-            } catch let jsonError {
-                adConfig.setHasErrors(true)
-                print("hasErrors")
-                print(jsonError)
+            } catch let error {
+                DispatchQueue.main.async {
+                    completion(nil, error)
+                }
             }
         }.resume()
     }

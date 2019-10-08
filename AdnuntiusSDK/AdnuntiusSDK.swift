@@ -8,5 +8,5 @@
 import UIKit
 
 open class AdnuntiusSDK: NSObject {
-    public static let sdk_version = "1.1.6"
+    public static let sdk_version = "1.2.0"
 }

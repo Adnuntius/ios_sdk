@@ -2,17 +2,12 @@
 //  AdnuntiusSDK.h
 //  AdnuntiusSDK
 //
+//  Created by Adnuntius Australia on 10/10/19.
+//  Copyright © 2019 Adnuntius AS. All rights reserved.
 //
-//  Copyright (c) 2019 Adnuntius AS.  All rights reserved.
-//
 
-#import <UIKit/UIKit.h>
+#ifndef AdnuntiusSDK_h
+#define AdnuntiusSDK_h
 
-//! Project version number for AdnuntiusSDK.
-FOUNDATION_EXPORT double AdnuntiusSDKVersionNumber;
 
-//! Project version string for AdnuntiusSDK.
-FOUNDATION_EXPORT const unsigned char AdnuntiusSDKVersionString[];
-
-// In this header, you should import all the public headers of your framework using statements like #import <AdnuntiusSDK/PublicHeader.h>
-
+#endif /* AdnuntiusSDK_h */
