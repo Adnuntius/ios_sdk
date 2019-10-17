@@ -38,7 +38,7 @@ Because the SDK is Swift based, if you are including it as a framework into your
 - Implement the completionHandler to react to a missing ad
 
 
-- In your `ViewController` file add header and add implement the viewDidLoad method:
+- In your `ViewController` file add header and implement the viewDidLoad method:
 
 ```swift
 import AdnuntiusSDK
