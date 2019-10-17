@@ -4,9 +4,11 @@ Adnuntius iOS SDK is an ios sdk which allows business partners to embed Adnuntiu
 
 ## Building
 
+### Swift and Objective-C
+
 Use Carthage cli to build the AdnuntiusSDK.framework and import into your project.   Create or modify your Cartfile to include:
 
-github "Adnuntius/ios_sdk" ~> 1.1.5
+github "Adnuntius/ios_sdk" "jp_objective_c"
 
 Run carthage update 
 
@@ -20,34 +22,61 @@ Add a Run Script Build Phase to your project, make sure you fill in the Input Fi
 
 For more information about Carthage, refer to [If you're building for iOS, tvOS, or watchOS](https://github.com/Carthage/Carthage#if-youre-building-for-ios-tvos-or-watchos)
 
-## Integration
+### Objective C Only
+
+![Always Embed Swift Standard Libraries](https://i.imgsafe.org/ea/ea85b8846b.png)
+
+Because the SDK is Swift based, if you are including it as a framework into your objective c application, the Swift libraries must also be included, they are not by default.
+
+## Integrating
+
+### Swift
 
 - Add UIWebView to your storyboard and create outlet
-- Inside UIViewController extend class by: UIWebViewDelegate
-- Attach created delegate to Adnuntius View
+- Configure each AdnuntiusAdWebView
+- Load the ad into the view via the loadFromScript, loadFromConfig or loadFromApi
+- Implement the completionHandler protcol to react to a missing ad
 
+
+- In your `ViewController` file add header and add configuration code to the viewDidLoad, then call the doLoad() method to initialise the ad web view
 ```swift
-self.adView.delegate = self
-```
-
-- In your `AppDelegate` file add header and configuration code:
-```js
 import AdnuntiusSDK
 ```
 ```swift
-    AdnuntiusSDK.adScript =
-    """
+    override func viewDidLoad() {
+        super.viewDidLoad() 
+        
+        adView.loadFromScript("""
         <html>
-        <head />
+        <head>
+            <script type="text/javascript" src="https://cdn.adnuntius.com/adn.js" async></script>
+        </head>
         <body>
-        <div id="adn-0000000000000fe6" style="display:none"></div>
-        <script type="text/javascript">(function(d, s, e, t) { e = d.createElement(s); e.type = 'text/java' + s; e.async = 'async'; e.src = 'https://cdn.adnuntius.com/adn.js'; t = d.getElementsByTagName(s)[0]; t.parentNode.insertBefore(e, t); })(document, 'script');window.adn = window.adn || {}; adn.calls = adn.calls || []; adn.calls.push(function() { adn.request({ adUnits: [ {auId: '0000000000000fe6', auW: 320, auH: 480 } ]}); });</script>
+        <div id="adn-000000000006f450" style="display:none"></div>
+        <script type="text/javascript">
+            window.adn = window.adn || {}; adn.calls = adn.calls || [];
+              adn.calls.push(function() {
+                adn.request({ adUnits: [
+                    {auId: '000000000006f450', auW: 300, auH: 200, kv: [{'version':'X'}] }
+                ]});
+            });
+        </script>
         </body>
         </html>
-    """
+        """, completionHandler: self)
+    }
+    
+    func onComplete(_ view: AdnuntiusAdWebView, _ adCount: Int) {
+        print("Completed: " + String(adCount))
+    }
+    
+    func onFailure(_ view: AdnuntiusAdWebView, _ message: String) {
+        view.loadHTMLString("<h1>Error is: " + message + "</h1>",
+        baseURL: nil)
+    }
 ```
 - Integrate it with your view for example:
-```js
+```swift
 // Adnuntius injector
     if (indexPath.row % 4 == 0) {
         if let preCell = adCells?[indexPath.row] {
@@ -56,36 +85,70 @@ import AdnuntiusSDK
         }
         let cell = UITableViewCell()
         let webView = AdnuntiusAdWebView(frame: CGRect(x: 0, y: 10, width: tableView.frame.width, height: 100))
-        webView.delegate = self
+        adView1.loadFromApi([
+               "adUnits": [
+                    ["auId": "000000000006f450", "kv": [{"version": "6s"}]
+               ]
+            ]
+        ], completionHandler: self)
         cell.contentView.addSubview(webView)
         cell.contentView.sizeToFit()
         adCells?[indexPath.row] = cell
         return cell
     }
+    
+    func onComplete(_ view: AdnuntiusAdWebView, _ adCount: Int) {
+        print("Completed: " + String(adCount))
+    }
+    
+    func onFailure(_ view: AdnuntiusAdWebView, _ message: String) {
+        view.loadHTMLString("<h1>Error is: " + message + "</h1>",
+        baseURL: nil)
+    }
 ```
-- Add delegate methods
+
+Its possible to listen to events for loading the ad, by implementing the AdWebViewStateDelegate protocol, and then enable this by calling the setAdWebViewStateDelegate
+on the AdnuntiusAdWebView
+
+### Objective C
+
+- Add UIWebView to your storyboard and create outlet
+- Declare a @property referencing the AdnuntiusAdWebView declared in the story board
+- Load the ad into the view via the loadFromScript, loadFromConfig or loadFromApi
+- Implement the completionHandler to react to a missing ad
+
+In the ViewController header file import the AdnuntiusSDK swift header:
+
 ```swift
-func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
-    // Define a behaviour that will happen when an ad is clicked
-    guard let url = request.url, navigationType == .linkClicked else { return true }
-    if #available(iOS 10.0, *) {
-        UIApplication.shared.open(url)
-    } else {
-        UIApplication.shared.openURL(url)
-    }
-    return false
-}
-func webViewDidFinishLoad(_ webView: UIWebView) {
-    // Detect if an ad is not present
-    let html = webView.stringByEvaluatingJavaScript(from: "document.body.innerHTML")
-    if let page = html {
-        if !page.contains("<iframe") {
-            // Ad is not present
-            // Do any behaviour that you want to hide an ad
-            // Ex. self.adView.isHidden = true        
-        }
-    }
-}
+#import <AdnuntiusSDK/AdnuntiusSDK-Swift.h>
+
+@property (weak, nonatomic) IBOutlet AdnuntiusAdWebView *adView;
+```
+
+In the ViewController m file, implement the viewDidLoad method:
+
+```swift
+[super viewDidLoad];
+
+NSString *adScript = @" \
+<html> \
+    <head > \
+        <script type="text/javascript" src="https://cdn.adnuntius.com/adn.js" async></script> \
+    </head> \
+    <body> \
+        <div id=\"adn-0000000000067082\" style=\"display:none\"></div> \
+        <script type="text/javascript"> \
+            window.adn = window.adn || {}; adn.calls = adn.calls || []; \
+              adn.calls.push(function() { \
+                adn.request({ adUnits: [ \
+                    {auId: '000000000006f450', auW: 300, auH: 200, kv: [{'version':'X'}] } \
+                ]}); \
+            }); \
+        </script> \  
+    </body> \
+</html>";
+
+[self.adView loadFromScript:adScriptcompletionHandler:self];
 ```
 
 - Change Info.plist

@@ -26,12 +26,24 @@
 		39143D2121412F680072614B /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39143D2021412F680072614B /* Image.swift */; };
 		39143D23214130A20072614B /* AdApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39143D22214130A20072614B /* AdApi.swift */; };
 		395193E421345ADF008F961C /* AdnuntiusSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395193E321345ADF008F961C /* AdnuntiusSDK.swift */; };
-		395193FE21345D91008F961C /* AdnuntiusAdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395193FD21345D91008F961C /* AdnuntiusAdView.swift */; };
 		3951941D2134835F008F961C /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3951941C2134835F008F961C /* APIService.swift */; };
 		3951942021348C6F008F961C /* AdUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3951941F21348C6F008F961C /* AdUnit.swift */; };
-		3951942221348E70008F961C /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3951942121348E70008F961C /* UIImageViewExtension.swift */; };
 		39519424213AFA9C008F961C /* AdnuntiusAdWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39519423213AFA9C008F961C /* AdnuntiusAdWebView.swift */; };
+		A7339C3E234EF59F00B4FCEC /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7339C3D234EF59F00B4FCEC /* Logger.swift */; };
+		A7F19155234C056200DB09D9 /* AdnuntiusSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F19154234C056200DB09D9 /* AdnuntiusSDKTests.swift */; };
+		A7F19157234C056200DB09D9 /* AdnuntiusSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 395193D821345ABE008F961C /* AdnuntiusSDK.framework */; };
+		A7F1915E234C081B00DB09D9 /* AdConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F1915D234C081B00DB09D9 /* AdConfig.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A7F19158234C056200DB09D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 395193CF21345ABE008F961C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 395193D721345ABE008F961C;
+			remoteInfo = AdnuntiusSDK;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		39143D1C21412EEB0072614B /* Ad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ad.swift; sourceTree = "<group>"; };
@@ -41,11 +53,15 @@
 		395193D821345ABE008F961C /* AdnuntiusSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AdnuntiusSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		395193DC21345ABE008F961C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		395193E321345ADF008F961C /* AdnuntiusSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdnuntiusSDK.swift; sourceTree = "<group>"; };
-		395193FD21345D91008F961C /* AdnuntiusAdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdnuntiusAdView.swift; sourceTree = "<group>"; };
 		3951941C2134835F008F961C /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		3951941F21348C6F008F961C /* AdUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdUnit.swift; sourceTree = "<group>"; };
-		3951942121348E70008F961C /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		39519423213AFA9C008F961C /* AdnuntiusAdWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdnuntiusAdWebView.swift; sourceTree = "<group>"; };
+		A7339C3D234EF59F00B4FCEC /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		A7AB5B8A234EDA2C009E48D2 /* AdnuntiusSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdnuntiusSDK.h; sourceTree = "<group>"; };
+		A7F19152234C056200DB09D9 /* AdnuntiusSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AdnuntiusSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A7F19154234C056200DB09D9 /* AdnuntiusSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdnuntiusSDKTests.swift; sourceTree = "<group>"; };
+		A7F19156234C056200DB09D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A7F1915D234C081B00DB09D9 /* AdConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdConfig.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +72,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A7F1914F234C056200DB09D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A7F19157234C056200DB09D9 /* AdnuntiusSDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -63,6 +87,7 @@
 			isa = PBXGroup;
 			children = (
 				395193DA21345ABE008F961C /* AdnuntiusSDK */,
+				A7F19153234C056200DB09D9 /* AdnuntiusSDKTests */,
 				395193D921345ABE008F961C /* Products */,
 				3951941821347823008F961C /* Frameworks */,
 			);
@@ -72,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				395193D821345ABE008F961C /* AdnuntiusSDK.framework */,
+				A7F19152234C056200DB09D9 /* AdnuntiusSDKTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -82,10 +108,10 @@
 				3951941E21348C52008F961C /* Models */,
 				395193DC21345ABE008F961C /* Info.plist */,
 				395193E321345ADF008F961C /* AdnuntiusSDK.swift */,
-				395193FD21345D91008F961C /* AdnuntiusAdView.swift */,
 				39519423213AFA9C008F961C /* AdnuntiusAdWebView.swift */,
 				3951941C2134835F008F961C /* APIService.swift */,
-				3951942121348E70008F961C /* UIImageViewExtension.swift */,
+				A7AB5B8A234EDA2C009E48D2 /* AdnuntiusSDK.h */,
+				A7339C3D234EF59F00B4FCEC /* Logger.swift */,
 			);
 			path = AdnuntiusSDK;
 			sourceTree = "<group>";
@@ -105,8 +131,18 @@
 				39143D1E21412F430072614B /* Asset.swift */,
 				39143D2021412F680072614B /* Image.swift */,
 				39143D22214130A20072614B /* AdApi.swift */,
+				A7F1915D234C081B00DB09D9 /* AdConfig.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		A7F19153234C056200DB09D9 /* AdnuntiusSDKTests */ = {
+			isa = PBXGroup;
+			children = (
+				A7F19154234C056200DB09D9 /* AdnuntiusSDKTests.swift */,
+				A7F19156234C056200DB09D9 /* Info.plist */,
+			);
+			path = AdnuntiusSDKTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,12 +176,31 @@
 			productReference = 395193D821345ABE008F961C /* AdnuntiusSDK.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		A7F19151234C056200DB09D9 /* AdnuntiusSDKTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A7F1915C234C056200DB09D9 /* Build configuration list for PBXNativeTarget "AdnuntiusSDKTests" */;
+			buildPhases = (
+				A7F1914E234C056200DB09D9 /* Sources */,
+				A7F1914F234C056200DB09D9 /* Frameworks */,
+				A7F19150234C056200DB09D9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A7F19159234C056200DB09D9 /* PBXTargetDependency */,
+			);
+			name = AdnuntiusSDKTests;
+			productName = AdnuntiusSDKTests;
+			productReference = A7F19152234C056200DB09D9 /* AdnuntiusSDKTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		395193CF21345ABE008F961C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1100;
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "Adnuntius AS";
 				TargetAttributes = {
@@ -155,6 +210,9 @@
 					};
 					395193E521345B8E008F961C = {
 						CreatedOnToolsVersion = 9.4.1;
+					};
+					A7F19151234C056200DB09D9 = {
+						CreatedOnToolsVersion = 11.0;
 					};
 				};
 			};
@@ -172,12 +230,20 @@
 			targets = (
 				395193D721345ABE008F961C /* AdnuntiusSDK */,
 				395193E521345B8E008F961C /* UniversalAdnuntiusSDK */,
+				A7F19151234C056200DB09D9 /* AdnuntiusSDKTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		395193D621345ABE008F961C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A7F19150234C056200DB09D9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -207,8 +273,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3951942221348E70008F961C /* UIImageViewExtension.swift in Sources */,
 				39143D2121412F680072614B /* Image.swift in Sources */,
+				A7339C3E234EF59F00B4FCEC /* Logger.swift in Sources */,
+				A7F1915E234C081B00DB09D9 /* AdConfig.swift in Sources */,
 				395193E421345ADF008F961C /* AdnuntiusSDK.swift in Sources */,
 				39143D1D21412EEB0072614B /* Ad.swift in Sources */,
 				39519424213AFA9C008F961C /* AdnuntiusAdWebView.swift in Sources */,
@@ -216,11 +283,26 @@
 				3951941D2134835F008F961C /* APIService.swift in Sources */,
 				39143D1F21412F430072614B /* Asset.swift in Sources */,
 				3951942021348C6F008F961C /* AdUnit.swift in Sources */,
-				395193FE21345D91008F961C /* AdnuntiusAdView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A7F1914E234C056200DB09D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A7F19155234C056200DB09D9 /* AdnuntiusSDKTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A7F19159234C056200DB09D9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 395193D721345ABE008F961C /* AdnuntiusSDK */;
+			targetProxy = A7F19158234C056200DB09D9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		395193DE21345ABE008F961C /* Debug */ = {
@@ -420,6 +502,47 @@
 			};
 			name = Release;
 		};
+		A7F1915A234C056200DB09D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5S8YF53WP2;
+				INFOPLIST_FILE = AdnuntiusSDKTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = Adnuntius.AdnuntiusSDKTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A7F1915B234C056200DB09D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5S8YF53WP2;
+				INFOPLIST_FILE = AdnuntiusSDKTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = Adnuntius.AdnuntiusSDKTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -446,6 +569,15 @@
 			buildConfigurations = (
 				395193E721345B8E008F961C /* Debug */,
 				395193E821345B8E008F961C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A7F1915C234C056200DB09D9 /* Build configuration list for PBXNativeTarget "AdnuntiusSDKTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A7F1915A234C056200DB09D9 /* Debug */,
+				A7F1915B234C056200DB09D9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
