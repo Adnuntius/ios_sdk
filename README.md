@@ -35,10 +35,11 @@ Because the SDK is Swift based, if you are including it as a framework into your
 - Add UIWebView to your storyboard and create outlet
 - Configure each AdnuntiusAdWebView
 - Load the ad into the view via the loadFromScript, loadFromConfig or loadFromApi
-- Implement the completionHandler protcol to react to a missing ad
+- Implement the completionHandler to react to a missing ad
 
 
-- In your `ViewController` file add header and add configuration code to the viewDidLoad, then call the doLoad() method to initialise the ad web view
+- In your `ViewController` file add header and add implement the viewDidLoad method:
+
 ```swift
 import AdnuntiusSDK
 ```
@@ -107,8 +108,7 @@ import AdnuntiusSDK
     }
 ```
 
-Its possible to listen to events for loading the ad, by implementing the AdWebViewStateDelegate protocol, and then enable this by calling the setAdWebViewStateDelegate
-on the AdnuntiusAdWebView
+The onComplete / onFailure AdWebViewStateDelegate protocol methods are where you can add logic to react to various outcomes of trying to load an an ad.  For instance if there are no matched ads, the onComplete will return an adCount of 0, and you could hide the ad view for instance.
 
 ### Objective C
 
