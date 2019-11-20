@@ -10,7 +10,7 @@ Unfortunately this does mean you will need to make changes to your app to use th
 
 If you want to keep compiling your application with the earlier version of the SDK (1.1.4 or 1.1.5) you should adjust your carfile as follows:
 
-github "Adnuntius/ios_sdk" == 1.1.4
+github "Adnuntius/ios_sdk" == 1.1.5
 
 ## Building
 
