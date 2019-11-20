@@ -8,21 +8,15 @@ Unfortunately 1.2.0 is not API compatible with 1.1.4 and 1.1.5.  Version 1.2.0 w
 
 Unfortunately this does mean you will need to make changes to your app to use the new version.  Please refer to the Samples project to figure out what needs to be changed.  Please open an issue if you are still struggling and we will try and create a more detailed migration guide.
 
-## Building
+If you want to keep compiling your application with the earlier version of the SDK (1.1.4 or 1.1.5) you should adjust your carfile as follows:
 
-### Cartfile
+github "Adnuntius/ios_sdk" == 1.1.4
+
+## Building
 
 Use Carthage cli to build the AdnuntiusSDK.framework and import into your project.   Create or modify your Cartfile to include:
 
 github "Adnuntius/ios_sdk" == 1.2.0
-
-#### Old Version
-
-If you want to keep compiling your application with the earlier version of the SDK (1.1.4 or 1.1.5) you should specify:
-
-github "Adnuntius/ios_sdk" == 1.1.4
-
-### Carthage 
 
 Run carthage update 
 
