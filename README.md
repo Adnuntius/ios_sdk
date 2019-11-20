@@ -2,13 +2,25 @@
 
 Adnuntius iOS SDK is an ios sdk which allows business partners to embed Adnuntius ads in their native ios applications.
 
+## Upgrading from 1.1.4 and 1.1.5
+
+Unfortunately 1.2.0 is not API compatible with 1.1.4 and 1.1.5.  Version 1.2.0 was released with fairly significant upgrades to allow it to work with Objective-C and to enable applications to configure more than one ad configuration in their application.  Before because the configuration was static this was pretty much impossible.
+
+Unfortunately this does mean you will need to make changes to your app to use the new version.  Please refer to the Samples project to figure out what needs to be changed.  Please open an issue if you are still struggling and we will try and create a more detailed migration guide.
+
 ## Building
 
 ### Swift and Objective-C
 
 Use Carthage cli to build the AdnuntiusSDK.framework and import into your project.   Create or modify your Cartfile to include:
 
-github "Adnuntius/ios_sdk" ~> 1.2.0
+github "Adnuntius/ios_sdk" == 1.2.0
+
+### Old Version
+
+If you want to keep compiling your application with the earlier version of the SDK (1.1.4 or 1.1.5) you should specify:
+
+github "Adnuntius/ios_sdk" == 1.1.4
 
 Run carthage update 
 
