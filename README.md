@@ -10,17 +10,19 @@ Unfortunately this does mean you will need to make changes to your app to use th
 
 ## Building
 
-### Swift and Objective-C
+### Cartfile
 
 Use Carthage cli to build the AdnuntiusSDK.framework and import into your project.   Create or modify your Cartfile to include:
 
 github "Adnuntius/ios_sdk" == 1.2.0
 
-### Old Version
+#### Old Version
 
 If you want to keep compiling your application with the earlier version of the SDK (1.1.4 or 1.1.5) you should specify:
 
 github "Adnuntius/ios_sdk" == 1.1.4
+
+### Carthage 
 
 Run carthage update 
 
