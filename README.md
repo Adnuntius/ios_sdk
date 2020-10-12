@@ -22,17 +22,17 @@ Run carthage update
 
 The framework should be added to your project as a linked framework.  Drag and drop the Carthage/Build/iOS/AdnuntiusSDK.framework onto your project.
 
-![Linked Framework](https://i.imgsafe.org/fd/fd36067938.png)
+![Linked Framework](images/linked-framework.png)
 
 Add a Run Script Build Phase to your project, make sure you fill in the Input File section too:
 
-![Build Phases Run Script](https://i.imgsafe.org/fd/fd1ea7b820.png)
+![Build Phases Run Script](images/run-script.png)
 
 For more information about Carthage, refer to [If you're building for iOS, tvOS, or watchOS](https://github.com/Carthage/Carthage#if-youre-building-for-ios-tvos-or-watchos)
 
 ### Objective C Only
 
-![Always Embed Swift Standard Libraries](https://i.imgsafe.org/ea/ea85b8846b.png)
+![Always Embed Swift Standard Libraries](images/swift-libraries.png)
 
 Because the SDK is Swift based, if you are including it as a framework into your objective c application, the Swift libraries must also be included, they are not by default.
 
@@ -42,7 +42,7 @@ Because the SDK is Swift based, if you are including it as a framework into your
 Unfortunately Carthage has some issues handling XCode 12, for the time being you can work around this by creating a carthage.sh as documented at
 https://github.com/Carthage/Carthage/blob/master/Documentation/Xcode12Workaround.md
 
-And then run the `./carthage.sh` command.   If you have complaints about XCode compatibility, run the `Product -> Clean Build Folder` to refresh the
+And then run the `./carthage.sh update` command.   If you have complaints about XCode compatibility, run the `Product -> Clean Build Folder` to refresh the
 Carthage generated artifacts.
 
 ## Integrating
