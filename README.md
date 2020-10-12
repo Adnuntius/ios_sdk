@@ -36,6 +36,15 @@ For more information about Carthage, refer to [If you're building for iOS, tvOS,
 
 Because the SDK is Swift based, if you are including it as a framework into your objective c application, the Swift libraries must also be included, they are not by default.
 
+
+### XCode 12 Workaround
+
+Unfortunately Carthage has some issues handling XCode 12, for the time being you can work around this by creating a carthage.sh as documented at
+https://github.com/Carthage/Carthage/blob/master/Documentation/Xcode12Workaround.md
+
+And then run the `./carthage.sh` command.   If you have complaints about XCode compatibility, run the `Product -> Clean Build Folder` to refresh the
+Carthage generated artifacts.
+
 ## Integrating
 
 ### Swift
