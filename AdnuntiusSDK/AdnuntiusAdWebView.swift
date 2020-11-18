@@ -212,11 +212,22 @@ public class AdnuntiusAdWebView: UIWebView, UIWebViewDelegate {
         }
     }
     
+    private func doClick(_ url: URL) {
+        if #available(iOS 10.0, *) {
+            UIApplication.shared.open(url)
+        } else {
+            UIApplication.shared.openURL(url)
+        }
+    }
+    
     open func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebView.NavigationType) -> Bool {
         let url = request.url!
+        
+        if url.absoluteString == "about:blank" {
+            return true;
+        }
+
         if url.scheme! == "adnuntius" {
-            Logger.debug(url.absoluteString)
-            
             var dict = [String:String]()
             let components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
             if let queryItems = components.queryItems {
@@ -229,6 +240,8 @@ public class AdnuntiusAdWebView: UIWebView, UIWebViewDelegate {
                         let httpStatus = dict["status"]!
                         let requestUrl = dict["url"]!
                         let adCount = Int(dict["adCount"]!)!
+                        
+                        Logger.debug("Ajax Url: " + requestUrl)
                         
                         // return error code 400 for a invalid auId
                         if httpStatus != "200" {
@@ -255,11 +268,12 @@ public class AdnuntiusAdWebView: UIWebView, UIWebViewDelegate {
         }
         
         if (navigationType == .linkClicked) {
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(url)
-            } else {
-                UIApplication.shared.openURL(url)
-            }
+            Logger.debug("Normal Click Url: " + url.absoluteString)
+            doClick(url)
+            return false
+        } else if (navigationType == .other) {
+            Logger.debug("Other Click Url: " + url.absoluteString)
+            doClick(url)
             return false
         } else {
             return true
