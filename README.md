@@ -16,7 +16,7 @@ github "Adnuntius/ios_sdk" == 1.1.5
 
 Use Carthage cli to build the AdnuntiusSDK.framework and import into your project.   Create or modify your Cartfile to include:
 
-github "Adnuntius/ios_sdk" == 1.2.0
+github "Adnuntius/ios_sdk" == 1.2.1
 
 Run carthage update 
 
