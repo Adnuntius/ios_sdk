@@ -39,7 +39,7 @@ Carthage generated artifacts.
 
 ### Swift
 
-- Add UIWebView to your storyboard and create outlet
+- Add WkWebView to your storyboard and create outlet
 - Configure each AdnuntiusAdWebView
 - Load the ad into the view via the loadFromScript, loadFromConfig or loadFromApi
 - Implement the completionHandler to react to a missing ad
@@ -118,7 +118,7 @@ The onComplete / onFailure AdWebViewStateDelegate protocol methods are where you
 
 ### Objective C
 
-- Add UIWebView to your storyboard and create outlet
+- Add WkWebView to your storyboard and create outlet
 - Declare a @property referencing the AdnuntiusAdWebView declared in the story board
 - Load the ad into the view via the loadFromScript, loadFromConfig or loadFromApi
 - Implement the completionHandler to react to a missing ad
@@ -169,7 +169,7 @@ In the ViewController m file, implement the viewDidLoad method:
 
 ## Upgrading from 1.2.X to 1.3.0
 
-Version 1.3.0 of the SDK is based on wkwebview instead of the deprecated uiwebview.    If you want to use the SDK with interface builder, your target iOS version must be 11, otherwise you will receive the 
+Version 1.3.0 of the SDK is based on WkWebView instead of the deprecated UiWebView.    If you want to use the SDK with interface builder, your target iOS version must be 11, otherwise you will receive the 
 dreaded `WKWebView before iOS 11.0 (NSCoding support was broken in previous versions)` error message.   If you are constructing an instance of the AdnuntiusWebView programmatically this should not be an issue.
 
 ### Updating your storyboards.    
