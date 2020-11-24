@@ -2,21 +2,11 @@
 
 Adnuntius iOS SDK is an ios sdk which allows business partners to embed Adnuntius ads in their native ios applications.
 
-## Upgrading from 1.1.4 and 1.1.5
-
-Unfortunately 1.2.0 is not API compatible with 1.1.4 and 1.1.5.  Version 1.2.0 was released with fairly significant upgrades to allow it to work with Objective-C and to enable applications to configure more than one ad configuration in their application.  Before because the configuration was static this was pretty much impossible.
-
-Unfortunately this does mean you will need to make changes to your app to use the new version.  Please refer to the Samples project to figure out what needs to be changed.  Please open an issue if you are still struggling and we will try and create a more detailed migration guide.
-
-If you want to keep compiling your application with the earlier version of the SDK (1.1.4 or 1.1.5) you should adjust your cartfile as follows:
-
-github "Adnuntius/ios_sdk" == 1.1.5
-
 ## Building
 
 Use Carthage cli to build the AdnuntiusSDK.framework and import into your project.   Create or modify your Cartfile to include:
 
-github "Adnuntius/ios_sdk" == 1.2.1
+github "Adnuntius/ios_sdk" == 1.3.0
 
 Run carthage update 
 
@@ -39,7 +29,7 @@ Because the SDK is Swift based, if you are including it as a framework into your
 
 ### XCode 12 Workaround
 
-Unfortunately Carthage has some issues handling XCode 12, for the time being you can work around this by creating a carthage.sh as documented at
+Carthage has some issues handling XCode 12, for the time being you can work around this by creating a carthage.sh as documented at
 https://github.com/Carthage/Carthage/blob/master/Documentation/Xcode12Workaround.md
 
 And then run the `./carthage.sh update` command.   If you have complaints about XCode compatibility, run the `Product -> Clean Build Folder` to refresh the
@@ -95,7 +85,6 @@ import AdnuntiusSDK
 ```
 - Integrate it with your view for example:
 ```swift
-// Adnuntius injector
     if (indexPath.row % 4 == 0) {
         if let preCell = adCells?[indexPath.row] {
             debugPrint("preCell")
@@ -114,11 +103,11 @@ import AdnuntiusSDK
         adCells?[indexPath.row] = cell
         return cell
     }
-    
+
     func onComplete(_ view: AdnuntiusAdWebView, _ adCount: Int) {
         print("Completed: " + String(adCount))
     }
-    
+
     func onFailure(_ view: AdnuntiusAdWebView, _ message: String) {
         view.loadHTMLString("<h1>Error is: " + message + "</h1>",
         baseURL: nil)
@@ -137,46 +126,72 @@ The onComplete / onFailure AdWebViewStateDelegate protocol methods are where you
 In the ViewController header file import the AdnuntiusSDK swift header:
 
 ```swift
-#import <AdnuntiusSDK/AdnuntiusSDK-Swift.h>
+    #import <AdnuntiusSDK/AdnuntiusSDK-Swift.h>
 
-@property (weak, nonatomic) IBOutlet AdnuntiusAdWebView *adView;
+    @property (weak, nonatomic) IBOutlet AdnuntiusAdWebView *adView;
 ```
 
 In the ViewController m file, implement the viewDidLoad method:
 
 ```swift
-[super viewDidLoad];
+    [super viewDidLoad];
 
-NSString *adScript = @" \
-<html> \
-    <head > \
-        <script type="text/javascript" src="https://cdn.adnuntius.com/adn.js" async></script> \
-    </head> \
-    <body> \
-        <div id=\"adn-0000000000067082\" style=\"display:none\"></div> \
-        <script type="text/javascript"> \
-            window.adn = window.adn || {}; adn.calls = adn.calls || []; \
-              adn.calls.push(function() { \
-                adn.request({ adUnits: [ \
-                    {auId: '000000000006f450', auW: 300, auH: 200, kv: [{'version':'X'}] } \
-                ]}); \
-            }); \
-        </script> \  
-    </body> \
-</html>";
+    NSString *adScript = @" \
+    <html> \
+        <head > \
+            <script type="text/javascript" src="https://cdn.adnuntius.com/adn.js" async></script> \
+        </head> \
+        <body> \
+            <div id=\"adn-0000000000067082\" style=\"display:none\"></div> \
+            <script type="text/javascript"> \
+                window.adn = window.adn || {}; adn.calls = adn.calls || []; \
+                  adn.calls.push(function() { \
+                    adn.request({ adUnits: [ \
+                        {auId: '000000000006f450', auW: 300, auH: 200, kv: [{'version':'X'}] } \
+                    ]}); \
+                }); \
+            </script> \  
+        </body> \
+    </html>";
 
-[self.adView loadFromScript:adScriptcompletionHandler:self];
+    [self.adView loadFromScript:adScriptcompletionHandler:self];
 ```
 
 - Change Info.plist
 
 ```xml
-<key>NSAppTransportSecurity</key>
-<dict>
-  <key>NSAllowsArbitraryLoads</key>
-  <true/>
-</dict>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+      <key>NSAllowsArbitraryLoads</key>
+      <true/>
+    </dict>
 ```
+
+## Upgrading from 1.2.X to 1.3.0
+
+Version 1.3.0 of the SDK is based on wkwebview instead of the deprecated uiwebview.    If you want to use the SDK with interface builder, your target iOS version must be 11, otherwise you will receive the 
+dreaded `WKWebView before iOS 11.0 (NSCoding support was broken in previous versions)` error message.   If you are constructing an instance of the AdnuntiusWebView programmatically this should not be an issue.
+
+### Updating your storyboards.    
+
+If you have a fairly simple story board for your ad view, you can replace the `<webview>` with `<wkWebView>` and make sure to add a `<wkWebViewConfiguration>` section as a sub element, like so:
+
+```xml
+    <wkWebViewConfiguration key="configuration">
+        <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+        <wkPreferences key="preferences"/>
+    </wkWebViewConfiguration>
+```
+
+## Upgrading from 1.1.4 and 1.1.5
+
+Unfortunately 1.2.0 is not API compatible with 1.1.4 and 1.1.5.  Version 1.2.0 was released with fairly significant upgrades to allow it to work with Objective-C and to enable applications to configure more than one ad configuration in their application.  Before because the configuration was static this was pretty much impossible.
+
+Unfortunately this does mean you will need to make changes to your app to use the new version.  Please refer to the Samples project to figure out what needs to be changed. 
+
+If you want to keep compiling your application with the earlier version of the SDK (1.1.4 or 1.1.5) you should adjust your cartfile as follows:
+
+github "Adnuntius/ios_sdk" == 1.1.5
 
 ## Examples
 

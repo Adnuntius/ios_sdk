@@ -1,20 +1,15 @@
 //
-//  AdnuntiusSDKTests.swift
-//  AdnuntiusSDKTests
+//  Copyright (c) 2020 Adnuntius AS.  All rights reserved.
 //
-//  Created by Adnuntius Australia on 30/8/19.
-//  Copyright (c) 2019 Adnuntius AS.  All rights reserved.
-//
+
 import XCTest
 @testable import AdnuntiusSDK
 
 class AdnuntiusSDKTests: XCTestCase {
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
     }
 
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
     func testAdConfig() {

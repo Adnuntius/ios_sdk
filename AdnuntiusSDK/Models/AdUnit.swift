@@ -1,12 +1,9 @@
 //
-//  AdModel.swift
-//  AdnuntiusSDK
-//
-//
-//  Copyright (c) 2019 Adnuntius AS.  All rights reserved.
+//  Copyright (c) 2020 Adnuntius AS.  All rights reserved.
 //
 
-import UIKit
+
+import WebKit
 
 struct AdUnit: Codable {
     let auId: String

@@ -1,10 +1,7 @@
 //
-//  AdConfig.swift
-//  AdnuntiusSDK
+//  Copyright (c) 2020 Adnuntius AS.  All rights reserved.
 //
-//  Created by Adnuntius Australia on 6/9/19.
-//  Copyright (c) 2019 Adnuntius AS.  All rights reserved.
-//
+
 import Foundation
 
 @objcMembers

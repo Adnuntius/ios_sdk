@@ -1,12 +1,8 @@
 //
-//  Request.swift
-//  AdnuntiusSDK
-//
-//
-//  Copyright (c) 2019 Adnuntius AS.  All rights reserved.
+//  Copyright (c) 2020 Adnuntius AS.  All rights reserved.
 //
 
-import UIKit
+import WebKit
 
 public struct AdnuntiusHttpError: Error {
     let code: Int
@@ -44,10 +40,8 @@ class APIService: NSObject {
                         completion(nil, AdnuntiusHttpError(code: hresponse.statusCode, message: theData!))
                     }
                 } else {
-                    //Decode retrived data with JSONDecoder and assign type of AdApi object
                     let ads = try JSONDecoder().decode(AdApi.self, from: data)
-                
-                    //Get back to the main queue
+
                     DispatchQueue.main.async {
                         completion(ads, nil)
                     }
