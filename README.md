@@ -6,7 +6,9 @@ Adnuntius iOS SDK is an ios sdk which allows business partners to embed Adnuntiu
 
 Use Carthage cli to build the AdnuntiusSDK.framework and import into your project.   Create or modify your Cartfile to include:
 
-github "Adnuntius/ios_sdk" == 1.3.0
+```
+github "Adnuntius/ios_sdk" == 1.4.0
+```
 
 Run carthage update 
 
@@ -37,6 +39,21 @@ Carthage generated artifacts.
 
 ## Integrating
 
+### loadFromConfig format
+
+For the 1.4.0 release, a single adUnit is supported in the adUnits array structure, but otherwise you can pass in any of the configuration allowed by adn.js
+
+https://docs.adnuntius.com/adnuntius-advertising/requesting-ads/intro/adn-request
+
+### loadFromApi format
+
+This is a similar format to loadFromConfig, except you must use the configuration format supported by the underlying delivery.adnuntius.com/i endpoint, otherwise
+you will receive a ImpressionRequest invalid message on the onFailure callback completion handler.
+
+For the 1.4.0 release, a single adUnit is supported in the adUnits array structure.
+
+https://docs.adnuntius.com/adnuntius-advertising/requesting-ads/http-api#post-requests
+
 ### Swift
 
 - Add WkWebView to your storyboard and create outlet
@@ -50,67 +67,46 @@ Carthage generated artifacts.
 ```swift
 import AdnuntiusSDK
 ```
+
+Reference the AdnuntiusAdWebView:
+
+```swift
+@IBOutlet weak var adView: AdnuntiusAdWebView!
+```
+
+And then load the ad of your choice using loadFromConfig:
+
 ```swift
     override func viewDidLoad() {
         super.viewDidLoad() 
         
-        adView.loadFromScript("""
-        <html>
-        <head>
-            <script type="text/javascript" src="https://cdn.adnuntius.com/adn.js" async></script>
-        </head>
-        <body>
-        <div id="adn-000000000006f450" style="display:none"></div>
-        <script type="text/javascript">
-            window.adn = window.adn || {}; adn.calls = adn.calls || [];
-              adn.calls.push(function() {
-                adn.request({ adUnits: [
-                    {auId: '000000000006f450', auW: 300, auH: 200, kv: [{'version':'X'}] }
-                ]});
-            });
-        </script>
-        </body>
-        </html>
-        """, completionHandler: self)
-    }
-    
-    func onComplete(_ view: AdnuntiusAdWebView, _ adCount: Int) {
-        print("Completed: " + String(adCount))
-    }
-    
-    func onFailure(_ view: AdnuntiusAdWebView, _ message: String) {
-        view.loadHTMLString("<h1>Error is: " + message + "</h1>",
-        baseURL: nil)
-    }
-```
-- Integrate it with your view for example:
-```swift
-    if (indexPath.row % 4 == 0) {
-        if let preCell = adCells?[indexPath.row] {
-            debugPrint("preCell")
-            return preCell
+        let configResult = adView.loadFromConfig([
+              "adUnits": [
+                    ["auId": "000000000006f450", "auW": 200, "kv": [["version": "6s"]]
+                ]
+              ]
+            ], completionHandler: self)
+        if !configResult {
+            print("Config is wrong, check the log")
         }
-        let cell = UITableViewCell()
-        let webView = AdnuntiusAdWebView(frame: CGRect(x: 0, y: 10, width: tableView.frame.width, height: 100))
-        adView1.loadFromApi([
-               "adUnits": [
-                    ["auId": "000000000006f450", "kv": [{"version": "6s"}]
-               ]
-            ]
-        ], completionHandler: self)
-        cell.contentView.addSubview(webView)
-        cell.contentView.sizeToFit()
-        adCells?[indexPath.row] = cell
-        return cell
     }
-
-    func onComplete(_ view: AdnuntiusAdWebView, _ adCount: Int) {
-        print("Completed: " + String(adCount))
+    
+    func onNoAdResponse(_ view: AdnuntiusAdWebView) {
+        print("No Ad Found!")
+        self.adView.isHidden = true
     }
-
+    
     func onFailure(_ view: AdnuntiusAdWebView, _ message: String) {
-        view.loadHTMLString("<h1>Error is: " + message + "</h1>",
-        baseURL: nil)
+	self.adView.isHidden = true
+    }
+    
+    func onAdResponse(_ view: AdnuntiusAdWebView, _ width: Int, _ height: Int) {
+        print("onAdResponse: width: \(width), height: \(height)")
+	var frame = self.adView.frame
+        if (height > 0) {
+            frame.size.height = CGFloat(height)
+        }
+        self.adView.frame = frame
     }
 ```
 
@@ -136,25 +132,35 @@ In the ViewController m file, implement the viewDidLoad method:
 ```swift
     [super viewDidLoad];
 
-    NSString *adScript = @" \
-    <html> \
-        <head > \
-            <script type="text/javascript" src="https://cdn.adnuntius.com/adn.js" async></script> \
-        </head> \
-        <body> \
-            <div id=\"adn-0000000000067082\" style=\"display:none\"></div> \
-            <script type="text/javascript"> \
-                window.adn = window.adn || {}; adn.calls = adn.calls || []; \
-                  adn.calls.push(function() { \
-                    adn.request({ adUnits: [ \
-                        {auId: '000000000006f450', auW: 300, auH: 200, kv: [{'version':'X'}] } \
-                    ]}); \
-                }); \
-            </script> \  
-        </body> \
-    </html>";
+    NSString* adId = @"000000000006f450";
 
-    [self.adView loadFromScript:adScriptcompletionHandler:self];
+    NSDictionary* config = @{
+        @"adUnits" : @[
+                @{
+                    @"auId":adId, @"auH":@200, @"kv": @[@{@"version" : @"X"}]
+                }
+        ]
+    };
+
+    [self.adView loadFromConfig:config completionHandler:self];
+
+- (void)onNoAdResponse:(AdnuntiusAdWebView * _Nonnull)view {
+    NSLog(@"No add found");
+    self.adView.hidden = true;
+}
+
+- (void)onFailure:(AdnuntiusAdWebView * _Nonnull)view :(NSString * _Nonnull)message {
+    NSLog(@"Failure: %@", message);
+    self.adView.hidden = true;
+}
+
+- (void)onAdResponse:(AdnuntiusAdWebView * _Nonnull)view :(NSInteger)width :(NSInteger)height {    
+    if (height > 0) {
+        CGRect frame = self.adView.frame;
+        frame.size.height = height;
+        self.adView.frame = frame;
+    }
+}
 ```
 
 - Change Info.plist
@@ -167,9 +173,34 @@ In the ViewController m file, implement the viewDidLoad method:
     </dict>
 ```
 
-## Upgrading from 1.2.X to 1.3.0
+## Upgrading to 1.2.X to 1.4.0
 
-Version 1.3.0 of the SDK is based on WkWebView instead of the deprecated UiWebView.    If you want to use the SDK with interface builder, your target iOS version must be 11, otherwise you will receive the 
+Unfortunately between 1.2.X and 1.4.0 we have made some breaking api changes that were unavoidable in order to provide an improved experience and a more consistent use of the SDK
+
+### Removed Api Calls
+
+ We are removing support for the loadFromScript and the old simple loadFromConfig functions.     The reason why, is in order to ensure a consistent experience we need more control over
+ what features and parameters that are used and we can't do that if we accept a html block.
+
+In their place is a single loadFromConfig which uses the same json format as loadFromApi already does, and this is supported for both Swift and Objective-C.   The existing loadFromApi support remains
+unchanged except for the completion handler methods have been changed.
+
+### Updated Completion Handler
+
+Between 1.3.0 and 1.40 we made some changes to the completion handlers that are not backwards compatible.
+
+The onFailure handler remains the same
+The onComplete get replaces with two new functions:
+
+- onNoAdResponse (which used to be onComplete with adCount == 0)
+- onAdResponse
+
+The reason for this, is we have added new arguments to the onAdResponse, including the calculated width and height that are used by the rendered div, so you can use that to
+control any resizing of your uiviews.   We will revisit trying to do a better job of this with wkWebView, but this change seemed like a good idea anyway.
+
+### Updating from UIWebView to WKWebView
+
+Version 1.4.0 of the SDK is based on WkWebView instead of the deprecated UiWebView.    If you want to use the SDK with interface builder, your target iOS version must be 11, otherwise you will receive the 
 dreaded `WKWebView before iOS 11.0 (NSCoding support was broken in previous versions)` error message.   If you are constructing an instance of the AdnuntiusWebView programmatically this should not be an issue.
 
 ### Updating your storyboards.    
@@ -191,7 +222,9 @@ Unfortunately this does mean you will need to make changes to your app to use th
 
 If you want to keep compiling your application with the earlier version of the SDK (1.1.4 or 1.1.5) you should adjust your cartfile as follows:
 
+```
 github "Adnuntius/ios_sdk" == 1.1.5
+```
 
 ## Examples
 
