@@ -6,6 +6,13 @@ import Foundation
 
 open class Logger: NSObject {
     public static func debug(_ message: String) {
-        print("DEBUG: " + message)
+#if DEBUG
+        print("DEBUG: \(message)")
+#endif
+    }
+    
+    public static func error(_ message: String) {
+        print("ERROR: \(message)")
     }
 }
+

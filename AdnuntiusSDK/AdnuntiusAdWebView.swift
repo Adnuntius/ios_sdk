@@ -4,19 +4,39 @@
 
 import WebKit
 
+private struct HttpError: Error {
+    let code: Int
+    let message: String
+}
+
+private struct JsonAdUnitString {
+    let auId: String
+    let data: Data
+    let json: String
+}
+
 @objc public protocol AdLoadCompletionHandler {
-    func onComplete(_ view: AdnuntiusAdWebView, _ adCount: Int)
+    // if this is called, it means no ads were matched
+    func onNoAdResponse(_ view: AdnuntiusAdWebView)
+    
+    // if adnuntius delivery returns a non 200 status, or there is no target div
+    // or adn.js reports any other issue, this will be called
     func onFailure(_ view: AdnuntiusAdWebView, _ message: String)
+
+    // will return the size in pixels of each ad loaded, the target is the div id of the ad
+    // this will not be called if there are no ads rendered (should be obvious)
+    // id is the auId, and target is the div id that is targeted
+    func onAdResponse(_ view: AdnuntiusAdWebView, _ width: Int, _ height: Int)
 }
 
 public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
     private var completionHandler: AdLoadCompletionHandler?
-    
-    public static var ADNUNTIUS_MESSAGE_HANDLER = "adnuntiusMessageHandler"
-    public static var BASE_URL = "https://delivery.adnuntius.com/"
-    
+
+    private static var ADNUNTIUS_MESSAGE_HANDLER = "adnuntiusMessageHandler"
+    private static var BASE_URL = "https://delivery.adnuntius.com/"
+
     // https://stackoverflow.com/questions/26295277/wkwebview-equivalent-for-uiwebviews-scalespagetofit
-    public static var META_VIEWPORT_JS = """
+    private static var META_VIEWPORT_JS = """
     var viewportMetaTag = document.querySelector('meta[name="viewport"]');
     var viewportMetaTagIsUsed = viewportMetaTag && viewportMetaTag.hasAttribute('content');
     if (!viewportMetaTagIsUsed) {
@@ -27,12 +47,12 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
     }
     """
     
-    public static var ADNUNTIUS_AJAX_SHIM_JS = """
+    private static var ADNUNTIUS_AJAX_SHIM_JS = """
     var adnSdkShim = new Object()
     adnSdkShim.open = XMLHttpRequest.prototype.open
     adnSdkShim.send = XMLHttpRequest.prototype.send
     adnSdkShim.console = window.console;
-
+    
     XMLHttpRequest.prototype.open = function(method, url, async, user, password) {
         url = url + "&sdk=ios:\(AdnuntiusSDK.sdk_version)"
         adnSdkShim.open.apply(this, arguments)
@@ -43,24 +63,14 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
     XMLHttpRequest.prototype.send = function(data) {
         var callback = this.onreadystatechange;
         this.onreadystatechange = function() {
+            // good for debugging purposes to see what ajax stuff is being done
             if (this.readyState == 4) {
-                var adCount = 0
-                if (this.status == 200) {
-                    adCount = adnSdkShim.getAdsCount(this.response)
-                    adnSdkShim.adnAdnuntiusMessage({
-                          "type": "ad",
-                          "url": adnSdkShim.url,
-                          "status": this.status,
-                          "adCount": adCount
-                    });
-                } else {
-                    adnSdkShim.adnAdnuntiusMessage({
-                          "type": "add",
-                          "url": adnSdkShim.url,
-                          "status": this.status,
-                          "statusText": this.statusText
-                    });
-                }
+                adnSdkShim.adnAdnuntiusMessage({
+                      type: "url",
+                      url: adnSdkShim.url,
+                      status: this.status,
+                      statusText: this.statusText
+                });
             }
             callback.apply(this, arguments)
         }
@@ -73,30 +83,26 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         }
     }
 
-    // way easier to do the parsing in here than in swift code
-    adnSdkShim.getAdsCount = function(response) {
-        var totalCount = 0
-        try {
-           var obj = JSON.parse(response)
-           if (obj.adUnits != undefined) {
-               obj.adUnits.forEach(function (item, index) {
-                    var count = item.matchedAdCount
-                    totalCount += count
-               });
-           }
-        } catch(e) {}
-        return totalCount
-    }
-
     adnSdkShim.handleConsole = function(method, args) {
         var message = Array.prototype.slice.apply(args).join(' ')
         adnSdkShim.adnAdnuntiusMessage({
-                              "type": "console",
-                              "method": method,
-                              "message": message
+                              type: "console",
+                              method: method,
+                              message: message
                             });
         adnSdkShim.console[method](message)
     }
+
+    adnSdkShim.onPageLoad = function(args) {
+        adnSdkShim.adnAdnuntiusMessage({
+                              type: "ad",
+                              id: args.auId || "",
+                              target: args.targetId || "",
+                              adCount: args.retAdCount || 0,
+                              height: args.h || 0,
+                              width: args.w || 0
+            });
+    };
 
     window.console = {
         log: function() {
@@ -110,19 +116,20 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         }
     }
     """
+
+    private var loadedViaApi: Bool = false
     
     @objc open func adView () -> AdnuntiusAdWebView {
         return self
     }
-    
+
     private func setupCallbacks(_ completionHandler: AdLoadCompletionHandler) {
-        self.uiDelegate = self
-        self.navigationDelegate = self
+        self.loadedViaApi = false
         self.completionHandler = completionHandler
 
         let metaScript = WKUserScript(source: AdnuntiusAdWebView.META_VIEWPORT_JS,
-                                    injectionTime: WKUserScriptInjectionTime.atDocumentEnd, forMainFrameOnly: true)
-        
+                                            injectionTime: WKUserScriptInjectionTime.atDocumentEnd, forMainFrameOnly: true)
+                
         let shimScript = WKUserScript(source: AdnuntiusAdWebView.ADNUNTIUS_AJAX_SHIM_JS,
                                     injectionTime: WKUserScriptInjectionTime.atDocumentStart, forMainFrameOnly: true)
         
@@ -130,84 +137,174 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         self.configuration.userContentController.addUserScript(shimScript)
         self.configuration.userContentController.add(self, name: AdnuntiusAdWebView.ADNUNTIUS_MESSAGE_HANDLER)
     }
-    
-    @objc open func loadFromScript(_ script: String, completionHandler: AdLoadCompletionHandler) -> Void {
-        Logger.debug("load from script")
-        setupCallbacks(completionHandler)
-        self.loadHTMLString(script)
-    }
-    
-    private func loadHTMLString(_ script: String) {
-        self.loadHTMLString(script, baseURL: URL(string: AdnuntiusAdWebView.BASE_URL))
-    }
 
     /*
-       Very basic interface where only auId, width, height, categories and key values for a single ad unit are required
+     Return false if the initial validation of the config parameter fails, otherwise all other signals will be via
+     the completion handler
      */
-    @objc open func loadFromConfig(_ config: AdConfig, completionHandler: AdLoadCompletionHandler) -> Void {
-        Logger.debug("load from config")
+    @objc open func loadFromConfig(_ config: [String: Any], completionHandler: AdLoadCompletionHandler) -> Bool {
+        setupCallbacks(completionHandler)
 
-        let output = config.toJson()
+        guard let jsonData = self.parseConfig(config, false) else {
+            return false
+        }
+
+        // we are overriding these default css settings cos wkwebview does not seem to provide
+        // a UI that can do it, and ive tried many
         let script = """
         <html>
            <head>
             <script type="text/javascript" src="https://cdn.adnuntius.com/adn.js" async></script>
+            <style>
+            body {
+                margin-top: 0px;
+                margin-left: 0px;
+                margin-bottom: 0px;
+                margin-right: 0px;
+            }
+            </style>
            </head>
            <body>
-                <div id="adn-\(config.getAuId())" style="display:none"></div>
+                <div id="adn-\(jsonData.auId)" style="display:none"></div>
                 <script type="text/javascript">
-                    window.adn = window.adn || {}; adn.calls = adn.calls || [];
-                    adn.calls.push(function() {
-                        adn.request({ adUnits: [
-                        \(output)
-                   ]});
+                window.adn = window.adn || {}; adn.calls = adn.calls || [];
+                adn.calls.push(function() {
+                    adn.request({
+                        onPageLoad: adnSdkShim.onPageLoad,
+                        adUnits: \(jsonData.json)
+                    });
                 });
                 </script>
            </body>
         </html>
         """
         
-        setupCallbacks(completionHandler)
-        self.loadHTMLString(script)
+        Logger.debug("Html Request: " + script)
+        
+        self.loadHTMLString(script, baseURL: URL(string: AdnuntiusAdWebView.BASE_URL))
+        
+        return true
     }
-    
-    @objc open func loadFromApi(_ config: [String: Any], completionHandler: AdLoadCompletionHandler) -> Void {
-        Logger.debug("load from api")
 
+    /*
+     Return false if the initial validation of the config parameter fails, otherwise all other signals will be via
+     the completion handler
+     */
+    @objc open func loadFromApi(_ config: [String: Any], completionHandler: AdLoadCompletionHandler) -> Bool {
+        guard let jsonData = self.parseConfig(config, true) else {
+            return false
+        }
+        
         setupCallbacks(completionHandler)
         
-        APIService.getAds(config, completion: {(ads, error) in
+        getAdsFromApi(jsonData, completion: {(ads, error) in
             if ads != nil {
                 if ads!.adUnits.count > 0 {
                     if (ads!.adUnits[0].ads.count > 0) {
                         let ad = ads!.adUnits[0].ads[0]
-                        self.loadHTMLString(ad.html)
-                        self.doOnComplete(1)
+                        self.loadedViaApi = true
+                        self.loadHTMLString(ad.html, baseURL: URL(string: AdnuntiusAdWebView.BASE_URL))
+                        
+                        let width = Int(ad.creativeWidth) ?? 0
+                        let height = Int(ad.creativeHeight) ?? 0
+                        self.doOnAdResponse(width, height)
                     } else {
-                        self.doOnComplete(0)
+                        self.doOnNoAdResponse()
                     }
                 } else {
-                    self.doOnComplete(0)
+                    self.doOnNoAdResponse()
                 }
             } else {
                 self.doOnFailure("Failed calling api: \(error!)")
             }
             return nil
         })
+
+        return true
+    }
+    
+    private func parseConfig(_ config: [String: Any], _ isApi: Bool) -> JsonAdUnitString? {
+        guard let adUnits = config["adUnits"] as? [[String : Any]] else {
+            Logger.error("Malformed request: missing an adUnits section")
+            return nil
+        }
+        
+        guard adUnits.count == 1 else {
+            Logger.error("Malformed request: Too many adUnits in adUnits section")
+            return nil
+        }
+
+        let adUnit = adUnits.first!
+        guard let auId = adUnit["auId"] as? String else {
+            Logger.error("Malformed request: Missing an auId for the adUnit")
+            return nil
+        }
+
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: isApi ? config : adUnits) else {
+            Logger.error("Malformed request: Could not parse request")
+            return nil
+        }
+        
+        guard let jsonText = String(data: jsonData, encoding: .utf8) else {
+            Logger.error("Malformed request: Could not parse request")
+            return nil
+        }
+        
+        Logger.debug("Json Request: " + jsonText)
+
+        return JsonAdUnitString(auId: auId, data: jsonData, json: jsonText)
+    }
+    
+    private func getAdsFromApi(_ jsonData: JsonAdUnitString, completion: @escaping (_ ads: AdApi?, _ error: Error?) -> Void?) {
+        let url = URL(string: "https://delivery.adnuntius.com/i?format=json&sdk=ios:" + AdnuntiusSDK.sdk_version)
+        
+        var request = URLRequest(url: url!)
+        request.httpMethod = "POST"
+        request.httpBody = jsonData.data
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        URLSession.shared.dataTask(with: request) {
+            (data, response, error) in
+            if error != nil {
+                DispatchQueue.main.async {
+                    completion(nil, error)
+                }
+            }
+            
+            guard let data = data else { return }
+            do {
+                let hresponse = response as! HTTPURLResponse
+                if hresponse.statusCode != 200 {
+                    let theData = String(data: data, encoding: .utf8)
+                    DispatchQueue.main.async {
+                        completion(nil, HttpError(code: hresponse.statusCode, message: theData!))
+                    }
+                } else {
+                    let ads = try JSONDecoder().decode(AdApi.self, from: data)
+
+                    DispatchQueue.main.async {
+                        completion(ads, nil)
+                    }
+                }
+            } catch let error {
+                DispatchQueue.main.async {
+                    completion(nil, error)
+                }
+            }
+        }.resume()
+    }
+    
+    open func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
     
     open func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
-
-    open func webView(_ webView: WKWebView, didFinish navigation: WKNavigation) {
-        UIApplication.shared.isNetworkActivityIndicatorVisible = false
-    }
     
     open func webView(_ webView: WKWebView,
                      didFailProvisionalNavigation navigation: WKNavigation!,
                      withError error: Error) {
-        
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
         self.doOnFailure("Failed loading: \(error as NSError?)")
     }
@@ -229,10 +326,22 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
             if message.contains("Unable to find HTML element") {
                 self.doOnFailure(message)
             } else {
-                Logger.debug(method + " " + message)
+                Logger.debug("\(method): \(message)")
             }
             return
-        } else { // type == "ad"
+        } else if (type == "ad") {
+            // we skip this section because when loading from api its already taken care of
+            if !self.loadedViaApi {
+                let adCount = dict["adCount"] as! Int
+                if adCount > 0 {
+                    let width = dict["width"] as! Int
+                    let height = dict["height"] as! Int
+                    self.doOnAdResponse(width, height)
+                } else {
+                    self.doOnNoAdResponse()
+                }
+            }
+        } else { // type == "url"
             let httpStatus = dict["status"] as! Int
             let requestUrl = dict["url"] as! String
             
@@ -240,14 +349,8 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
                 let statusText = dict["statusText"] as! String
                 self.doOnFailure("\(httpStatus.description) [\(statusText)] error returned for \(requestUrl)")
                 return
-            }
-            
-            Logger.debug("Ajax Url: \(requestUrl)")
-            
-            // only register an oncomplete for an impression, everything else is callbacks
-            if requestUrl.contains("delivery.adnuntius.com/i") {
-                let adCount = dict["adCount"] as! Int
-                self.doOnComplete(adCount)
+            } else {
+                Logger.debug("Url Request: \(requestUrl)")
             }
         }
     }
@@ -279,15 +382,22 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         }
     }
     
-    private func doOnComplete(_ count: Int) {
+    private func doOnNoAdResponse() {
         if (self.completionHandler != nil) {
-            self.completionHandler?.onComplete(self, count)
+            self.completionHandler?.onNoAdResponse(self)
         }
     }
     
     private func doOnFailure(_ message: String) {
+        Logger.debug(message)
         if (self.completionHandler != nil) {
             self.completionHandler?.onFailure(self, message)
+        }
+    }
+    
+    private func doOnAdResponse(_ width: Int, _ height: Int) {
+        if (self.completionHandler != nil) {
+            self.completionHandler?.onAdResponse(self, width, height)
         }
     }
     
