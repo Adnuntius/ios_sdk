@@ -174,9 +174,9 @@ In the ViewController m file, implement the viewDidLoad method:
     </dict>
 ```
 
-## Upgrading to 1.2.X to 1.4.0
+## Upgrading to 1.2.X to 1.4.X
 
-Unfortunately between 1.2.X and 1.4.0 we have made some breaking api changes that were unavoidable in order to provide an improved experience and a more consistent use of the SDK
+Unfortunately between 1.2.X and 1.4.X we have made some breaking api changes that were unavoidable in order to provide an improved experience and a more consistent use of the SDK
 
 ### Removed Api Calls
 
@@ -188,7 +188,7 @@ unchanged except for the completion handler methods have been changed.
 
 ### Updated Completion Handler
 
-Between 1.3.0 and 1.40 we made some changes to the completion handlers that are not backwards compatible.
+Between 1.3.0 and 1.4.X we made some changes to the completion handlers that are not backwards compatible.
 
 The onFailure handler remains the same
 The onComplete get replaces with two new functions:
