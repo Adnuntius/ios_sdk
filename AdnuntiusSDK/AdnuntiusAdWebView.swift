@@ -23,9 +23,8 @@ private struct JsonAdUnitString {
     // or adn.js reports any other issue, this will be called
     func onFailure(_ view: AdnuntiusAdWebView, _ message: String)
 
-    // will return the size in pixels of each ad loaded, the target is the div id of the ad
-    // this will not be called if there are no ads rendered (should be obvious)
-    // id is the auId, and target is the div id that is targeted
+    // will return the size in pixels of each ad loaded
+    // this will not be called if there are no ad rendered (should be obvious)
     func onAdResponse(_ view: AdnuntiusAdWebView, _ width: Int, _ height: Int)
 }
 
