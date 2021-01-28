@@ -125,7 +125,8 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
     private func setupCallbacks(_ completionHandler: AdLoadCompletionHandler) {
         self.loadedViaApi = false
         self.completionHandler = completionHandler
-
+        self.navigationDelegate = self
+        
         let metaScript = WKUserScript(source: AdnuntiusAdWebView.META_VIEWPORT_JS,
                                             injectionTime: WKUserScriptInjectionTime.atDocumentEnd, forMainFrameOnly: true)
                 
@@ -300,6 +301,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
     open func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
+    
     
     open func webView(_ webView: WKWebView,
                      didFailProvisionalNavigation navigation: WKNavigation!,
