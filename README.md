@@ -42,7 +42,7 @@ Because the SDK is Swift based, if you are including it as a framework into your
 
 ### loadFromConfig format
 
-For the 1.4.0 release, a single adUnit is supported in the adUnits array structure, but otherwise you can pass in any of the configuration allowed by adn.js
+Currently, only a single adUnit can be specified in the adUnits array structure, but otherwise you can pass in any of the configuration allowed by adn.js
 
 https://docs.adnuntius.com/adnuntius-advertising/requesting-ads/intro/adn-request
 
@@ -51,7 +51,7 @@ https://docs.adnuntius.com/adnuntius-advertising/requesting-ads/intro/adn-reques
 This is a similar format to loadFromConfig, except you must use the configuration format supported by the underlying delivery.adnuntius.com/i endpoint, otherwise
 you will receive a ImpressionRequest invalid message on the onFailure callback completion handler.
 
-For the 1.4.0 release, a single adUnit is supported in the adUnits array structure.
+Currently, only a single adUnit can be specified in the adUnits array structure.
 
 https://docs.adnuntius.com/adnuntius-advertising/requesting-ads/http-api#post-requests
 
