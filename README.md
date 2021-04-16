@@ -46,15 +46,6 @@ Currently, only a single adUnit can be specified in the adUnits array structure,
 
 https://docs.adnuntius.com/adnuntius-advertising/requesting-ads/intro/adn-request
 
-### loadFromApi format
-
-This is a similar format to loadFromConfig, except you must use the configuration format supported by the underlying delivery.adnuntius.com/i endpoint, otherwise
-you will receive a ImpressionRequest invalid message on the onFailure callback completion handler.
-
-Currently, only a single adUnit can be specified in the adUnits array structure.
-
-https://docs.adnuntius.com/adnuntius-advertising/requesting-ads/http-api#post-requests
-
 ### Swift
 
 - Add WkWebView to your storyboard and create outlet
@@ -230,6 +221,11 @@ github "Adnuntius/ios_sdk" == 1.1.5
 # Examples
 
 Some examples of using the SDK are available from https://github.com/Adnuntius/ios_sdk_examples
+
+## Bugs, Issues and Support
+
+This SDK is a work in progress and will be given attention when necessary based on feed back.  You
+can raise issues on github or via zen desk at https://admin.adnuntius.com
 
 # License
 

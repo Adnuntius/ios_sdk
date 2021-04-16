@@ -189,7 +189,11 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
     /*
      Return false if the initial validation of the config parameter fails, otherwise all other signals will be via
      the completion handler
+     
+     This method of loading ads into the web view is deprecated, because it does not have all the
+     smarts of loadFromConfig which relies on adn.js
      */
+    @available(*, deprecated, message: "Use loadFromConfig instead")
     @objc open func loadFromApi(_ config: [String: Any], completionHandler: AdLoadCompletionHandler) -> Bool {
         guard let jsonData = self.parseConfig(config, true) else {
             return false
