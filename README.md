@@ -227,6 +227,11 @@ If you want to keep compiling your application with the earlier version of the S
 github "Adnuntius/ios_sdk" == 1.1.5
 ```
 
-## Examples
+# Examples
 
 Some examples of using the SDK are available from https://github.com/Adnuntius/ios_sdk_examples
+
+# License
+
+This project uses the Apache 2 License.  Refer to the LICENSE file.
+
