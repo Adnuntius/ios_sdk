@@ -4,15 +4,11 @@
 
 import WebKit
 
-private struct HttpError: Error {
-    let code: Int
-    let message: String
-}
-
 private struct JsonAdUnitString {
     let auId: String
     let data: Data
-    let json: String
+    let adUnitsJson: String
+    let otherJson: String
 }
 
 @objc public protocol AdLoadCompletionHandler {
@@ -24,7 +20,7 @@ private struct JsonAdUnitString {
     func onFailure(_ view: AdnuntiusAdWebView, _ message: String)
 
     // will return the size in pixels of each ad loaded
-    // this will not be called if there are no ad rendered (should be obvious)
+    // this will not be called if there is no ad rendered (should be obvious)
     func onAdResponse(_ view: AdnuntiusAdWebView, _ width: Int, _ height: Int)
 }
 
@@ -69,7 +65,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
                       url: adnSdkShim.url,
                       status: this.status,
                       statusText: this.statusText
-                });
+                })
             }
             callback.apply(this, arguments)
         }
@@ -88,20 +84,35 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
                               type: "console",
                               method: method,
                               message: message
-                            });
+        })
         adnSdkShim.console[method](message)
     }
 
+    adnSdkShim.onVisible = function(args) {
+        console.log("onVisible:" + JSON.stringify(args))
+    }
+
+    adnSdkShim.onViewable = function(args) {
+        console.log("onViewable:" + JSON.stringify(args))
+    }
+
     adnSdkShim.onPageLoad = function(args) {
+        console.log("onPageLoad:" + JSON.stringify(args))
+    }
+
+    adnSdkShim.onImpressionResponse = function(args) {
+        console.log("onImpressionResponse:" + JSON.stringify(args))
+
         adnSdkShim.adnAdnuntiusMessage({
-                              type: "ad",
+                              type: "impression",
                               id: args.auId || "",
                               target: args.targetId || "",
                               adCount: args.retAdCount || 0,
-                              height: args.h || 0,
-                              width: args.w || 0
-            });
-    };
+                              height: args.retAdsH || 0,
+                              width: args.retAdsH || 0
+        })
+    }
+
 
     window.console = {
         log: function() {
@@ -115,15 +126,12 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         }
     }
     """
-
-    private var loadedViaApi: Bool = false
     
     @objc open func adView () -> AdnuntiusAdWebView {
         return self
     }
 
     private func setupCallbacks(_ completionHandler: AdLoadCompletionHandler) {
-        self.loadedViaApi = false
         self.completionHandler = completionHandler
         self.navigationDelegate = self
         
@@ -138,14 +146,26 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         self.configuration.userContentController.add(self, name: AdnuntiusAdWebView.ADNUNTIUS_MESSAGE_HANDLER)
     }
 
+    @available(*, deprecated, message: "Use loadAd instead")
+    @objc open func loadFromConfig(_ config: [String: Any], completionHandler: AdLoadCompletionHandler) -> Bool {
+        return self.loadAd(config, completionHandler: completionHandler)
+    }
+    
+    // from 1.5.0 onwards loadFromApi internally just calls loadAd, it does not use the format=json, but the
+    // function is left here to make migration a little less painful
+    @available(*, deprecated, message: "Use loadAd instead")
+    @objc open func loadFromApi(_ config: [String: Any], completionHandler: AdLoadCompletionHandler) -> Bool {
+        return self.loadAd(config, completionHandler: completionHandler)
+    }
+    
     /*
      Return false if the initial validation of the config parameter fails, otherwise all other signals will be via
      the completion handler
      */
-    @objc open func loadFromConfig(_ config: [String: Any], completionHandler: AdLoadCompletionHandler) -> Bool {
+    @objc open func loadAd(_ config: [String: Any], completionHandler: AdLoadCompletionHandler) -> Bool {
         setupCallbacks(completionHandler)
 
-        guard let jsonData = self.parseConfig(config, false) else {
+        guard let jsonData = self.parseConfig(config) else {
             return false
         }
 
@@ -171,7 +191,11 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
                 adn.calls.push(function() {
                     adn.request({
                         onPageLoad: adnSdkShim.onPageLoad,
-                        adUnits: \(jsonData.json)
+                        onImpressionResponse: adnSdkShim.onImpressionResponse,
+                        onVisible: adnSdkShim.onVisible,
+                        onViewable: adnSdkShim.onViewable,
+                        adUnits: \(jsonData.adUnitsJson)
+                        \(jsonData.otherJson)
                     });
                 });
                 </script>
@@ -185,49 +209,8 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         
         return true
     }
-
-    /*
-     Return false if the initial validation of the config parameter fails, otherwise all other signals will be via
-     the completion handler
-     
-     This method of loading ads into the web view is deprecated, because it does not have all the
-     smarts of loadFromConfig which relies on adn.js
-     */
-    @available(*, deprecated, message: "Use loadFromConfig instead")
-    @objc open func loadFromApi(_ config: [String: Any], completionHandler: AdLoadCompletionHandler) -> Bool {
-        guard let jsonData = self.parseConfig(config, true) else {
-            return false
-        }
-        
-        setupCallbacks(completionHandler)
-        
-        getAdsFromApi(jsonData, completion: {(ads, error) in
-            if ads != nil {
-                if ads!.adUnits.count > 0 {
-                    if (ads!.adUnits[0].ads.count > 0) {
-                        let ad = ads!.adUnits[0].ads[0]
-                        self.loadedViaApi = true
-                        self.loadHTMLString(ad.html, baseURL: URL(string: AdnuntiusAdWebView.BASE_URL))
-                        
-                        let width = Int(ad.creativeWidth) ?? 0
-                        let height = Int(ad.creativeHeight) ?? 0
-                        self.doOnAdResponse(width, height)
-                    } else {
-                        self.doOnNoAdResponse()
-                    }
-                } else {
-                    self.doOnNoAdResponse()
-                }
-            } else {
-                self.doOnFailure("Failed calling api: \(error!)")
-            }
-            return nil
-        })
-
-        return true
-    }
     
-    private func parseConfig(_ config: [String: Any], _ isApi: Bool) -> JsonAdUnitString? {
+    private func parseConfig(_ config: [String: Any]) -> JsonAdUnitString? {
         guard let adUnits = config["adUnits"] as? [[String : Any]] else {
             Logger.error("Malformed request: missing an adUnits section")
             return nil
@@ -244,60 +227,31 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
             return nil
         }
 
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: isApi ? config : adUnits) else {
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: adUnits) else {
             Logger.error("Malformed request: Could not parse request")
             return nil
         }
         
-        guard let jsonText = String(data: jsonData, encoding: .utf8) else {
+        guard let adUnitsJsonText = String(data: jsonData, encoding: .utf8) else {
             Logger.error("Malformed request: Could not parse request")
             return nil
         }
         
-        Logger.debug("Json Request: " + jsonText)
-
-        return JsonAdUnitString(auId: auId, data: jsonData, json: jsonText)
-    }
-    
-    private func getAdsFromApi(_ jsonData: JsonAdUnitString, completion: @escaping (_ ads: AdApi?, _ error: Error?) -> Void?) {
-        let url = URL(string: "https://delivery.adnuntius.com/i?format=json&sdk=ios:" + AdnuntiusSDK.sdk_version)
-        
-        var request = URLRequest(url: url!)
-        request.httpMethod = "POST"
-        request.httpBody = jsonData.data
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        URLSession.shared.dataTask(with: request) {
-            (data, response, error) in
-            if error != nil {
-                DispatchQueue.main.async {
-                    completion(nil, error)
-                }
+        // support the adn.js noCookies parameter, as well as the ad server useCookies
+        // to provide support for loadFromApi customers migrating over
+        var otherJsonText = ""
+        if let noCookies = config["noCookies"] {
+            if noCookies as! Bool == true {
+                otherJsonText = ", useCookies: false"
             }
-            
-            guard let data = data else { return }
-            do {
-                let hresponse = response as! HTTPURLResponse
-                if hresponse.statusCode != 200 {
-                    let theData = String(data: data, encoding: .utf8)
-                    DispatchQueue.main.async {
-                        completion(nil, HttpError(code: hresponse.statusCode, message: theData!))
-                    }
-                } else {
-                    let ads = try JSONDecoder().decode(AdApi.self, from: data)
-
-                    DispatchQueue.main.async {
-                        completion(ads, nil)
-                    }
-                }
-            } catch let error {
-                DispatchQueue.main.async {
-                    completion(nil, error)
-                }
-            }
-        }.resume()
+        } else if let useCookies = config["useCookies"] {
+            otherJsonText = ", useCookies: \(useCookies)"
+        }
+        Logger.debug("Json Request: " + adUnitsJsonText)
+        Logger.debug("Other Request: " + otherJsonText)
+        return JsonAdUnitString(auId: auId, data: jsonData, adUnitsJson: adUnitsJsonText, otherJson: otherJsonText)
     }
-    
+
     open func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
@@ -305,8 +259,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
     open func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
-    
-    
+
     open func webView(_ webView: WKWebView,
                      didFailProvisionalNavigation navigation: WKNavigation!,
                      withError error: Error) {
@@ -333,27 +286,22 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
             } else {
                 Logger.debug("\(method): \(message)")
             }
-            return
-        } else if (type == "ad") {
-            // we skip this section because when loading from api its already taken care of
-            if !self.loadedViaApi {
-                let adCount = dict["adCount"] as! Int
-                if adCount > 0 {
-                    let width = dict["width"] as! Int
-                    let height = dict["height"] as! Int
-                    self.doOnAdResponse(width, height)
-                } else {
-                    self.doOnNoAdResponse()
-                }
+        } else if (type == "impression") {
+            let adCount = dict["adCount"] as! Int
+            if adCount > 0 {
+                let width = dict["width"] as! Int
+                let height = dict["height"] as! Int
+                self.doOnAdResponse(width, height)
+            } else {
+                self.doOnNoAdResponse()
             }
-        } else { // type == "url"
+        } else if (type == "url") {
             let httpStatus = dict["status"] as! Int
             let requestUrl = dict["url"] as! String
             
             if httpStatus != 200 {
                 let statusText = dict["statusText"] as! String
                 self.doOnFailure("\(httpStatus.description) [\(statusText)] error returned for \(requestUrl)")
-                return
             } else {
                 Logger.debug("Url Request: \(requestUrl)")
             }
