@@ -169,7 +169,7 @@ In the ViewController m file, implement the viewDidLoad method:
     </dict>
 ```
 
-## Upgrading to 1.2.X to 1.4.X or 1.5.X
+## Upgrading from 1.2.X to 1.4.X or 1.5.X
 
 Between 1.2.X and 1.4.X we had to make some breaking api changes that were unavoidable in order to provide an improved experience and a more consistent use of the SDK
 
