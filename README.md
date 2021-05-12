@@ -7,7 +7,7 @@ Adnuntius iOS SDK is an ios sdk which allows business partners to embed Adnuntiu
 Use Carthage cli to build the AdnuntiusSDK.framework and import into your project.   Create or modify your Cartfile to include:
 
 ```
-github "Adnuntius/ios_sdk" == 1.4.2
+github "Adnuntius/ios_sdk" == 1.5.0
 ```
 
 Run `carthage update`
@@ -40,9 +40,11 @@ Because the SDK is Swift based, if you are including it as a framework into your
 
 ## Integrating
 
-### loadFromConfig format
+### loadAd format
 
-Currently, only a single adUnit can be specified in the adUnits array structure, but otherwise you can pass in any of the configuration allowed by adn.js
+Currently, only a single adUnit can be specified in the adUnits array structure, but otherwise you can pass in any of the ad unit configuration allowed by adn.js 
+
+From SDK version 1.5.0 onwards we support specifying noCookies: true or useCookies: false at the global level (not under the adUnits config)
 
 https://docs.adnuntius.com/adnuntius-advertising/requesting-ads/intro/adn-request
 
@@ -50,8 +52,8 @@ https://docs.adnuntius.com/adnuntius-advertising/requesting-ads/intro/adn-reques
 
 - Add WkWebView to your storyboard and create outlet
 - Configure each AdnuntiusAdWebView
-- Load the ad into the view via the loadFromScript, loadFromConfig or loadFromApi
-- Implement the completionHandler to react to a missing ad
+- Load the ad into the view via loadAd (loadFromConfig and loadFromApi are deprecated and will be removed soon)
+- Implement the completionHandler
 
 
 - In your `ViewController` file add header and implement the viewDidLoad method:
@@ -66,15 +68,16 @@ Reference the AdnuntiusAdWebView:
 @IBOutlet weak var adView: AdnuntiusAdWebView!
 ```
 
-And then load the ad of your choice using loadFromConfig:
+And then load the ad of your choice using loadAd:
 
 ```swift
     override func viewDidLoad() {
         super.viewDidLoad() 
         
-        let configResult = adView.loadFromConfig([
+        let configResult = adView.loadAd([
               "adUnits": [
-                    ["auId": "000000000006f450", "auW": 200, "kv": [["version": "6s"]]
+                    ["auId": "000000000006f450", "auW": 200, "kv": [["version": "6s"]],
+                    "useCookies": false
                 ]
               ]
             ], completionHandler: self)
@@ -102,14 +105,14 @@ And then load the ad of your choice using loadFromConfig:
     }
 ```
 
-The onComplete / onFailure AdWebViewStateDelegate protocol methods are where you can add logic to react to various outcomes of trying to load an an ad.  For instance if there are no matched ads, the onComplete will return an adCount of 0, and you could hide the ad view for instance.
+The onNoAdResponse, onFailure and onAdResponse AdLoadCompletionHandler methods are where you can add logic to react to various outcomes of trying to load an an ad.  For instance if there are no matched ads, the onNoAdResponse will be called, and you could hide the ad view for instance.
 
 ### Objective C
 
 - Add WkWebView to your storyboard and create outlet
 - Declare a @property referencing the AdnuntiusAdWebView declared in the story board
-- Load the ad into the view via the loadFromScript, loadFromConfig or loadFromApi
-- Implement the completionHandler to react to a missing ad
+- Load the ad into the view via the loadAd
+- Implement the completionHandler 
 
 In the ViewController header file import the AdnuntiusSDK swift header:
 
@@ -131,10 +134,11 @@ In the ViewController m file, implement the viewDidLoad method:
                 @{
                     @"auId":adId, @"auH":@200, @"kv": @[@{@"version" : @"X"}]
                 }
-        ]
+        ],
+        @"useCookies": @false
     };
 
-    [self.adView loadFromConfig:config completionHandler:self];
+    [self.adView loadAd:config completionHandler:self];
 
 - (void)onNoAdResponse:(AdnuntiusAdWebView * _Nonnull)view {
     NSLog(@"No add found");
@@ -165,17 +169,15 @@ In the ViewController m file, implement the viewDidLoad method:
     </dict>
 ```
 
-## Upgrading to 1.2.X to 1.4.X
+## Upgrading to 1.2.X to 1.4.X or 1.5.X
 
-Unfortunately between 1.2.X and 1.4.X we have made some breaking api changes that were unavoidable in order to provide an improved experience and a more consistent use of the SDK
+Between 1.2.X and 1.4.X we had to make some breaking api changes that were unavoidable in order to provide an improved experience and a more consistent use of the SDK
 
 ### Removed Api Calls
 
- We are removing support for the loadFromScript and the old simple loadFromConfig functions.     The reason why, is in order to ensure a consistent experience we need more control over
- what features and parameters that are used and we can't do that if we accept a html block.
+The loadFromScript and simplified loadFromConfig have been removed from the SDK.
 
-In their place is a single loadFromConfig which uses the same json format as loadFromApi already does, and this is supported for both Swift and Objective-C.   The existing loadFromApi support remains
-unchanged except for the completion handler methods have been changed.
+The loadFromApi and loadFromConfig are deprecated in version 1.5.0 and will be removed in a future release.
 
 ### Updated Completion Handler
 
@@ -188,7 +190,7 @@ The onComplete get replaces with two new functions:
 - onAdResponse
 
 The reason for this, is we have added new arguments to the onAdResponse, including the calculated width and height that are used by the rendered div, so you can use that to
-control any resizing of your uiviews.   We will revisit trying to do a better job of this with wkWebView, but this change seemed like a good idea anyway.
+control any resizing of your views.
 
 ### Updating from UIWebView to WKWebView
 
@@ -230,4 +232,3 @@ can raise issues on github or via zen desk at https://admin.adnuntius.com
 # License
 
 This project uses the Apache 2 License.  Refer to the LICENSE file.
-
