@@ -21,27 +21,299 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		39143D1D21412EEB0072614B /* Ad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39143D1C21412EEB0072614B /* Ad.swift */; };
-		39143D1F21412F430072614B /* Asset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39143D1E21412F430072614B /* Asset.swift */; };
-		39143D2121412F680072614B /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39143D2021412F680072614B /* Image.swift */; };
-		39143D23214130A20072614B /* AdApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39143D22214130A20072614B /* AdApi.swift */; };
 		395193E421345ADF008F961C /* AdnuntiusSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395193E321345ADF008F961C /* AdnuntiusSDK.swift */; };
-		3951942021348C6F008F961C /* AdUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3951941F21348C6F008F961C /* AdUnit.swift */; };
 		39519424213AFA9C008F961C /* AdnuntiusAdWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39519423213AFA9C008F961C /* AdnuntiusAdWebView.swift */; };
 		A7339C3E234EF59F00B4FCEC /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7339C3D234EF59F00B4FCEC /* Logger.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		39143D1C21412EEB0072614B /* Ad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ad.swift; sourceTree = "<group>"; };
-		39143D1E21412F430072614B /* Asset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asset.swift; sourceTree = "<group>"; };
-		39143D2021412F680072614B /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
-		39143D22214130A20072614B /* AdApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdApi.swift; sourceTree = "<group>"; };
 		395193D821345ABE008F961C /* AdnuntiusSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AdnuntiusSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		395193DC21345ABE008F961C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		395193E321345ADF008F961C /* AdnuntiusSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdnuntiusSDK.swift; sourceTree = "<group>"; };
-		3951941F21348C6F008F961C /* AdUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdUnit.swift; sourceTree = "<group>"; };
 		39519423213AFA9C008F961C /* AdnuntiusAdWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdnuntiusAdWebView.swift; sourceTree = "<group>"; };
 		A7339C3D234EF59F00B4FCEC /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		A7693B88264C8F100019605C /* Cartfile.resolved */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.resolved; sourceTree = "<group>"; };
+		A7693B89264C8F100019605C /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		A7693B8B264C8F100019605C /* swift-libraries.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "swift-libraries.png"; sourceTree = "<group>"; };
+		A7693B8C264C8F100019605C /* linked-framework.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "linked-framework.png"; sourceTree = "<group>"; };
+		A7693B8D264C8F100019605C /* run-script.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "run-script.png"; sourceTree = "<group>"; };
+		A7693B91264C8F100019605C /* F50E8597-F466-3A04-A4CC-52B264B1B241.bcsymbolmap */ = {isa = PBXFileReference; lastKnownFileType = text; path = "F50E8597-F466-3A04-A4CC-52B264B1B241.bcsymbolmap"; sourceTree = "<group>"; };
+		A7693B92264C8F100019605C /* ACCA44A7-3067-372B-88EC-9F944F455649.bcsymbolmap */ = {isa = PBXFileReference; lastKnownFileType = text; path = "ACCA44A7-3067-372B-88EC-9F944F455649.bcsymbolmap"; sourceTree = "<group>"; };
+		A7693B93264C8F100019605C /* .ios_sdk.version */ = {isa = PBXFileReference; lastKnownFileType = text; path = .ios_sdk.version; sourceTree = "<group>"; };
+		A7693B94264C8F100019605C /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A7693B95264C8F100019605C /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		A7693B96264C8F100019605C /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		A7693B99264C8F100019605C /* 5fa84f44f6110b9d5716d92092c29ceb-manifest.xcbuild */ = {isa = PBXFileReference; lastKnownFileType = text; path = "5fa84f44f6110b9d5716d92092c29ceb-manifest.xcbuild"; sourceTree = "<group>"; };
+		A7693B9A264C8F100019605C /* 5fa84f44f6110b9d5716d92092c29ceb-desc.xcbuild */ = {isa = PBXFileReference; lastKnownFileType = file; path = "5fa84f44f6110b9d5716d92092c29ceb-desc.xcbuild"; sourceTree = "<group>"; };
+		A7693B9B264C8F100019605C /* build.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = build.db; sourceTree = "<group>"; };
+		A7693B9C264C8F100019605C /* BuildDescriptionCacheIndex-357b9b357a0be5764e34f3931c2f7fd0 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BuildDescriptionCacheIndex-357b9b357a0be5764e34f3931c2f7fd0"; sourceTree = "<group>"; };
+		A7693BA2264C8F100019605C /* AdnuntiusSDK-master.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = "AdnuntiusSDK-master.swiftdeps"; sourceTree = "<group>"; };
+		A7693BA3264C8F100019605C /* AdnuntiusSDK.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusSDK.dia; sourceTree = "<group>"; };
+		A7693BA4264C8F100019605C /* AdnuntiusSDK.LinkFileList */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdnuntiusSDK.LinkFileList; sourceTree = "<group>"; };
+		A7693BA5264C8F100019605C /* APIService.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = APIService.swiftdeps; sourceTree = "<group>"; };
+		A7693BA6264C8F100019605C /* Asset.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = Asset.swiftdeps; sourceTree = "<group>"; };
+		A7693BA7264C8F100019605C /* Logger~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Logger~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693BA8264C8F100019605C /* Asset~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asset~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693BA9264C8F100019605C /* Image~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Image~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693BAA264C8F100019605C /* AdnuntiusSDK~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusSDK~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693BAB264C8F100019605C /* AdnuntiusSDK.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusSDK.swiftsourceinfo; sourceTree = "<group>"; };
+		A7693BAC264C8F100019605C /* AdConfig~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdConfig~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693BAD264C8F100019605C /* AdnuntiusSDK.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AdnuntiusSDK.o; sourceTree = "<group>"; };
+		A7693BAE264C8F100019605C /* Logger~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Logger~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693BAF264C8F100019605C /* AdUnit.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdUnit.dia; sourceTree = "<group>"; };
+		A7693BB0264C8F100019605C /* AdApi.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdApi.swiftdeps; sourceTree = "<group>"; };
+		A7693BB1264C8F100019605C /* APIService.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = APIService.o; sourceTree = "<group>"; };
+		A7693BB2264C8F100019605C /* Asset~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asset~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693BB3264C8F100019605C /* AdnuntiusSDK-OutputFileMap.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "AdnuntiusSDK-OutputFileMap.json"; sourceTree = "<group>"; };
+		A7693BB4264C8F100019605C /* AdApi~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdApi~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693BB5264C8F100019605C /* Asset.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = Asset.dia; sourceTree = "<group>"; };
+		A7693BB6264C8F100019605C /* AdUnit~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdUnit~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693BB7264C8F100019605C /* AdnuntiusAdWebView~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusAdWebView~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693BB8264C8F100019605C /* AdConfig.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = AdConfig.d; sourceTree = "<group>"; };
+		A7693BB9264C8F100019605C /* Image.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = Image.dia; sourceTree = "<group>"; };
+		A7693BBA264C8F100019605C /* AdConfig.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdConfig.swiftdeps; sourceTree = "<group>"; };
+		A7693BBB264C8F100019605C /* AdnuntiusSDK.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusSDK.swiftmodule; sourceTree = "<group>"; };
+		A7693BBC264C8F100019605C /* Logger.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = Logger.d; sourceTree = "<group>"; };
+		A7693BBD264C8F100019605C /* Asset.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = Asset.d; sourceTree = "<group>"; };
+		A7693BBE264C8F100019605C /* Ad~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ad~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693BBF264C8F100019605C /* AdnuntiusSDK_vers.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = AdnuntiusSDK_vers.d; sourceTree = "<group>"; };
+		A7693BC0264C8F100019605C /* Logger~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Logger~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693BC1264C8F100019605C /* Ad.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = Ad.swiftdeps; sourceTree = "<group>"; };
+		A7693BC2264C8F100019605C /* AdnuntiusSDK_dependency_info.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusSDK_dependency_info.dat; sourceTree = "<group>"; };
+		A7693BC3264C8F100019605C /* AdnuntiusSDK_vers.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusSDK_vers.dia; sourceTree = "<group>"; };
+		A7693BC4264C8F100019605C /* Image~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Image~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693BC5264C8F100019605C /* APIService~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "APIService~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693BC6264C8F100019605C /* AdApi.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AdApi.o; sourceTree = "<group>"; };
+		A7693BC7264C8F100019605C /* AdConfig~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdConfig~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693BC8264C8F100019605C /* AdnuntiusAdWebView.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AdnuntiusAdWebView.o; sourceTree = "<group>"; };
+		A7693BC9264C8F100019605C /* AdConfig~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdConfig~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693BCA264C8F100019605C /* AdnuntiusAdWebView.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusAdWebView.dia; sourceTree = "<group>"; };
+		A7693BCB264C8F100019605C /* Ad~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ad~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693BCC264C8F100019605C /* Ad.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = Ad.d; sourceTree = "<group>"; };
+		A7693BCD264C8F100019605C /* AdnuntiusSDK-Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AdnuntiusSDK-Swift.h"; sourceTree = "<group>"; };
+		A7693BCE264C8F100019605C /* Image.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = Image.d; sourceTree = "<group>"; };
+		A7693BCF264C8F100019605C /* AdUnit.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AdUnit.o; sourceTree = "<group>"; };
+		A7693BD0264C8F100019605C /* AdnuntiusSDK.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusSDK.swiftdoc; sourceTree = "<group>"; };
+		A7693BD1264C8F100019605C /* AdUnit~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdUnit~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693BD2264C8F100019605C /* APIService~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "APIService~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693BD3264C8F100019605C /* APIService.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = APIService.dia; sourceTree = "<group>"; };
+		A7693BD4264C8F100019605C /* AdConfig.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AdConfig.o; sourceTree = "<group>"; };
+		A7693BD5264C8F100019605C /* APIService~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "APIService~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693BD6264C8F100019605C /* AdnuntiusAdWebView~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusAdWebView~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693BD7264C8F100019605C /* AdnuntiusSDK~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusSDK~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693BD8264C8F100019605C /* AdnuntiusSDK~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusSDK~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693BD9264C8F100019605C /* APIService.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = APIService.d; sourceTree = "<group>"; };
+		A7693BDA264C8F100019605C /* Asset~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asset~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693BDB264C8F100019605C /* AdnuntiusSDK.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = AdnuntiusSDK.d; sourceTree = "<group>"; };
+		A7693BDC264C8F100019605C /* AdnuntiusSDK-master.swiftdeps~moduleonly */ = {isa = PBXFileReference; lastKnownFileType = text; path = "AdnuntiusSDK-master.swiftdeps~moduleonly"; sourceTree = "<group>"; };
+		A7693BDE264C8F100019605C /* AdnuntiusSDK */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = AdnuntiusSDK; sourceTree = "<group>"; };
+		A7693BDF264C8F100019605C /* AdConfig.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdConfig.dia; sourceTree = "<group>"; };
+		A7693BE0264C8F100019605C /* Logger.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = Logger.swiftdeps; sourceTree = "<group>"; };
+		A7693BE1264C8F100019605C /* AdUnit~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdUnit~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693BE2264C8F100019605C /* AdnuntiusSDK_vers.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AdnuntiusSDK_vers.o; sourceTree = "<group>"; };
+		A7693BE3264C8F100019605C /* Ad.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ad.dia; sourceTree = "<group>"; };
+		A7693BE4264C8F100019605C /* AdApi.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdApi.dia; sourceTree = "<group>"; };
+		A7693BE5264C8F100019605C /* Ad~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ad~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693BE6264C8F100019605C /* Asset.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Asset.o; sourceTree = "<group>"; };
+		A7693BE7264C8F100019605C /* Logger.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = Logger.dia; sourceTree = "<group>"; };
+		A7693BE8264C8F100019605C /* Logger.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Logger.o; sourceTree = "<group>"; };
+		A7693BE9264C8F100019605C /* AdnuntiusAdWebView.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdnuntiusAdWebView.swiftdeps; sourceTree = "<group>"; };
+		A7693BEA264C8F100019605C /* AdUnit.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdUnit.swiftdeps; sourceTree = "<group>"; };
+		A7693BEB264C8F100019605C /* Image.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = Image.swiftdeps; sourceTree = "<group>"; };
+		A7693BEC264C8F100019605C /* AdUnit.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = AdUnit.d; sourceTree = "<group>"; };
+		A7693BED264C8F100019605C /* Image~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Image~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693BEE264C8F100019605C /* AdnuntiusSDK.SwiftFileList */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdnuntiusSDK.SwiftFileList; sourceTree = "<group>"; };
+		A7693BEF264C8F100019605C /* Image.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Image.o; sourceTree = "<group>"; };
+		A7693BF0264C8F100019605C /* AdnuntiusSDK.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdnuntiusSDK.swiftdeps; sourceTree = "<group>"; };
+		A7693BF1264C8F100019605C /* AdnuntiusAdWebView.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = AdnuntiusAdWebView.d; sourceTree = "<group>"; };
+		A7693BF2264C8F100019605C /* Ad.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Ad.o; sourceTree = "<group>"; };
+		A7693BF3264C8F100019605C /* AdnuntiusAdWebView~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusAdWebView~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693BF4264C8F100019605C /* AdApi.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = AdApi.d; sourceTree = "<group>"; };
+		A7693BF5264C8F100019605C /* AdApi~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdApi~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693BF6264C8F100019605C /* AdApi~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdApi~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693BF8264C8F100019605C /* AdnuntiusSDK-master.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = "AdnuntiusSDK-master.swiftdeps"; sourceTree = "<group>"; };
+		A7693BF9264C8F100019605C /* AdnuntiusSDK.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusSDK.dia; sourceTree = "<group>"; };
+		A7693BFA264C8F100019605C /* AdnuntiusSDK.LinkFileList */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdnuntiusSDK.LinkFileList; sourceTree = "<group>"; };
+		A7693BFB264C8F100019605C /* APIService.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = APIService.swiftdeps; sourceTree = "<group>"; };
+		A7693BFC264C8F100019605C /* Asset.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = Asset.swiftdeps; sourceTree = "<group>"; };
+		A7693BFD264C8F100019605C /* Logger~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Logger~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693BFE264C8F100019605C /* Asset~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asset~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693BFF264C8F100019605C /* Image~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Image~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693C00264C8F100019605C /* AdnuntiusSDK~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusSDK~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693C01264C8F100019605C /* AdnuntiusSDK.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusSDK.swiftsourceinfo; sourceTree = "<group>"; };
+		A7693C02264C8F100019605C /* AdConfig~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdConfig~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693C03264C8F100019605C /* AdnuntiusSDK.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AdnuntiusSDK.o; sourceTree = "<group>"; };
+		A7693C04264C8F100019605C /* Logger~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Logger~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693C05264C8F100019605C /* AdUnit.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdUnit.dia; sourceTree = "<group>"; };
+		A7693C06264C8F100019605C /* AdApi.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdApi.swiftdeps; sourceTree = "<group>"; };
+		A7693C07264C8F100019605C /* APIService.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = APIService.o; sourceTree = "<group>"; };
+		A7693C08264C8F100019605C /* Asset~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asset~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693C09264C8F100019605C /* AdnuntiusSDK-OutputFileMap.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "AdnuntiusSDK-OutputFileMap.json"; sourceTree = "<group>"; };
+		A7693C0A264C8F100019605C /* AdApi~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdApi~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693C0B264C8F100019605C /* Asset.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = Asset.dia; sourceTree = "<group>"; };
+		A7693C0C264C8F100019605C /* AdUnit~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdUnit~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693C0D264C8F100019605C /* AdnuntiusAdWebView~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusAdWebView~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693C0E264C8F100019605C /* AdConfig.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = AdConfig.d; sourceTree = "<group>"; };
+		A7693C0F264C8F100019605C /* Image.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = Image.dia; sourceTree = "<group>"; };
+		A7693C10264C8F100019605C /* AdConfig.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdConfig.swiftdeps; sourceTree = "<group>"; };
+		A7693C11264C8F100019605C /* AdnuntiusSDK.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusSDK.swiftmodule; sourceTree = "<group>"; };
+		A7693C12264C8F100019605C /* Logger.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = Logger.d; sourceTree = "<group>"; };
+		A7693C13264C8F100019605C /* Asset.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = Asset.d; sourceTree = "<group>"; };
+		A7693C14264C8F100019605C /* Ad~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ad~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693C15264C8F100019605C /* AdnuntiusSDK_vers.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = AdnuntiusSDK_vers.d; sourceTree = "<group>"; };
+		A7693C16264C8F100019605C /* Logger~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Logger~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693C17264C8F100019605C /* Ad.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = Ad.swiftdeps; sourceTree = "<group>"; };
+		A7693C18264C8F100019605C /* AdnuntiusSDK_dependency_info.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusSDK_dependency_info.dat; sourceTree = "<group>"; };
+		A7693C19264C8F100019605C /* AdnuntiusSDK_vers.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusSDK_vers.dia; sourceTree = "<group>"; };
+		A7693C1A264C8F100019605C /* Image~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Image~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693C1B264C8F100019605C /* APIService~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "APIService~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693C1C264C8F100019605C /* AdApi.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AdApi.o; sourceTree = "<group>"; };
+		A7693C1D264C8F100019605C /* AdConfig~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdConfig~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693C1E264C8F100019605C /* AdnuntiusAdWebView.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AdnuntiusAdWebView.o; sourceTree = "<group>"; };
+		A7693C1F264C8F100019605C /* AdConfig~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdConfig~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693C20264C8F100019605C /* AdnuntiusAdWebView.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusAdWebView.dia; sourceTree = "<group>"; };
+		A7693C21264C8F100019605C /* Ad~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ad~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693C22264C8F100019605C /* Ad.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = Ad.d; sourceTree = "<group>"; };
+		A7693C23264C8F100019605C /* AdnuntiusSDK-Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AdnuntiusSDK-Swift.h"; sourceTree = "<group>"; };
+		A7693C24264C8F100019605C /* Image.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = Image.d; sourceTree = "<group>"; };
+		A7693C25264C8F100019605C /* AdUnit.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AdUnit.o; sourceTree = "<group>"; };
+		A7693C26264C8F100019605C /* AdnuntiusSDK.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusSDK.swiftdoc; sourceTree = "<group>"; };
+		A7693C27264C8F100019605C /* AdUnit~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdUnit~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693C28264C8F100019605C /* APIService~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "APIService~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693C29264C8F100019605C /* APIService.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = APIService.dia; sourceTree = "<group>"; };
+		A7693C2A264C8F100019605C /* AdConfig.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AdConfig.o; sourceTree = "<group>"; };
+		A7693C2B264C8F100019605C /* APIService~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "APIService~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693C2C264C8F100019605C /* AdnuntiusAdWebView~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusAdWebView~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693C2D264C8F100019605C /* AdnuntiusSDK~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusSDK~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693C2E264C8F100019605C /* AdnuntiusSDK~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusSDK~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693C2F264C8F100019605C /* APIService.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = APIService.d; sourceTree = "<group>"; };
+		A7693C30264C8F100019605C /* Asset~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asset~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693C31264C8F100019605C /* AdnuntiusSDK.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = AdnuntiusSDK.d; sourceTree = "<group>"; };
+		A7693C32264C8F100019605C /* AdnuntiusSDK-master.swiftdeps~moduleonly */ = {isa = PBXFileReference; lastKnownFileType = text; path = "AdnuntiusSDK-master.swiftdeps~moduleonly"; sourceTree = "<group>"; };
+		A7693C34264C8F100019605C /* AdnuntiusSDK */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = AdnuntiusSDK; sourceTree = "<group>"; };
+		A7693C35264C8F100019605C /* AdConfig.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdConfig.dia; sourceTree = "<group>"; };
+		A7693C36264C8F100019605C /* Logger.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = Logger.swiftdeps; sourceTree = "<group>"; };
+		A7693C37264C8F100019605C /* AdUnit~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdUnit~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693C38264C8F100019605C /* AdnuntiusSDK_vers.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AdnuntiusSDK_vers.o; sourceTree = "<group>"; };
+		A7693C39264C8F100019605C /* Ad.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ad.dia; sourceTree = "<group>"; };
+		A7693C3A264C8F100019605C /* AdApi.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdApi.dia; sourceTree = "<group>"; };
+		A7693C3B264C8F100019605C /* Ad~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ad~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693C3C264C8F100019605C /* Asset.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Asset.o; sourceTree = "<group>"; };
+		A7693C3D264C8F100019605C /* Logger.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = Logger.dia; sourceTree = "<group>"; };
+		A7693C3E264C8F100019605C /* Logger.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Logger.o; sourceTree = "<group>"; };
+		A7693C3F264C8F100019605C /* AdnuntiusAdWebView.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdnuntiusAdWebView.swiftdeps; sourceTree = "<group>"; };
+		A7693C40264C8F100019605C /* AdUnit.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdUnit.swiftdeps; sourceTree = "<group>"; };
+		A7693C41264C8F100019605C /* Image.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = Image.swiftdeps; sourceTree = "<group>"; };
+		A7693C42264C8F100019605C /* AdUnit.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = AdUnit.d; sourceTree = "<group>"; };
+		A7693C43264C8F100019605C /* Image~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Image~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693C44264C8F100019605C /* AdnuntiusSDK.SwiftFileList */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdnuntiusSDK.SwiftFileList; sourceTree = "<group>"; };
+		A7693C45264C8F100019605C /* Image.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Image.o; sourceTree = "<group>"; };
+		A7693C46264C8F100019605C /* AdnuntiusSDK.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdnuntiusSDK.swiftdeps; sourceTree = "<group>"; };
+		A7693C47264C8F100019605C /* AdnuntiusAdWebView.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = AdnuntiusAdWebView.d; sourceTree = "<group>"; };
+		A7693C48264C8F100019605C /* Ad.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Ad.o; sourceTree = "<group>"; };
+		A7693C49264C8F100019605C /* AdnuntiusAdWebView~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusAdWebView~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693C4A264C8F100019605C /* AdApi.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = AdApi.d; sourceTree = "<group>"; };
+		A7693C4B264C8F100019605C /* AdApi~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdApi~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693C4C264C8F100019605C /* AdApi~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdApi~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693C4E264C8F100019605C /* AdnuntiusSDK-master.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = "AdnuntiusSDK-master.swiftdeps"; sourceTree = "<group>"; };
+		A7693C4F264C8F100019605C /* AdnuntiusSDK.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusSDK.dia; sourceTree = "<group>"; };
+		A7693C50264C8F100019605C /* AdnuntiusSDK.LinkFileList */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdnuntiusSDK.LinkFileList; sourceTree = "<group>"; };
+		A7693C51264C8F100019605C /* APIService.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = APIService.swiftdeps; sourceTree = "<group>"; };
+		A7693C52264C8F100019605C /* Asset.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = Asset.swiftdeps; sourceTree = "<group>"; };
+		A7693C53264C8F100019605C /* Logger~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Logger~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693C54264C8F100019605C /* Asset~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asset~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693C55264C8F100019605C /* Image~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Image~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693C56264C8F100019605C /* AdnuntiusSDK~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusSDK~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693C57264C8F100019605C /* AdnuntiusSDK.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusSDK.swiftsourceinfo; sourceTree = "<group>"; };
+		A7693C58264C8F100019605C /* AdConfig~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdConfig~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693C59264C8F100019605C /* AdnuntiusSDK.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AdnuntiusSDK.o; sourceTree = "<group>"; };
+		A7693C5A264C8F100019605C /* Logger~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Logger~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693C5B264C8F100019605C /* AdUnit.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdUnit.dia; sourceTree = "<group>"; };
+		A7693C5C264C8F100019605C /* AdApi.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdApi.swiftdeps; sourceTree = "<group>"; };
+		A7693C5D264C8F100019605C /* APIService.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = APIService.o; sourceTree = "<group>"; };
+		A7693C5E264C8F100019605C /* Asset~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asset~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693C5F264C8F100019605C /* AdnuntiusSDK-OutputFileMap.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "AdnuntiusSDK-OutputFileMap.json"; sourceTree = "<group>"; };
+		A7693C60264C8F100019605C /* AdApi~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdApi~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693C61264C8F100019605C /* Asset.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = Asset.dia; sourceTree = "<group>"; };
+		A7693C62264C8F100019605C /* AdUnit~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdUnit~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693C63264C8F100019605C /* AdnuntiusAdWebView~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusAdWebView~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693C64264C8F100019605C /* AdConfig.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = AdConfig.d; sourceTree = "<group>"; };
+		A7693C65264C8F100019605C /* Image.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = Image.dia; sourceTree = "<group>"; };
+		A7693C66264C8F100019605C /* AdConfig.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdConfig.swiftdeps; sourceTree = "<group>"; };
+		A7693C67264C8F100019605C /* AdnuntiusSDK.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusSDK.swiftmodule; sourceTree = "<group>"; };
+		A7693C68264C8F100019605C /* Logger.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = Logger.d; sourceTree = "<group>"; };
+		A7693C69264C8F100019605C /* Asset.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = Asset.d; sourceTree = "<group>"; };
+		A7693C6A264C8F100019605C /* Ad~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ad~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693C6B264C8F100019605C /* AdnuntiusSDK_vers.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = AdnuntiusSDK_vers.d; sourceTree = "<group>"; };
+		A7693C6C264C8F100019605C /* Logger~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Logger~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693C6D264C8F100019605C /* Ad.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = Ad.swiftdeps; sourceTree = "<group>"; };
+		A7693C6E264C8F100019605C /* AdnuntiusSDK_dependency_info.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusSDK_dependency_info.dat; sourceTree = "<group>"; };
+		A7693C6F264C8F100019605C /* AdnuntiusSDK_vers.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusSDK_vers.dia; sourceTree = "<group>"; };
+		A7693C70264C8F100019605C /* Image~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Image~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693C71264C8F100019605C /* APIService~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "APIService~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693C72264C8F100019605C /* AdApi.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AdApi.o; sourceTree = "<group>"; };
+		A7693C73264C8F100019605C /* AdConfig~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdConfig~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693C74264C8F100019605C /* AdnuntiusAdWebView.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AdnuntiusAdWebView.o; sourceTree = "<group>"; };
+		A7693C75264C8F100019605C /* AdConfig~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdConfig~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693C76264C8F100019605C /* AdnuntiusAdWebView.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusAdWebView.dia; sourceTree = "<group>"; };
+		A7693C77264C8F100019605C /* Ad~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ad~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693C78264C8F100019605C /* Ad.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = Ad.d; sourceTree = "<group>"; };
+		A7693C79264C8F100019605C /* AdnuntiusSDK-Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AdnuntiusSDK-Swift.h"; sourceTree = "<group>"; };
+		A7693C7A264C8F100019605C /* Image.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = Image.d; sourceTree = "<group>"; };
+		A7693C7B264C8F100019605C /* AdUnit.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AdUnit.o; sourceTree = "<group>"; };
+		A7693C7C264C8F100019605C /* AdnuntiusSDK.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusSDK.swiftdoc; sourceTree = "<group>"; };
+		A7693C7D264C8F100019605C /* AdUnit~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdUnit~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693C7E264C8F100019605C /* APIService~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "APIService~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693C7F264C8F100019605C /* APIService.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = APIService.dia; sourceTree = "<group>"; };
+		A7693C80264C8F100019605C /* AdConfig.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AdConfig.o; sourceTree = "<group>"; };
+		A7693C81264C8F100019605C /* APIService~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "APIService~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693C82264C8F100019605C /* AdnuntiusAdWebView~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusAdWebView~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693C83264C8F100019605C /* AdnuntiusSDK~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusSDK~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693C84264C8F100019605C /* AdnuntiusSDK~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusSDK~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693C85264C8F100019605C /* APIService.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = APIService.d; sourceTree = "<group>"; };
+		A7693C86264C8F100019605C /* Asset~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Asset~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693C87264C8F100019605C /* AdnuntiusSDK.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = AdnuntiusSDK.d; sourceTree = "<group>"; };
+		A7693C88264C8F100019605C /* AdnuntiusSDK-master.swiftdeps~moduleonly */ = {isa = PBXFileReference; lastKnownFileType = text; path = "AdnuntiusSDK-master.swiftdeps~moduleonly"; sourceTree = "<group>"; };
+		A7693C8A264C8F100019605C /* AdnuntiusSDK */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = AdnuntiusSDK; sourceTree = "<group>"; };
+		A7693C8B264C8F100019605C /* AdConfig.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdConfig.dia; sourceTree = "<group>"; };
+		A7693C8C264C8F100019605C /* Logger.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = Logger.swiftdeps; sourceTree = "<group>"; };
+		A7693C8D264C8F100019605C /* AdUnit~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdUnit~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693C8E264C8F100019605C /* AdnuntiusSDK_vers.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = AdnuntiusSDK_vers.o; sourceTree = "<group>"; };
+		A7693C8F264C8F100019605C /* Ad.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ad.dia; sourceTree = "<group>"; };
+		A7693C90264C8F100019605C /* AdApi.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdApi.dia; sourceTree = "<group>"; };
+		A7693C91264C8F100019605C /* Ad~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Ad~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693C92264C8F100019605C /* Asset.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Asset.o; sourceTree = "<group>"; };
+		A7693C93264C8F100019605C /* Logger.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = Logger.dia; sourceTree = "<group>"; };
+		A7693C94264C8F100019605C /* Logger.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Logger.o; sourceTree = "<group>"; };
+		A7693C95264C8F100019605C /* AdnuntiusAdWebView.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdnuntiusAdWebView.swiftdeps; sourceTree = "<group>"; };
+		A7693C96264C8F100019605C /* AdUnit.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdUnit.swiftdeps; sourceTree = "<group>"; };
+		A7693C97264C8F100019605C /* Image.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = Image.swiftdeps; sourceTree = "<group>"; };
+		A7693C98264C8F100019605C /* AdUnit.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = AdUnit.d; sourceTree = "<group>"; };
+		A7693C99264C8F100019605C /* Image~partial.swiftmodule */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Image~partial.swiftmodule"; sourceTree = "<group>"; };
+		A7693C9A264C8F100019605C /* AdnuntiusSDK.SwiftFileList */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdnuntiusSDK.SwiftFileList; sourceTree = "<group>"; };
+		A7693C9B264C8F100019605C /* Image.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Image.o; sourceTree = "<group>"; };
+		A7693C9C264C8F100019605C /* AdnuntiusSDK.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdnuntiusSDK.swiftdeps; sourceTree = "<group>"; };
+		A7693C9D264C8F100019605C /* AdnuntiusAdWebView.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = AdnuntiusAdWebView.d; sourceTree = "<group>"; };
+		A7693C9E264C8F100019605C /* Ad.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = Ad.o; sourceTree = "<group>"; };
+		A7693C9F264C8F100019605C /* AdnuntiusAdWebView~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusAdWebView~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693CA0264C8F100019605C /* AdApi.d */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.dtrace; path = AdApi.d; sourceTree = "<group>"; };
+		A7693CA1264C8F100019605C /* AdApi~partial.swiftdoc */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdApi~partial.swiftdoc"; sourceTree = "<group>"; };
+		A7693CA2264C8F100019605C /* AdApi~partial.swiftsourceinfo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdApi~partial.swiftsourceinfo"; sourceTree = "<group>"; };
+		A7693CA4264C8F100019605C /* AdnuntiusSDK_vers.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = AdnuntiusSDK_vers.c; sourceTree = "<group>"; };
+		A7693CA5264C8F100019605C /* AdnuntiusSDK-all-non-framework-target-headers.hmap */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusSDK-all-non-framework-target-headers.hmap"; sourceTree = "<group>"; };
+		A7693CA6264C8F100019605C /* AdnuntiusSDK-generated-files.hmap */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusSDK-generated-files.hmap"; sourceTree = "<group>"; };
+		A7693CA7264C8F100019605C /* AdnuntiusSDK-all-target-headers.hmap */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusSDK-all-target-headers.hmap"; sourceTree = "<group>"; };
+		A7693CA8264C8F100019605C /* AdnuntiusSDK.hmap */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusSDK.hmap; sourceTree = "<group>"; };
+		A7693CA9264C8F100019605C /* all-product-headers.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = "all-product-headers.yaml"; sourceTree = "<group>"; };
+		A7693CAA264C8F100019605C /* AdnuntiusSDK-own-target-headers.hmap */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusSDK-own-target-headers.hmap"; sourceTree = "<group>"; };
+		A7693CAB264C8F100019605C /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
+		A7693CAC264C8F100019605C /* AdnuntiusSDK-project-headers.hmap */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AdnuntiusSDK-project-headers.hmap"; sourceTree = "<group>"; };
+		A7693CAD264C8F100019605C /* AdnuntiusSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = AdnuntiusSDK.xcodeproj; sourceTree = "<group>"; };
+		A7693CB1264C8F100019605C /* AdnuntiusSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdnuntiusSDK.h; sourceTree = "<group>"; };
+		A7693CB2264C8F100019605C /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		A7693CB3264C8F100019605C /* AdnuntiusSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdnuntiusSDK.swift; sourceTree = "<group>"; };
+		A7693CB4264C8F100019605C /* AdnuntiusAdWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdnuntiusAdWebView.swift; sourceTree = "<group>"; };
+		A7693CB5264C8F100019605C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A7AB5B8A234EDA2C009E48D2 /* AdnuntiusSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdnuntiusSDK.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -76,7 +348,6 @@
 		395193DA21345ABE008F961C /* AdnuntiusSDK */ = {
 			isa = PBXGroup;
 			children = (
-				3951941E21348C52008F961C /* Models */,
 				395193DC21345ABE008F961C /* Info.plist */,
 				395193E321345ADF008F961C /* AdnuntiusSDK.swift */,
 				39519423213AFA9C008F961C /* AdnuntiusAdWebView.swift */,
@@ -89,20 +360,447 @@
 		3951941821347823008F961C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A7693B87264C8F100019605C /* ios_sdk */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		3951941E21348C52008F961C /* Models */ = {
+		A7693B87264C8F100019605C /* ios_sdk */ = {
 			isa = PBXGroup;
 			children = (
-				3951941F21348C6F008F961C /* AdUnit.swift */,
-				39143D1C21412EEB0072614B /* Ad.swift */,
-				39143D1E21412F430072614B /* Asset.swift */,
-				39143D2021412F680072614B /* Image.swift */,
-				39143D22214130A20072614B /* AdApi.swift */,
+				A7693B88264C8F100019605C /* Cartfile.resolved */,
+				A7693B89264C8F100019605C /* LICENSE */,
+				A7693B8A264C8F100019605C /* images */,
+				A7693B8E264C8F100019605C /* Carthage */,
+				A7693B94264C8F100019605C /* README.md */,
+				A7693B95264C8F100019605C /* .gitignore */,
+				A7693B96264C8F100019605C /* Package.swift */,
+				A7693B97264C8F100019605C /* build */,
+				A7693CAD264C8F100019605C /* AdnuntiusSDK.xcodeproj */,
+				A7693CB0264C8F100019605C /* AdnuntiusSDK */,
 			);
-			path = Models;
+			name = ios_sdk;
+			sourceTree = "<group>";
+		};
+		A7693B8A264C8F100019605C /* images */ = {
+			isa = PBXGroup;
+			children = (
+				A7693B8B264C8F100019605C /* swift-libraries.png */,
+				A7693B8C264C8F100019605C /* linked-framework.png */,
+				A7693B8D264C8F100019605C /* run-script.png */,
+			);
+			path = images;
+			sourceTree = "<group>";
+		};
+		A7693B8E264C8F100019605C /* Carthage */ = {
+			isa = PBXGroup;
+			children = (
+				A7693B8F264C8F100019605C /* Build */,
+			);
+			path = Carthage;
+			sourceTree = "<group>";
+		};
+		A7693B8F264C8F100019605C /* Build */ = {
+			isa = PBXGroup;
+			children = (
+				A7693B90264C8F100019605C /* iOS */,
+				A7693B93264C8F100019605C /* .ios_sdk.version */,
+			);
+			path = Build;
+			sourceTree = "<group>";
+		};
+		A7693B90264C8F100019605C /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				A7693B91264C8F100019605C /* F50E8597-F466-3A04-A4CC-52B264B1B241.bcsymbolmap */,
+				A7693B92264C8F100019605C /* ACCA44A7-3067-372B-88EC-9F944F455649.bcsymbolmap */,
+			);
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		A7693B97264C8F100019605C /* build */ = {
+			isa = PBXGroup;
+			children = (
+				A7693B98264C8F100019605C /* XCBuildData */,
+				A7693B9D264C8F100019605C /* AdnuntiusSDK.build */,
+			);
+			path = build;
+			sourceTree = "<group>";
+		};
+		A7693B98264C8F100019605C /* XCBuildData */ = {
+			isa = PBXGroup;
+			children = (
+				A7693B99264C8F100019605C /* 5fa84f44f6110b9d5716d92092c29ceb-manifest.xcbuild */,
+				A7693B9A264C8F100019605C /* 5fa84f44f6110b9d5716d92092c29ceb-desc.xcbuild */,
+				A7693B9B264C8F100019605C /* build.db */,
+				A7693B9C264C8F100019605C /* BuildDescriptionCacheIndex-357b9b357a0be5764e34f3931c2f7fd0 */,
+			);
+			path = XCBuildData;
+			sourceTree = "<group>";
+		};
+		A7693B9D264C8F100019605C /* AdnuntiusSDK.build */ = {
+			isa = PBXGroup;
+			children = (
+				A7693B9E264C8F100019605C /* Debug-iphonesimulator */,
+			);
+			path = AdnuntiusSDK.build;
+			sourceTree = "<group>";
+		};
+		A7693B9E264C8F100019605C /* Debug-iphonesimulator */ = {
+			isa = PBXGroup;
+			children = (
+				A7693B9F264C8F100019605C /* AdnuntiusSDK.build */,
+			);
+			path = "Debug-iphonesimulator";
+			sourceTree = "<group>";
+		};
+		A7693B9F264C8F100019605C /* AdnuntiusSDK.build */ = {
+			isa = PBXGroup;
+			children = (
+				A7693BA0264C8F100019605C /* Objects-normal */,
+				A7693CA3264C8F100019605C /* DerivedSources */,
+				A7693CA5264C8F100019605C /* AdnuntiusSDK-all-non-framework-target-headers.hmap */,
+				A7693CA6264C8F100019605C /* AdnuntiusSDK-generated-files.hmap */,
+				A7693CA7264C8F100019605C /* AdnuntiusSDK-all-target-headers.hmap */,
+				A7693CA8264C8F100019605C /* AdnuntiusSDK.hmap */,
+				A7693CA9264C8F100019605C /* all-product-headers.yaml */,
+				A7693CAA264C8F100019605C /* AdnuntiusSDK-own-target-headers.hmap */,
+				A7693CAB264C8F100019605C /* module.modulemap */,
+				A7693CAC264C8F100019605C /* AdnuntiusSDK-project-headers.hmap */,
+			);
+			path = AdnuntiusSDK.build;
+			sourceTree = "<group>";
+		};
+		A7693BA0264C8F100019605C /* Objects-normal */ = {
+			isa = PBXGroup;
+			children = (
+				A7693BA1264C8F100019605C /* i386 */,
+				A7693BF7264C8F100019605C /* arm64 */,
+				A7693C4D264C8F100019605C /* x86_64 */,
+			);
+			path = "Objects-normal";
+			sourceTree = "<group>";
+		};
+		A7693BA1264C8F100019605C /* i386 */ = {
+			isa = PBXGroup;
+			children = (
+				A7693BA2264C8F100019605C /* AdnuntiusSDK-master.swiftdeps */,
+				A7693BA3264C8F100019605C /* AdnuntiusSDK.dia */,
+				A7693BA4264C8F100019605C /* AdnuntiusSDK.LinkFileList */,
+				A7693BA5264C8F100019605C /* APIService.swiftdeps */,
+				A7693BA6264C8F100019605C /* Asset.swiftdeps */,
+				A7693BA7264C8F100019605C /* Logger~partial.swiftmodule */,
+				A7693BA8264C8F100019605C /* Asset~partial.swiftmodule */,
+				A7693BA9264C8F100019605C /* Image~partial.swiftdoc */,
+				A7693BAA264C8F100019605C /* AdnuntiusSDK~partial.swiftdoc */,
+				A7693BAB264C8F100019605C /* AdnuntiusSDK.swiftsourceinfo */,
+				A7693BAC264C8F100019605C /* AdConfig~partial.swiftmodule */,
+				A7693BAD264C8F100019605C /* AdnuntiusSDK.o */,
+				A7693BAE264C8F100019605C /* Logger~partial.swiftsourceinfo */,
+				A7693BAF264C8F100019605C /* AdUnit.dia */,
+				A7693BB0264C8F100019605C /* AdApi.swiftdeps */,
+				A7693BB1264C8F100019605C /* APIService.o */,
+				A7693BB2264C8F100019605C /* Asset~partial.swiftsourceinfo */,
+				A7693BB3264C8F100019605C /* AdnuntiusSDK-OutputFileMap.json */,
+				A7693BB4264C8F100019605C /* AdApi~partial.swiftmodule */,
+				A7693BB5264C8F100019605C /* Asset.dia */,
+				A7693BB6264C8F100019605C /* AdUnit~partial.swiftdoc */,
+				A7693BB7264C8F100019605C /* AdnuntiusAdWebView~partial.swiftdoc */,
+				A7693BB8264C8F100019605C /* AdConfig.d */,
+				A7693BB9264C8F100019605C /* Image.dia */,
+				A7693BBA264C8F100019605C /* AdConfig.swiftdeps */,
+				A7693BBB264C8F100019605C /* AdnuntiusSDK.swiftmodule */,
+				A7693BBC264C8F100019605C /* Logger.d */,
+				A7693BBD264C8F100019605C /* Asset.d */,
+				A7693BBE264C8F100019605C /* Ad~partial.swiftdoc */,
+				A7693BBF264C8F100019605C /* AdnuntiusSDK_vers.d */,
+				A7693BC0264C8F100019605C /* Logger~partial.swiftdoc */,
+				A7693BC1264C8F100019605C /* Ad.swiftdeps */,
+				A7693BC2264C8F100019605C /* AdnuntiusSDK_dependency_info.dat */,
+				A7693BC3264C8F100019605C /* AdnuntiusSDK_vers.dia */,
+				A7693BC4264C8F100019605C /* Image~partial.swiftsourceinfo */,
+				A7693BC5264C8F100019605C /* APIService~partial.swiftdoc */,
+				A7693BC6264C8F100019605C /* AdApi.o */,
+				A7693BC7264C8F100019605C /* AdConfig~partial.swiftsourceinfo */,
+				A7693BC8264C8F100019605C /* AdnuntiusAdWebView.o */,
+				A7693BC9264C8F100019605C /* AdConfig~partial.swiftdoc */,
+				A7693BCA264C8F100019605C /* AdnuntiusAdWebView.dia */,
+				A7693BCB264C8F100019605C /* Ad~partial.swiftmodule */,
+				A7693BCC264C8F100019605C /* Ad.d */,
+				A7693BCD264C8F100019605C /* AdnuntiusSDK-Swift.h */,
+				A7693BCE264C8F100019605C /* Image.d */,
+				A7693BCF264C8F100019605C /* AdUnit.o */,
+				A7693BD0264C8F100019605C /* AdnuntiusSDK.swiftdoc */,
+				A7693BD1264C8F100019605C /* AdUnit~partial.swiftsourceinfo */,
+				A7693BD2264C8F100019605C /* APIService~partial.swiftsourceinfo */,
+				A7693BD3264C8F100019605C /* APIService.dia */,
+				A7693BD4264C8F100019605C /* AdConfig.o */,
+				A7693BD5264C8F100019605C /* APIService~partial.swiftmodule */,
+				A7693BD6264C8F100019605C /* AdnuntiusAdWebView~partial.swiftmodule */,
+				A7693BD7264C8F100019605C /* AdnuntiusSDK~partial.swiftmodule */,
+				A7693BD8264C8F100019605C /* AdnuntiusSDK~partial.swiftsourceinfo */,
+				A7693BD9264C8F100019605C /* APIService.d */,
+				A7693BDA264C8F100019605C /* Asset~partial.swiftdoc */,
+				A7693BDB264C8F100019605C /* AdnuntiusSDK.d */,
+				A7693BDC264C8F100019605C /* AdnuntiusSDK-master.swiftdeps~moduleonly */,
+				A7693BDD264C8F100019605C /* Binary */,
+				A7693BDF264C8F100019605C /* AdConfig.dia */,
+				A7693BE0264C8F100019605C /* Logger.swiftdeps */,
+				A7693BE1264C8F100019605C /* AdUnit~partial.swiftmodule */,
+				A7693BE2264C8F100019605C /* AdnuntiusSDK_vers.o */,
+				A7693BE3264C8F100019605C /* Ad.dia */,
+				A7693BE4264C8F100019605C /* AdApi.dia */,
+				A7693BE5264C8F100019605C /* Ad~partial.swiftsourceinfo */,
+				A7693BE6264C8F100019605C /* Asset.o */,
+				A7693BE7264C8F100019605C /* Logger.dia */,
+				A7693BE8264C8F100019605C /* Logger.o */,
+				A7693BE9264C8F100019605C /* AdnuntiusAdWebView.swiftdeps */,
+				A7693BEA264C8F100019605C /* AdUnit.swiftdeps */,
+				A7693BEB264C8F100019605C /* Image.swiftdeps */,
+				A7693BEC264C8F100019605C /* AdUnit.d */,
+				A7693BED264C8F100019605C /* Image~partial.swiftmodule */,
+				A7693BEE264C8F100019605C /* AdnuntiusSDK.SwiftFileList */,
+				A7693BEF264C8F100019605C /* Image.o */,
+				A7693BF0264C8F100019605C /* AdnuntiusSDK.swiftdeps */,
+				A7693BF1264C8F100019605C /* AdnuntiusAdWebView.d */,
+				A7693BF2264C8F100019605C /* Ad.o */,
+				A7693BF3264C8F100019605C /* AdnuntiusAdWebView~partial.swiftsourceinfo */,
+				A7693BF4264C8F100019605C /* AdApi.d */,
+				A7693BF5264C8F100019605C /* AdApi~partial.swiftdoc */,
+				A7693BF6264C8F100019605C /* AdApi~partial.swiftsourceinfo */,
+			);
+			path = i386;
+			sourceTree = "<group>";
+		};
+		A7693BDD264C8F100019605C /* Binary */ = {
+			isa = PBXGroup;
+			children = (
+				A7693BDE264C8F100019605C /* AdnuntiusSDK */,
+			);
+			path = Binary;
+			sourceTree = "<group>";
+		};
+		A7693BF7264C8F100019605C /* arm64 */ = {
+			isa = PBXGroup;
+			children = (
+				A7693BF8264C8F100019605C /* AdnuntiusSDK-master.swiftdeps */,
+				A7693BF9264C8F100019605C /* AdnuntiusSDK.dia */,
+				A7693BFA264C8F100019605C /* AdnuntiusSDK.LinkFileList */,
+				A7693BFB264C8F100019605C /* APIService.swiftdeps */,
+				A7693BFC264C8F100019605C /* Asset.swiftdeps */,
+				A7693BFD264C8F100019605C /* Logger~partial.swiftmodule */,
+				A7693BFE264C8F100019605C /* Asset~partial.swiftmodule */,
+				A7693BFF264C8F100019605C /* Image~partial.swiftdoc */,
+				A7693C00264C8F100019605C /* AdnuntiusSDK~partial.swiftdoc */,
+				A7693C01264C8F100019605C /* AdnuntiusSDK.swiftsourceinfo */,
+				A7693C02264C8F100019605C /* AdConfig~partial.swiftmodule */,
+				A7693C03264C8F100019605C /* AdnuntiusSDK.o */,
+				A7693C04264C8F100019605C /* Logger~partial.swiftsourceinfo */,
+				A7693C05264C8F100019605C /* AdUnit.dia */,
+				A7693C06264C8F100019605C /* AdApi.swiftdeps */,
+				A7693C07264C8F100019605C /* APIService.o */,
+				A7693C08264C8F100019605C /* Asset~partial.swiftsourceinfo */,
+				A7693C09264C8F100019605C /* AdnuntiusSDK-OutputFileMap.json */,
+				A7693C0A264C8F100019605C /* AdApi~partial.swiftmodule */,
+				A7693C0B264C8F100019605C /* Asset.dia */,
+				A7693C0C264C8F100019605C /* AdUnit~partial.swiftdoc */,
+				A7693C0D264C8F100019605C /* AdnuntiusAdWebView~partial.swiftdoc */,
+				A7693C0E264C8F100019605C /* AdConfig.d */,
+				A7693C0F264C8F100019605C /* Image.dia */,
+				A7693C10264C8F100019605C /* AdConfig.swiftdeps */,
+				A7693C11264C8F100019605C /* AdnuntiusSDK.swiftmodule */,
+				A7693C12264C8F100019605C /* Logger.d */,
+				A7693C13264C8F100019605C /* Asset.d */,
+				A7693C14264C8F100019605C /* Ad~partial.swiftdoc */,
+				A7693C15264C8F100019605C /* AdnuntiusSDK_vers.d */,
+				A7693C16264C8F100019605C /* Logger~partial.swiftdoc */,
+				A7693C17264C8F100019605C /* Ad.swiftdeps */,
+				A7693C18264C8F100019605C /* AdnuntiusSDK_dependency_info.dat */,
+				A7693C19264C8F100019605C /* AdnuntiusSDK_vers.dia */,
+				A7693C1A264C8F100019605C /* Image~partial.swiftsourceinfo */,
+				A7693C1B264C8F100019605C /* APIService~partial.swiftdoc */,
+				A7693C1C264C8F100019605C /* AdApi.o */,
+				A7693C1D264C8F100019605C /* AdConfig~partial.swiftsourceinfo */,
+				A7693C1E264C8F100019605C /* AdnuntiusAdWebView.o */,
+				A7693C1F264C8F100019605C /* AdConfig~partial.swiftdoc */,
+				A7693C20264C8F100019605C /* AdnuntiusAdWebView.dia */,
+				A7693C21264C8F100019605C /* Ad~partial.swiftmodule */,
+				A7693C22264C8F100019605C /* Ad.d */,
+				A7693C23264C8F100019605C /* AdnuntiusSDK-Swift.h */,
+				A7693C24264C8F100019605C /* Image.d */,
+				A7693C25264C8F100019605C /* AdUnit.o */,
+				A7693C26264C8F100019605C /* AdnuntiusSDK.swiftdoc */,
+				A7693C27264C8F100019605C /* AdUnit~partial.swiftsourceinfo */,
+				A7693C28264C8F100019605C /* APIService~partial.swiftsourceinfo */,
+				A7693C29264C8F100019605C /* APIService.dia */,
+				A7693C2A264C8F100019605C /* AdConfig.o */,
+				A7693C2B264C8F100019605C /* APIService~partial.swiftmodule */,
+				A7693C2C264C8F100019605C /* AdnuntiusAdWebView~partial.swiftmodule */,
+				A7693C2D264C8F100019605C /* AdnuntiusSDK~partial.swiftmodule */,
+				A7693C2E264C8F100019605C /* AdnuntiusSDK~partial.swiftsourceinfo */,
+				A7693C2F264C8F100019605C /* APIService.d */,
+				A7693C30264C8F100019605C /* Asset~partial.swiftdoc */,
+				A7693C31264C8F100019605C /* AdnuntiusSDK.d */,
+				A7693C32264C8F100019605C /* AdnuntiusSDK-master.swiftdeps~moduleonly */,
+				A7693C33264C8F100019605C /* Binary */,
+				A7693C35264C8F100019605C /* AdConfig.dia */,
+				A7693C36264C8F100019605C /* Logger.swiftdeps */,
+				A7693C37264C8F100019605C /* AdUnit~partial.swiftmodule */,
+				A7693C38264C8F100019605C /* AdnuntiusSDK_vers.o */,
+				A7693C39264C8F100019605C /* Ad.dia */,
+				A7693C3A264C8F100019605C /* AdApi.dia */,
+				A7693C3B264C8F100019605C /* Ad~partial.swiftsourceinfo */,
+				A7693C3C264C8F100019605C /* Asset.o */,
+				A7693C3D264C8F100019605C /* Logger.dia */,
+				A7693C3E264C8F100019605C /* Logger.o */,
+				A7693C3F264C8F100019605C /* AdnuntiusAdWebView.swiftdeps */,
+				A7693C40264C8F100019605C /* AdUnit.swiftdeps */,
+				A7693C41264C8F100019605C /* Image.swiftdeps */,
+				A7693C42264C8F100019605C /* AdUnit.d */,
+				A7693C43264C8F100019605C /* Image~partial.swiftmodule */,
+				A7693C44264C8F100019605C /* AdnuntiusSDK.SwiftFileList */,
+				A7693C45264C8F100019605C /* Image.o */,
+				A7693C46264C8F100019605C /* AdnuntiusSDK.swiftdeps */,
+				A7693C47264C8F100019605C /* AdnuntiusAdWebView.d */,
+				A7693C48264C8F100019605C /* Ad.o */,
+				A7693C49264C8F100019605C /* AdnuntiusAdWebView~partial.swiftsourceinfo */,
+				A7693C4A264C8F100019605C /* AdApi.d */,
+				A7693C4B264C8F100019605C /* AdApi~partial.swiftdoc */,
+				A7693C4C264C8F100019605C /* AdApi~partial.swiftsourceinfo */,
+			);
+			path = arm64;
+			sourceTree = "<group>";
+		};
+		A7693C33264C8F100019605C /* Binary */ = {
+			isa = PBXGroup;
+			children = (
+				A7693C34264C8F100019605C /* AdnuntiusSDK */,
+			);
+			path = Binary;
+			sourceTree = "<group>";
+		};
+		A7693C4D264C8F100019605C /* x86_64 */ = {
+			isa = PBXGroup;
+			children = (
+				A7693C4E264C8F100019605C /* AdnuntiusSDK-master.swiftdeps */,
+				A7693C4F264C8F100019605C /* AdnuntiusSDK.dia */,
+				A7693C50264C8F100019605C /* AdnuntiusSDK.LinkFileList */,
+				A7693C51264C8F100019605C /* APIService.swiftdeps */,
+				A7693C52264C8F100019605C /* Asset.swiftdeps */,
+				A7693C53264C8F100019605C /* Logger~partial.swiftmodule */,
+				A7693C54264C8F100019605C /* Asset~partial.swiftmodule */,
+				A7693C55264C8F100019605C /* Image~partial.swiftdoc */,
+				A7693C56264C8F100019605C /* AdnuntiusSDK~partial.swiftdoc */,
+				A7693C57264C8F100019605C /* AdnuntiusSDK.swiftsourceinfo */,
+				A7693C58264C8F100019605C /* AdConfig~partial.swiftmodule */,
+				A7693C59264C8F100019605C /* AdnuntiusSDK.o */,
+				A7693C5A264C8F100019605C /* Logger~partial.swiftsourceinfo */,
+				A7693C5B264C8F100019605C /* AdUnit.dia */,
+				A7693C5C264C8F100019605C /* AdApi.swiftdeps */,
+				A7693C5D264C8F100019605C /* APIService.o */,
+				A7693C5E264C8F100019605C /* Asset~partial.swiftsourceinfo */,
+				A7693C5F264C8F100019605C /* AdnuntiusSDK-OutputFileMap.json */,
+				A7693C60264C8F100019605C /* AdApi~partial.swiftmodule */,
+				A7693C61264C8F100019605C /* Asset.dia */,
+				A7693C62264C8F100019605C /* AdUnit~partial.swiftdoc */,
+				A7693C63264C8F100019605C /* AdnuntiusAdWebView~partial.swiftdoc */,
+				A7693C64264C8F100019605C /* AdConfig.d */,
+				A7693C65264C8F100019605C /* Image.dia */,
+				A7693C66264C8F100019605C /* AdConfig.swiftdeps */,
+				A7693C67264C8F100019605C /* AdnuntiusSDK.swiftmodule */,
+				A7693C68264C8F100019605C /* Logger.d */,
+				A7693C69264C8F100019605C /* Asset.d */,
+				A7693C6A264C8F100019605C /* Ad~partial.swiftdoc */,
+				A7693C6B264C8F100019605C /* AdnuntiusSDK_vers.d */,
+				A7693C6C264C8F100019605C /* Logger~partial.swiftdoc */,
+				A7693C6D264C8F100019605C /* Ad.swiftdeps */,
+				A7693C6E264C8F100019605C /* AdnuntiusSDK_dependency_info.dat */,
+				A7693C6F264C8F100019605C /* AdnuntiusSDK_vers.dia */,
+				A7693C70264C8F100019605C /* Image~partial.swiftsourceinfo */,
+				A7693C71264C8F100019605C /* APIService~partial.swiftdoc */,
+				A7693C72264C8F100019605C /* AdApi.o */,
+				A7693C73264C8F100019605C /* AdConfig~partial.swiftsourceinfo */,
+				A7693C74264C8F100019605C /* AdnuntiusAdWebView.o */,
+				A7693C75264C8F100019605C /* AdConfig~partial.swiftdoc */,
+				A7693C76264C8F100019605C /* AdnuntiusAdWebView.dia */,
+				A7693C77264C8F100019605C /* Ad~partial.swiftmodule */,
+				A7693C78264C8F100019605C /* Ad.d */,
+				A7693C79264C8F100019605C /* AdnuntiusSDK-Swift.h */,
+				A7693C7A264C8F100019605C /* Image.d */,
+				A7693C7B264C8F100019605C /* AdUnit.o */,
+				A7693C7C264C8F100019605C /* AdnuntiusSDK.swiftdoc */,
+				A7693C7D264C8F100019605C /* AdUnit~partial.swiftsourceinfo */,
+				A7693C7E264C8F100019605C /* APIService~partial.swiftsourceinfo */,
+				A7693C7F264C8F100019605C /* APIService.dia */,
+				A7693C80264C8F100019605C /* AdConfig.o */,
+				A7693C81264C8F100019605C /* APIService~partial.swiftmodule */,
+				A7693C82264C8F100019605C /* AdnuntiusAdWebView~partial.swiftmodule */,
+				A7693C83264C8F100019605C /* AdnuntiusSDK~partial.swiftmodule */,
+				A7693C84264C8F100019605C /* AdnuntiusSDK~partial.swiftsourceinfo */,
+				A7693C85264C8F100019605C /* APIService.d */,
+				A7693C86264C8F100019605C /* Asset~partial.swiftdoc */,
+				A7693C87264C8F100019605C /* AdnuntiusSDK.d */,
+				A7693C88264C8F100019605C /* AdnuntiusSDK-master.swiftdeps~moduleonly */,
+				A7693C89264C8F100019605C /* Binary */,
+				A7693C8B264C8F100019605C /* AdConfig.dia */,
+				A7693C8C264C8F100019605C /* Logger.swiftdeps */,
+				A7693C8D264C8F100019605C /* AdUnit~partial.swiftmodule */,
+				A7693C8E264C8F100019605C /* AdnuntiusSDK_vers.o */,
+				A7693C8F264C8F100019605C /* Ad.dia */,
+				A7693C90264C8F100019605C /* AdApi.dia */,
+				A7693C91264C8F100019605C /* Ad~partial.swiftsourceinfo */,
+				A7693C92264C8F100019605C /* Asset.o */,
+				A7693C93264C8F100019605C /* Logger.dia */,
+				A7693C94264C8F100019605C /* Logger.o */,
+				A7693C95264C8F100019605C /* AdnuntiusAdWebView.swiftdeps */,
+				A7693C96264C8F100019605C /* AdUnit.swiftdeps */,
+				A7693C97264C8F100019605C /* Image.swiftdeps */,
+				A7693C98264C8F100019605C /* AdUnit.d */,
+				A7693C99264C8F100019605C /* Image~partial.swiftmodule */,
+				A7693C9A264C8F100019605C /* AdnuntiusSDK.SwiftFileList */,
+				A7693C9B264C8F100019605C /* Image.o */,
+				A7693C9C264C8F100019605C /* AdnuntiusSDK.swiftdeps */,
+				A7693C9D264C8F100019605C /* AdnuntiusAdWebView.d */,
+				A7693C9E264C8F100019605C /* Ad.o */,
+				A7693C9F264C8F100019605C /* AdnuntiusAdWebView~partial.swiftsourceinfo */,
+				A7693CA0264C8F100019605C /* AdApi.d */,
+				A7693CA1264C8F100019605C /* AdApi~partial.swiftdoc */,
+				A7693CA2264C8F100019605C /* AdApi~partial.swiftsourceinfo */,
+			);
+			path = x86_64;
+			sourceTree = "<group>";
+		};
+		A7693C89264C8F100019605C /* Binary */ = {
+			isa = PBXGroup;
+			children = (
+				A7693C8A264C8F100019605C /* AdnuntiusSDK */,
+			);
+			path = Binary;
+			sourceTree = "<group>";
+		};
+		A7693CA3264C8F100019605C /* DerivedSources */ = {
+			isa = PBXGroup;
+			children = (
+				A7693CA4264C8F100019605C /* AdnuntiusSDK_vers.c */,
+			);
+			path = DerivedSources;
+			sourceTree = "<group>";
+		};
+		A7693CAE264C8F100019605C /* Products */ = {
+			isa = PBXGroup;
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A7693CB0264C8F100019605C /* AdnuntiusSDK */ = {
+			isa = PBXGroup;
+			children = (
+				A7693CB1264C8F100019605C /* AdnuntiusSDK.h */,
+				A7693CB2264C8F100019605C /* Logger.swift */,
+				A7693CB3264C8F100019605C /* AdnuntiusSDK.swift */,
+				A7693CB4264C8F100019605C /* AdnuntiusAdWebView.swift */,
+				A7693CB5264C8F100019605C /* Info.plist */,
+			);
+			path = AdnuntiusSDK;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -165,6 +863,12 @@
 			mainGroup = 395193CE21345ABE008F961C;
 			productRefGroup = 395193D921345ABE008F961C /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = A7693CAE264C8F100019605C /* Products */;
+					ProjectRef = A7693CAD264C8F100019605C /* AdnuntiusSDK.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				395193D721345ABE008F961C /* AdnuntiusSDK */,
@@ -204,14 +908,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39143D2121412F680072614B /* Image.swift in Sources */,
 				A7339C3E234EF59F00B4FCEC /* Logger.swift in Sources */,
 				395193E421345ADF008F961C /* AdnuntiusSDK.swift in Sources */,
-				39143D1D21412EEB0072614B /* Ad.swift in Sources */,
 				39519424213AFA9C008F961C /* AdnuntiusAdWebView.swift in Sources */,
-				39143D23214130A20072614B /* AdApi.swift in Sources */,
-				39143D1F21412F430072614B /* Asset.swift in Sources */,
-				3951942021348C6F008F961C /* AdUnit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,7 +1049,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.4.2;
+				CURRENT_PROJECT_VERSION = 1.5.1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = DG59465FT9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -364,7 +1063,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.2;
+				MARKETING_VERSION = 1.5.1;
 				PRODUCT_BUNDLE_IDENTIFIER = Adnuntius.AdnuntiusSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -382,7 +1081,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.4.2;
+				CURRENT_PROJECT_VERSION = 1.5.1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = DG59465FT9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -396,7 +1095,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.2;
+				MARKETING_VERSION = 1.5.1;
 				PRODUCT_BUNDLE_IDENTIFIER = Adnuntius.AdnuntiusSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

@@ -78,6 +78,8 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         }
     }
 
+    // we direct the window.console to the app, but also we still
+    // send it to the console log in the browser
     adnSdkShim.handleConsole = function(method, args) {
         var message = Array.prototype.slice.apply(args).join(' ')
         adnSdkShim.adnAdnuntiusMessage({
@@ -87,32 +89,31 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         })
         adnSdkShim.console[method](message)
     }
-
+    
     adnSdkShim.onVisible = function(args) {
-        console.log("onVisible:" + JSON.stringify(args))
+        // console.log("onVisible:" + JSON.stringify(args))
     }
 
     adnSdkShim.onViewable = function(args) {
-        console.log("onViewable:" + JSON.stringify(args))
+        // console.log("onViewable:" + JSON.stringify(args))
     }
 
     adnSdkShim.onPageLoad = function(args) {
-        console.log("onPageLoad:" + JSON.stringify(args))
-    }
-
-    adnSdkShim.onImpressionResponse = function(args) {
-        console.log("onImpressionResponse:" + JSON.stringify(args))
+        // console.log("onPageLoad:" + JSON.stringify(args))
 
         adnSdkShim.adnAdnuntiusMessage({
                               type: "impression",
                               id: args.auId || "",
                               target: args.targetId || "",
                               adCount: args.retAdCount || 0,
-                              height: args.retAdsH || 0,
-                              width: args.retAdsH || 0
+                              height: args.h || 0,
+                              width: args.w || 0
         })
     }
 
+    adnSdkShim.onImpressionResponse = function(args) {
+        // console.log("onImpressionResponse:" + JSON.stringify(args))
+    }
 
     window.console = {
         log: function() {
