@@ -44,9 +44,38 @@ Because the SDK is Swift based, if you are including it as a framework into your
 
 Currently, only a single adUnit can be specified in the adUnits array structure, but otherwise you can pass in any of the ad unit configuration allowed by adn.js 
 
+https://docs.adnuntius.com/adnuntius-advertising/requesting-ads/intro/adn-request
+
+#### No Cookies support
+
 From SDK version 1.5.0 onwards we support specifying noCookies: true or useCookies: false at the global level (not under the adUnits config)
 
-https://docs.adnuntius.com/adnuntius-advertising/requesting-ads/intro/adn-request
+```swift
+let config = [
+    "adUnits": [
+          ["auId": "000000000006f450", "auW": 200, "kv": [["version": "6s"]]
+      ]
+    ],
+    "useCookies": false
+] as [String : Any]
+```
+
+#### Live Preview support
+
+This is probably mostly useful for development, but if you want to force a line item / creative combo to appear in your web view, you can specify lpl and lpc parameters
+at global level (not under the adUnits config).   
+
+```swift
+let config = [
+    "adUnits": [
+          ["auId": "000000000006f450", "auW": 200, "kv": [["version": "6s"]]
+      ]
+    ],
+    "useCookies": false,
+    "lpl": "line item id",
+    "lpc": "creative id"
+] as [String : Any]
+```
 
 ### Swift
 
@@ -74,13 +103,15 @@ And then load the ad of your choice using loadAd:
     override func viewDidLoad() {
         super.viewDidLoad() 
         
-        let configResult = adView.loadAd([
-              "adUnits": [
-                    ["auId": "000000000006f450", "auW": 200, "kv": [["version": "6s"]]
-                ]
-              ],
-              "useCookies": false
-            ], completionHandler: self)
+        let config = [
+            "adUnits": [
+                  ["auId": "000000000006f450", "auW": 200, "kv": [["version": "6s"]]
+              ]
+            ],
+            "useCookies": false
+        ] as [String : Any]
+        
+        let configResult = adView.loadAd(config, completionHandler: self)
         if !configResult {
             print("Config is wrong, check the log")
         }

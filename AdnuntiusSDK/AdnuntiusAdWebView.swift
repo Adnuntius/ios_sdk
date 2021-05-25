@@ -4,11 +4,16 @@
 
 import WebKit
 
-private struct JsonAdUnitString {
+private struct LivePreviewConfig {
+    let lpl: String
+    let lpc: String
+}
+
+private struct AdRequestConfig {
     let auId: String
-    let data: Data
     let adUnitsJson: String
     let otherJson: String
+    let lp: LivePreviewConfig?
 }
 
 @objc public protocol AdLoadCompletionHandler {
@@ -206,12 +211,16 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         
         Logger.debug("Html Request: " + script)
         
-        self.loadHTMLString(script, baseURL: URL(string: AdnuntiusAdWebView.BASE_URL))
+        var baseUrl: String = AdnuntiusAdWebView.BASE_URL
+        if jsonData.lp != nil {
+            baseUrl = AdnuntiusAdWebView.BASE_URL + "?adn-lp-li=" + jsonData.lp!.lpl + "&adn-lp-c=" + jsonData.lp!.lpc
+        }
+        self.loadHTMLString(script, baseURL: URL(string: baseUrl))
         
         return true
     }
     
-    private func parseConfig(_ config: [String: Any]) -> JsonAdUnitString? {
+    private func parseConfig(_ config: [String: Any]) -> AdRequestConfig? {
         guard let adUnits = config["adUnits"] as? [[String : Any]] else {
             Logger.error("Malformed request: missing an adUnits section")
             return nil
@@ -238,6 +247,11 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
             return nil
         }
         
+        var lp: LivePreviewConfig? = nil
+        if let lpl = config["lpl"] as? String, let lpc = config["lpc"] as? String {
+            lp = LivePreviewConfig(lpl: lpl, lpc: lpc)
+        }
+        
         // support the adn.js noCookies parameter, as well as the ad server useCookies
         // to provide support for loadFromApi customers migrating over
         var otherJsonText = ""
@@ -250,7 +264,8 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         }
         Logger.debug("Json Request: " + adUnitsJsonText)
         Logger.debug("Other Request: " + otherJsonText)
-        return JsonAdUnitString(auId: auId, data: jsonData, adUnitsJson: adUnitsJsonText, otherJson: otherJsonText)
+        
+        return AdRequestConfig(auId: auId, adUnitsJson: adUnitsJsonText, otherJson: otherJsonText, lp: lp)
     }
 
     open func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
@@ -314,19 +329,22 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
                      decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         let url = navigationAction.request.url!
         let navigationType = navigationAction.navigationType
-
-        if url.absoluteString == "about:blank" || url.absoluteString == AdnuntiusAdWebView.BASE_URL {
+        let urlAbsoluteString = url.absoluteString
+        
+        if urlAbsoluteString == "about:blank"
+            || urlAbsoluteString == AdnuntiusAdWebView.BASE_URL
+            || urlAbsoluteString.contains(AdnuntiusAdWebView.BASE_URL + "?") { // allows for query parameters added to the base url, like for live preview
             decisionHandler(.allow)
             return
         }
         
         if (navigationType == .linkActivated) {
-            Logger.debug("Normal Click Url: " + url.absoluteString)
+            Logger.debug("Normal Click Url: " + urlAbsoluteString)
             doClick(url)
             decisionHandler(.cancel)
             return
         } else if (navigationType == .other) {
-            Logger.debug("Other Click Url: " + url.absoluteString)
+            Logger.debug("Other Click Url: " + urlAbsoluteString)
             doClick(url)
             decisionHandler(.cancel)
             return
