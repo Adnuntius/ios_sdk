@@ -42,7 +42,7 @@ Because the SDK is Swift based, if you are including it as a framework into your
 
 ### loadAd format
 
-Currently, only a single adUnit can be specified in the adUnits array structure, but otherwise you can pass in any of the ad unit configuration allowed by adn.js 
+Only a single adUnit can be specified in the adUnits array structure, otherwise you can use any of the parameters supported by adn.js within the adUnit request.
 
 https://docs.adnuntius.com/adnuntius-advertising/requesting-ads/intro/adn-request
 
