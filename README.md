@@ -10,27 +10,22 @@ Use Carthage cli to build the AdnuntiusSDK.framework and import into your projec
 github "Adnuntius/ios_sdk" == 1.5.2
 ```
 
-Run `carthage update`
+Run `carthage update --use-xcframeworks`
 
-### XCode 12 Workaround
+### Migrating from Framework bundles
 
-Carthage has some issues handling XCode 12, for the time being you can work around this by creating a carthage.sh as documented at
-https://github.com/Carthage/Carthage/blob/master/Documentation/Xcode12Workaround.md
+Its pretty easy and carthage has the instructions you need.    All the samples have been migrated to use XCFrameworks, which also allows us to get rid of the Xcode 12 workaround
 
-And then run the `./carthage.sh update` command.   If you have complaints about XCode compatibility, run the `Product -> Clean Build Folder` to refresh the
-Carthage generated artifacts.
+https://github.com/Carthage/Carthage#building-platform-independent-xcframeworks-xcode-12-and-above
+
+An important thing to note, is the Run Script build step is not required and should be deleted when migrating to using XCFrameworks.
 
 ### Add to your Project
 
-After carthage update is completed, the framework must be added to your project as a linked framework.  Drag and drop the Carthage/Build/iOS/AdnuntiusSDK.framework onto your project.
+After carthage update is completed, the AdnuntiusSDK.xcframework must be added to your project as a embedded and signed framework.  
+Drag and drop the Carthage/Build/AdnuntiusSDK.xcframework onto your project.
 
 ![Linked Framework](images/linked-framework.png)
-
-Add a Run Script Build Phase to your project, make sure you fill in the Input File section too:
-
-![Build Phases Run Script](images/run-script.png)
-
-For more information about Carthage, refer to [If you're building for iOS, tvOS, or watchOS](https://github.com/Carthage/Carthage#if-youre-building-for-ios-tvos-or-watchos)
 
 ### Objective C Only
 
