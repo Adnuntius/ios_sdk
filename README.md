@@ -14,7 +14,7 @@ Run `carthage update --use-xcframeworks`
 
 ### Migrating from Framework bundles
 
-Its pretty easy and carthage has the instructions you need.    All the samples have been migrated to use XCFrameworks, which also allows us to get rid of the Xcode 12 workaround
+Carthage should be upgraded to at least version 0.38.  Its pretty easy and carthage has the instructions you need.    All the samples have been migrated to use XCFrameworks, which also allows us to get rid of the Xcode 12 workaround
 
 https://github.com/Carthage/Carthage#building-platform-independent-xcframeworks-xcode-12-and-above
 
