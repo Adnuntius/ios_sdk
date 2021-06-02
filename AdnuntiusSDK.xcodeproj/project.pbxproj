@@ -46,7 +46,7 @@
 		A7693B99264C8F100019605C /* 5fa84f44f6110b9d5716d92092c29ceb-manifest.xcbuild */ = {isa = PBXFileReference; lastKnownFileType = text; path = "5fa84f44f6110b9d5716d92092c29ceb-manifest.xcbuild"; sourceTree = "<group>"; };
 		A7693B9A264C8F100019605C /* 5fa84f44f6110b9d5716d92092c29ceb-desc.xcbuild */ = {isa = PBXFileReference; lastKnownFileType = file; path = "5fa84f44f6110b9d5716d92092c29ceb-desc.xcbuild"; sourceTree = "<group>"; };
 		A7693B9B264C8F100019605C /* build.db */ = {isa = PBXFileReference; lastKnownFileType = file; path = build.db; sourceTree = "<group>"; };
-		A7693B9C264C8F100019605C /* BuildDescriptionCacheIndex-357b9b357a0be5764e34f3931c2f7fd0 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "BuildDescriptionCacheIndex-357b9b357a0be5764e34f3931c2f7fd0"; sourceTree = "<group>"; };
+		A7693B9C264C8F100019605C /* BuildDescriptionCacheIndex-357b9b357a0be5764e34f3931c2f7fd0 */ = {isa = PBXFileReference; lastKnownFileType = text; path = "BuildDescriptionCacheIndex-357b9b357a0be5764e34f3931c2f7fd0"; sourceTree = "<group>"; };
 		A7693BA2264C8F100019605C /* AdnuntiusSDK-master.swiftdeps */ = {isa = PBXFileReference; lastKnownFileType = text; path = "AdnuntiusSDK-master.swiftdeps"; sourceTree = "<group>"; };
 		A7693BA3264C8F100019605C /* AdnuntiusSDK.dia */ = {isa = PBXFileReference; lastKnownFileType = file; path = AdnuntiusSDK.dia; sourceTree = "<group>"; };
 		A7693BA4264C8F100019605C /* AdnuntiusSDK.LinkFileList */ = {isa = PBXFileReference; lastKnownFileType = text; path = AdnuntiusSDK.LinkFileList; sourceTree = "<group>"; };
@@ -1049,7 +1049,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.5.2;
+				CURRENT_PROJECT_VERSION = 1.5.3;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = DG59465FT9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1063,7 +1063,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.2;
+				MARKETING_VERSION = 1.5.3;
 				PRODUCT_BUNDLE_IDENTIFIER = Adnuntius.AdnuntiusSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1081,7 +1081,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.5.2;
+				CURRENT_PROJECT_VERSION = 1.5.3;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = DG59465FT9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1095,7 +1095,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.2;
+				MARKETING_VERSION = 1.5.3;
 				PRODUCT_BUNDLE_IDENTIFIER = Adnuntius.AdnuntiusSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

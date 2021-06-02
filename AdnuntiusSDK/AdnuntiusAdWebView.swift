@@ -96,28 +96,45 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
     }
     
     adnSdkShim.onVisible = function(args) {
-        // console.log("onVisible:" + JSON.stringify(args))
+        //console.log("onVisible:" + JSON.stringify(args))
     }
 
+    adnSdkShim.onRestyle = function(args) {
+        //console.log("onRestyle:" + JSON.stringify(args))
+    }
+    
     adnSdkShim.onViewable = function(args) {
-        // console.log("onViewable:" + JSON.stringify(args))
+        //console.log("onViewable:" + JSON.stringify(args))
     }
 
     adnSdkShim.onPageLoad = function(args) {
-        // console.log("onPageLoad:" + JSON.stringify(args))
+        console.log("onPageLoad:" + JSON.stringify(args))
+
+        var clientHeight = document.getElementById(args.targetId).clientHeight || 0
+        var height = args.h || args.retAdsH || 0
+
+        if (height == 0 || (clientHeight > 0 && height > clientHeight)) {
+            height = clientHeight
+        }
+        
+        var width = args.w || args.retAdsW || 0
+        var clientWidth = document.getElementById(args.targetId).clientWidth || 0
+        if (width == 0 || (clientWidth > 0 && height > clientWidth)) {
+            width = clientWidth
+        }
 
         adnSdkShim.adnAdnuntiusMessage({
                               type: "impression",
                               id: args.auId || "",
                               target: args.targetId || "",
                               adCount: args.retAdCount || 0,
-                              height: args.h || 0,
-                              width: args.w || 0
+                              height: height,
+                              width: width
         })
     }
 
     adnSdkShim.onImpressionResponse = function(args) {
-        // console.log("onImpressionResponse:" + JSON.stringify(args))
+        //console.log("onImpressionResponse:" + JSON.stringify(args))
     }
 
     window.console = {
@@ -200,6 +217,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
                         onImpressionResponse: adnSdkShim.onImpressionResponse,
                         onVisible: adnSdkShim.onVisible,
                         onViewable: adnSdkShim.onViewable,
+                        onRestyle: adnSdkShim.onRestyle,
                         adUnits: \(jsonData.adUnitsJson)
                         \(jsonData.otherJson)
                     });
@@ -369,7 +387,14 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
     
     private func doOnAdResponse(_ width: Int, _ height: Int) {
         if (self.completionHandler != nil) {
-            self.completionHandler?.onAdResponse(self, width, height)
+            if (width == 0) {
+                let frameWidth = Int(self.frame.width)
+                Logger.debug("Ad Response: frameWidth=\(frameWidth), heigth=\(height)")
+                self.completionHandler?.onAdResponse(self, frameWidth, height)
+            } else {
+                Logger.debug("Ad Response: width=\(width), heigth=\(height)")
+                self.completionHandler?.onAdResponse(self, width, height)
+            }
         }
     }
     
