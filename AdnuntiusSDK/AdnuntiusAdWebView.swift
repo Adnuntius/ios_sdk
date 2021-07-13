@@ -350,6 +350,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         let urlAbsoluteString = url.absoluteString
         
         if urlAbsoluteString == "about:blank"
+            || urlAbsoluteString == "about:srcdoc"
             || urlAbsoluteString == AdnuntiusAdWebView.BASE_URL
             || urlAbsoluteString.contains(AdnuntiusAdWebView.BASE_URL + "?") { // allows for query parameters added to the base url, like for live preview
             decisionHandler(.allow)
