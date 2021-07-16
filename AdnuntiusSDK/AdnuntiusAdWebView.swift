@@ -157,6 +157,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
     private func setupCallbacks(_ completionHandler: AdLoadCompletionHandler) {
         self.completionHandler = completionHandler
         self.navigationDelegate = self
+        self.uiDelegate = self
         
         let metaScript = WKUserScript(source: AdnuntiusAdWebView.META_VIEWPORT_JS,
                                             injectionTime: WKUserScriptInjectionTime.atDocumentEnd, forMainFrameOnly: true)
@@ -286,6 +287,18 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         return AdRequestConfig(auId: auId, adUnitsJson: adUnitsJsonText, otherJson: otherJsonText, lp: lp)
     }
 
+    // https://nemecek.be/blog/1/how-to-open-target_blank-links-in-wkwebview-in-ios
+    open func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
+                 for navigationAction: WKNavigationAction,
+                 windowFeatures: WKWindowFeatures) -> WKWebView? {
+        if let frame = navigationAction.targetFrame,
+            frame.isMainFrame {
+            return nil
+        }
+        webView.load(navigationAction.request)
+        return nil
+    }
+    
     open func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
