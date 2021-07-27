@@ -16,6 +16,13 @@ private struct AdRequestConfig {
     let lp: LivePreviewConfig?
 }
 
+// an optional protocol which can be used to respond to javascript calls
+// on the new adnSdkHandler javascript object.   For this version we
+// are adding support for closeWindow, later versions may add additional methods
+@objc public protocol AdnSdkHandler {
+    func onClose(_ view: AdnuntiusAdWebView)
+}
+
 @objc public protocol AdLoadCompletionHandler {
     // if this is called, it means no ads were matched
     func onNoAdResponse(_ view: AdnuntiusAdWebView)
@@ -31,7 +38,9 @@ private struct AdRequestConfig {
 
 public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
     private var completionHandler: AdLoadCompletionHandler?
+    private var adnSdkHandler: AdnSdkHandler?
 
+    private static var INTERNAL_ADNUNTIUS_MESSAGE_HANDLER = "intAdnuntiusMessageHandler"
     private static var ADNUNTIUS_MESSAGE_HANDLER = "adnuntiusMessageHandler"
     private static var BASE_URL = "https://delivery.adnuntius.com/"
 
@@ -48,6 +57,13 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
     """
     
     private static var ADNUNTIUS_AJAX_SHIM_JS = """
+    var adnSdkHandler = Object()
+    adnSdkHandler.closeView = function() {
+        if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.\(ADNUNTIUS_MESSAGE_HANDLER)) {
+              window.webkit.messageHandlers.\(ADNUNTIUS_MESSAGE_HANDLER).postMessage({type: "closeView"})
+        }
+    }
+    
     var adnSdkShim = new Object()
     adnSdkShim.open = XMLHttpRequest.prototype.open
     adnSdkShim.send = XMLHttpRequest.prototype.send
@@ -78,8 +94,8 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
     }
 
     adnSdkShim.adnAdnuntiusMessage = function(message) {
-        if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.\(ADNUNTIUS_MESSAGE_HANDLER)) {
-              window.webkit.messageHandlers.\(ADNUNTIUS_MESSAGE_HANDLER).postMessage(message)
+        if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.\(INTERNAL_ADNUNTIUS_MESSAGE_HANDLER)) {
+              window.webkit.messageHandlers.\(INTERNAL_ADNUNTIUS_MESSAGE_HANDLER).postMessage(message)
         }
     }
 
@@ -154,8 +170,10 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         return self
     }
 
-    private func setupCallbacks(_ completionHandler: AdLoadCompletionHandler) {
+    private func setupCallbacks(_ completionHandler: AdLoadCompletionHandler, adnSdkHandler: AdnSdkHandler? = nil) {
         self.completionHandler = completionHandler
+        self.adnSdkHandler = adnSdkHandler
+
         self.navigationDelegate = self
         self.uiDelegate = self
         
@@ -167,6 +185,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         
         self.configuration.userContentController.addUserScript(metaScript)
         self.configuration.userContentController.addUserScript(shimScript)
+        self.configuration.userContentController.add(self, name: AdnuntiusAdWebView.INTERNAL_ADNUNTIUS_MESSAGE_HANDLER)
         self.configuration.userContentController.add(self, name: AdnuntiusAdWebView.ADNUNTIUS_MESSAGE_HANDLER)
     }
 
@@ -186,8 +205,8 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
      Return false if the initial validation of the config parameter fails, otherwise all other signals will be via
      the completion handler
      */
-    @objc open func loadAd(_ config: [String: Any], completionHandler: AdLoadCompletionHandler) -> Bool {
-        setupCallbacks(completionHandler)
+    @objc open func loadAd(_ config: [String: Any], completionHandler: AdLoadCompletionHandler, adnSdkHandler: AdnSdkHandler? = nil) -> Bool {
+        setupCallbacks(completionHandler, adnSdkHandler: adnSdkHandler)
 
         guard let jsonData = self.parseConfig(config) else {
             return false
@@ -321,7 +340,6 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         }
 
         let type = dict["type"] as! String
-        
         if type == "console" {
             let method = dict["method"] as! String
             let message = dict["message"] as! String
@@ -352,6 +370,10 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
             } else {
                 Logger.debug("Url Request: \(requestUrl)")
             }
+        } else if (type == "closeView") {
+            if (self.adnSdkHandler != nil) {
+                self.adnSdkHandler?.onClose(self)
+            }
         }
     }
 
@@ -361,7 +383,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         let url = navigationAction.request.url!
         let navigationType = navigationAction.navigationType
         let urlAbsoluteString = url.absoluteString
-        
+
         if urlAbsoluteString == "about:blank"
             || urlAbsoluteString == "about:srcdoc"
             || urlAbsoluteString == AdnuntiusAdWebView.BASE_URL

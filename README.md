@@ -7,7 +7,7 @@ Adnuntius iOS SDK is an ios sdk which allows business partners to embed Adnuntiu
 Use Carthage cli to build the AdnuntiusSDK.framework and import into your project.   Create or modify your Cartfile to include:
 
 ```
-github "Adnuntius/ios_sdk" == 1.5.5
+github "Adnuntius/ios_sdk" == 1.5.6
 ```
 
 Run `carthage update --use-xcframeworks`
@@ -40,6 +40,25 @@ Because the SDK is Swift based, if you are including it as a framework into your
 Only a single adUnit can be specified in the adUnits array structure, otherwise you can use any of the parameters supported by adn.js within the adUnit request.
 
 https://docs.adnuntius.com/adnuntius-advertising/requesting-ads/intro/adn-request
+
+### Close View from Layout
+
+Its now possible to close a iOS web view from an adnuntius layout via javascript.
+
+If you want to be able to close ad view from javascript, we have added a new javascript object and method you can call from javascript which provides this functionality:
+
+if (typeof parent.adnSdkHandler != "undefined") {
+    parent.adnSdkHandler.closeView();
+}
+
+You need to extend your View Controller to implement the AdnSdkHandler and implement the corresponding onClose function:
+
+```swift
+func onClose(_ view: AdnuntiusAdWebView) {
+    Logger.debug("Here is close")
+    // add code here to close the view
+}
+```
 
 #### No Cookies support
 
