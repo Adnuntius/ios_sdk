@@ -47,9 +47,11 @@ Its now possible to close a iOS web view from an adnuntius layout via javascript
 
 If you want to be able to close ad view from javascript, we have added a new javascript object and method you can call from javascript which provides this functionality:
 
+```javascript
 if (typeof parent.adnSdkHandler != "undefined") {
     parent.adnSdkHandler.closeView();
 }
+```
 
 You need to extend your View Controller to implement the AdnSdkHandler and implement the corresponding onClose function:
 
