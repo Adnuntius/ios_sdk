@@ -7,7 +7,7 @@ Adnuntius iOS SDK is an ios sdk which allows business partners to embed Adnuntiu
 Use Carthage cli to build the AdnuntiusSDK.framework and import into your project.   Create or modify your Cartfile to include:
 
 ```
-github "Adnuntius/ios_sdk" == 1.5.6
+github "Adnuntius/ios_sdk" == 1.5.7
 ```
 
 Run `carthage update --use-xcframeworks`

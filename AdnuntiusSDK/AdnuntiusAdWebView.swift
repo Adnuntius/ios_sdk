@@ -397,11 +397,6 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
             doClick(url)
             decisionHandler(.cancel)
             return
-        } else if (navigationType == .other) {
-            Logger.debug("Other Click Url: " + urlAbsoluteString)
-            doClick(url)
-            decisionHandler(.cancel)
-            return
         } else {
             decisionHandler(.allow)
             return
