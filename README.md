@@ -33,6 +33,10 @@ Drag and drop the Carthage/Build/AdnuntiusSDK.xcframework onto your project.
 
 Because the SDK is Swift based, if you are including it as a framework into your objective c application, the Swift libraries must also be included, they are not by default.
 
+#### 1.5.6 Breaking Change
+
+Inadvertantly a change was made to the loadAd interface which breaks Objective-C client code only.   For XCode the default adnSdkHandler:nil is applied automatically, but unfortunately for Objective-C this did not work.    So you will need to change any calls to loadAd to add ` adnSdkHandler:nil`  For those still using the old deprecated `loadFromConfig` and `loadFromApi` you don't actually need to change anything for your code to work against the new version of the SDK.
+
 ## Integrating
 
 ### loadAd format
