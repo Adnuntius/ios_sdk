@@ -182,7 +182,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
                 
         let shimScript = WKUserScript(source: AdnuntiusAdWebView.ADNUNTIUS_AJAX_SHIM_JS,
                                     injectionTime: WKUserScriptInjectionTime.atDocumentStart, forMainFrameOnly: true)
-        
+
         self.configuration.userContentController.addUserScript(metaScript)
         self.configuration.userContentController.addUserScript(shimScript)
         self.configuration.userContentController.add(self, name: AdnuntiusAdWebView.INTERNAL_ADNUNTIUS_MESSAGE_HANDLER)
@@ -310,11 +310,16 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
     open func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
                  for navigationAction: WKNavigationAction,
                  windowFeatures: WKWindowFeatures) -> WKWebView? {
+        
         if let frame = navigationAction.targetFrame,
             frame.isMainFrame {
+            Logger.debug("Open Link in same window")
             return nil
         }
-        webView.load(navigationAction.request)
+        
+        let url = navigationAction.request.url!
+        Logger.debug("Open link in new window")
+        doClick(url)
         return nil
     }
     
