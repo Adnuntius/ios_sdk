@@ -39,7 +39,8 @@ private struct AdRequestConfig {
 public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
     private var completionHandler: AdLoadCompletionHandler?
     private var adnSdkHandler: AdnSdkHandler?
-
+    private var debug: Bool = false
+    
     private static var INTERNAL_ADNUNTIUS_MESSAGE_HANDLER = "intAdnuntiusMessageHandler"
     private static var ADNUNTIUS_MESSAGE_HANDLER = "adnuntiusMessageHandler"
     private static var BASE_URL = "https://delivery.adnuntius.com/"
@@ -170,6 +171,10 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         return self
     }
 
+    @objc open func enableDebug(_ debug: Bool) {
+        self.debug = debug
+    }
+    
     private func setupCallbacks(_ completionHandler: AdLoadCompletionHandler, adnSdkHandler: AdnSdkHandler? = nil) {
         self.completionHandler = completionHandler
         self.adnSdkHandler = adnSdkHandler
@@ -247,7 +252,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         </html>
         """
         
-        Logger.debug("Html Request: " + script)
+        debug("Html Request: " + script)
         
         var baseUrl: String = AdnuntiusAdWebView.BASE_URL
         if jsonData.lp != nil {
@@ -260,28 +265,28 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
     
     private func parseConfig(_ config: [String: Any]) -> AdRequestConfig? {
         guard let adUnits = config["adUnits"] as? [[String : Any]] else {
-            Logger.error("Malformed request: missing an adUnits section")
+            error("Malformed request: missing an adUnits section")
             return nil
         }
         
         guard adUnits.count == 1 else {
-            Logger.error("Malformed request: Too many adUnits in adUnits section")
+            error("Malformed request: Too many adUnits in adUnits section")
             return nil
         }
 
         let adUnit = adUnits.first!
         guard let auId = adUnit["auId"] as? String else {
-            Logger.error("Malformed request: Missing an auId for the adUnit")
+            error("Malformed request: Missing an auId for the adUnit")
             return nil
         }
 
         guard let jsonData = try? JSONSerialization.data(withJSONObject: adUnits) else {
-            Logger.error("Malformed request: Could not parse request")
+            error("Malformed request: Could not parse request")
             return nil
         }
         
         guard let adUnitsJsonText = String(data: jsonData, encoding: .utf8) else {
-            Logger.error("Malformed request: Could not parse request")
+            error("Malformed request: Could not parse request")
             return nil
         }
         
@@ -311,8 +316,8 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
             otherJsonText.append(", userId: \"\(userId)\"")
         }
         
-        Logger.debug("Json Request: " + adUnitsJsonText)
-        Logger.debug("Other Request: " + otherJsonText)
+        debug("Json Request: " + adUnitsJsonText)
+        debug("Other Request: " + otherJsonText)
         
         return AdRequestConfig(auId: auId, adUnitsJson: adUnitsJsonText, otherJson: otherJsonText, lp: lp)
     }
@@ -324,12 +329,12 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         
         if let frame = navigationAction.targetFrame,
             frame.isMainFrame {
-            Logger.debug("Open Link in same window")
+            debug("Open Link in same window")
             return nil
         }
         
         let url = navigationAction.request.url!
-        Logger.debug("Open link in new window")
+        debug("Open link in new window")
         doClick(url)
         return nil
     }
@@ -365,7 +370,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
             if message.contains("Unable to find HTML element") {
                 self.doOnFailure(message)
             } else {
-                Logger.debug("\(method): \(message)")
+                debug("\(method): \(message)")
             }
         } else if (type == "impression") {
             let adCount = dict["adCount"] as! Int
@@ -384,7 +389,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
                 let statusText = dict["statusText"] as! String
                 self.doOnFailure("\(httpStatus.description) [\(statusText)] error returned for \(requestUrl)")
             } else {
-                Logger.debug("Url Request: \(requestUrl)")
+                debug("Url Request: \(requestUrl)")
             }
         } else if (type == "closeView") {
             if (self.adnSdkHandler != nil) {
@@ -409,7 +414,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         }
         
         if (navigationType == .linkActivated) {
-            Logger.debug("Normal Click Url: " + urlAbsoluteString)
+            debug("Normal Click Url: " + urlAbsoluteString)
             doClick(url)
             decisionHandler(.cancel)
             return
@@ -426,7 +431,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
     }
     
     private func doOnFailure(_ message: String) {
-        Logger.debug(message)
+        debug(message)
         if (self.completionHandler != nil) {
             self.completionHandler?.onFailure(self, message)
         }
@@ -436,10 +441,10 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         if (self.completionHandler != nil) {
             if (width == 0) {
                 let frameWidth = Int(self.frame.width)
-                Logger.debug("Ad Response: frameWidth=\(frameWidth), heigth=\(height)")
+                debug("Ad Response: frameWidth=\(frameWidth), heigth=\(height)")
                 self.completionHandler?.onAdResponse(self, frameWidth, height)
             } else {
-                Logger.debug("Ad Response: width=\(width), heigth=\(height)")
+                debug("Ad Response: width=\(width), heigth=\(height)")
                 self.completionHandler?.onAdResponse(self, width, height)
             }
         }
@@ -451,5 +456,15 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         } else {
             UIApplication.shared.openURL(url)
         }
+    }
+    
+    private func debug(_ message: String) {
+        if self.debug {
+            print("DEBUG: \(message)")
+        }
+    }
+    
+    private func error(_ message: String) {
+        print("ERROR: \(message)")
     }
 }

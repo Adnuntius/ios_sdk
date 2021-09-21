@@ -23,7 +23,6 @@
 /* Begin PBXBuildFile section */
 		395193E421345ADF008F961C /* AdnuntiusSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395193E321345ADF008F961C /* AdnuntiusSDK.swift */; };
 		39519424213AFA9C008F961C /* AdnuntiusAdWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39519423213AFA9C008F961C /* AdnuntiusAdWebView.swift */; };
-		A7339C3E234EF59F00B4FCEC /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7339C3D234EF59F00B4FCEC /* Logger.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,7 +30,6 @@
 		395193DC21345ABE008F961C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		395193E321345ADF008F961C /* AdnuntiusSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdnuntiusSDK.swift; sourceTree = "<group>"; };
 		39519423213AFA9C008F961C /* AdnuntiusAdWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdnuntiusAdWebView.swift; sourceTree = "<group>"; };
-		A7339C3D234EF59F00B4FCEC /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		A7693B88264C8F100019605C /* Cartfile.resolved */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cartfile.resolved; sourceTree = "<group>"; };
 		A7693B89264C8F100019605C /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		A7693B8B264C8F100019605C /* swift-libraries.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "swift-libraries.png"; sourceTree = "<group>"; };
@@ -352,7 +350,6 @@
 				395193E321345ADF008F961C /* AdnuntiusSDK.swift */,
 				39519423213AFA9C008F961C /* AdnuntiusAdWebView.swift */,
 				A7AB5B8A234EDA2C009E48D2 /* AdnuntiusSDK.h */,
-				A7339C3D234EF59F00B4FCEC /* Logger.swift */,
 			);
 			path = AdnuntiusSDK;
 			sourceTree = "<group>";
@@ -908,7 +905,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A7339C3E234EF59F00B4FCEC /* Logger.swift in Sources */,
 				395193E421345ADF008F961C /* AdnuntiusSDK.swift in Sources */,
 				39519424213AFA9C008F961C /* AdnuntiusAdWebView.swift in Sources */,
 			);
@@ -1049,7 +1045,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.5.9;
+				CURRENT_PROJECT_VERSION = 1.6.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = DG59465FT9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1063,7 +1059,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.9;
+				MARKETING_VERSION = 1.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Adnuntius.AdnuntiusSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1081,7 +1077,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.5.9;
+				CURRENT_PROJECT_VERSION = 1.6.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = DG59465FT9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1095,7 +1091,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.9;
+				MARKETING_VERSION = 1.6.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Adnuntius.AdnuntiusSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
