@@ -295,11 +295,22 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         var otherJsonText = ""
         if let noCookies = config["noCookies"] {
             if noCookies as! Bool == true {
-                otherJsonText = ", useCookies: false"
+                otherJsonText.append(", useCookies: false")
             }
         } else if let useCookies = config["useCookies"] {
-            otherJsonText = ", useCookies: \(useCookies)"
+            if useCookies as! Bool == false {
+                otherJsonText.append(", useCookies: false")
+            }
         }
+        
+        if let sessionId = config["sessionId"] as? String {
+            otherJsonText.append(", sessionId: \"\(sessionId)\"")
+        }
+        
+        if let userId = config["userId"] as? String {
+            otherJsonText.append(", userId: \"\(userId)\"")
+        }
+        
         Logger.debug("Json Request: " + adUnitsJsonText)
         Logger.debug("Other Request: " + otherJsonText)
         
