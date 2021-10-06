@@ -21,11 +21,30 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		26366F3B270D49A4002B3576 /* AdnuntiusSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26366F3A270D49A4002B3576 /* AdnuntiusSDKTests.swift */; };
+		26366F3D270D49A4002B3576 /* AdnuntiusSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 395193D821345ABE008F961C /* AdnuntiusSDK.framework */; };
+		26366F44270D49DA002B3576 /* RequestConfigParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26366F43270D49DA002B3576 /* RequestConfigParser.swift */; };
+		26366F46270D4BAC002B3576 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26366F45270D4BAC002B3576 /* Logger.swift */; };
 		395193E421345ADF008F961C /* AdnuntiusSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395193E321345ADF008F961C /* AdnuntiusSDK.swift */; };
 		39519424213AFA9C008F961C /* AdnuntiusAdWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39519423213AFA9C008F961C /* AdnuntiusAdWebView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		26366F3E270D49A4002B3576 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 395193CF21345ABE008F961C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 395193D721345ABE008F961C;
+			remoteInfo = AdnuntiusSDK;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		26366F38270D49A4002B3576 /* AdnuntiusSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AdnuntiusSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		26366F3A270D49A4002B3576 /* AdnuntiusSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdnuntiusSDKTests.swift; sourceTree = "<group>"; };
+		26366F3C270D49A4002B3576 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		26366F43270D49DA002B3576 /* RequestConfigParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestConfigParser.swift; sourceTree = "<group>"; };
+		26366F45270D4BAC002B3576 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		395193D821345ABE008F961C /* AdnuntiusSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AdnuntiusSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		395193DC21345ABE008F961C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		395193E321345ADF008F961C /* AdnuntiusSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdnuntiusSDK.swift; sourceTree = "<group>"; };
@@ -316,6 +335,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		26366F35270D49A4002B3576 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				26366F3D270D49A4002B3576 /* AdnuntiusSDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		395193D421345ABE008F961C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -326,10 +353,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		26366F39270D49A4002B3576 /* AdnuntiusSDKTests */ = {
+			isa = PBXGroup;
+			children = (
+				26366F3A270D49A4002B3576 /* AdnuntiusSDKTests.swift */,
+				26366F3C270D49A4002B3576 /* Info.plist */,
+			);
+			path = AdnuntiusSDKTests;
+			sourceTree = "<group>";
+		};
 		395193CE21345ABE008F961C = {
 			isa = PBXGroup;
 			children = (
 				395193DA21345ABE008F961C /* AdnuntiusSDK */,
+				26366F39270D49A4002B3576 /* AdnuntiusSDKTests */,
 				395193D921345ABE008F961C /* Products */,
 				3951941821347823008F961C /* Frameworks */,
 			);
@@ -339,6 +376,7 @@
 			isa = PBXGroup;
 			children = (
 				395193D821345ABE008F961C /* AdnuntiusSDK.framework */,
+				26366F38270D49A4002B3576 /* AdnuntiusSDKTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -350,6 +388,8 @@
 				395193E321345ADF008F961C /* AdnuntiusSDK.swift */,
 				39519423213AFA9C008F961C /* AdnuntiusAdWebView.swift */,
 				A7AB5B8A234EDA2C009E48D2 /* AdnuntiusSDK.h */,
+				26366F43270D49DA002B3576 /* RequestConfigParser.swift */,
+				26366F45270D4BAC002B3576 /* Logger.swift */,
 			);
 			path = AdnuntiusSDK;
 			sourceTree = "<group>";
@@ -813,6 +853,24 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		26366F37270D49A4002B3576 /* AdnuntiusSDKTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 26366F42270D49A4002B3576 /* Build configuration list for PBXNativeTarget "AdnuntiusSDKTests" */;
+			buildPhases = (
+				26366F34270D49A4002B3576 /* Sources */,
+				26366F35270D49A4002B3576 /* Frameworks */,
+				26366F36270D49A4002B3576 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				26366F3F270D49A4002B3576 /* PBXTargetDependency */,
+			);
+			name = AdnuntiusSDKTests;
+			productName = AdnuntiusSDKTests;
+			productReference = 26366F38270D49A4002B3576 /* AdnuntiusSDKTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		395193D721345ABE008F961C /* AdnuntiusSDK */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 395193E021345ABE008F961C /* Build configuration list for PBXNativeTarget "AdnuntiusSDK" */;
@@ -837,10 +895,13 @@
 		395193CF21345ABE008F961C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1100;
+				LastSwiftUpdateCheck = 1250;
 				LastUpgradeCheck = 0940;
 				ORGANIZATIONNAME = "Adnuntius AS";
 				TargetAttributes = {
+					26366F37270D49A4002B3576 = {
+						CreatedOnToolsVersion = 12.5;
+					};
 					395193D721345ABE008F961C = {
 						CreatedOnToolsVersion = 9.4.1;
 						LastSwiftMigration = 0940;
@@ -870,11 +931,19 @@
 			targets = (
 				395193D721345ABE008F961C /* AdnuntiusSDK */,
 				395193E521345B8E008F961C /* UniversalAdnuntiusSDK */,
+				26366F37270D49A4002B3576 /* AdnuntiusSDKTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		26366F36270D49A4002B3576 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		395193D621345ABE008F961C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -901,18 +970,77 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		26366F34270D49A4002B3576 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				26366F3B270D49A4002B3576 /* AdnuntiusSDKTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		395193D321345ABE008F961C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				395193E421345ADF008F961C /* AdnuntiusSDK.swift in Sources */,
+				26366F44270D49DA002B3576 /* RequestConfigParser.swift in Sources */,
 				39519424213AFA9C008F961C /* AdnuntiusAdWebView.swift in Sources */,
+				26366F46270D4BAC002B3576 /* Logger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		26366F3F270D49A4002B3576 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 395193D721345ABE008F961C /* AdnuntiusSDK */;
+			targetProxy = 26366F3E270D49A4002B3576 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		26366F40270D49A4002B3576 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = AdnuntiusSDKTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.adnuntius.AdnuntiusSDKTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		26366F41270D49A4002B3576 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = AdnuntiusSDKTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.adnuntius.AdnuntiusSDKTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		395193DE21345ABE008F961C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1045,7 +1173,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.6.0;
+				CURRENT_PROJECT_VERSION = 1.7.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = DG59465FT9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1059,7 +1187,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6.0;
+				MARKETING_VERSION = 1.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Adnuntius.AdnuntiusSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1077,7 +1205,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.6.0;
+				CURRENT_PROJECT_VERSION = 1.7.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = DG59465FT9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1091,7 +1219,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.6.0;
+				MARKETING_VERSION = 1.7.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Adnuntius.AdnuntiusSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1123,6 +1251,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		26366F42270D49A4002B3576 /* Build configuration list for PBXNativeTarget "AdnuntiusSDKTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				26366F40270D49A4002B3576 /* Debug */,
+				26366F41270D49A4002B3576 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		395193D221345ABE008F961C /* Build configuration list for PBXProject "AdnuntiusSDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
