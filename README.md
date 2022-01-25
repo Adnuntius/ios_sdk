@@ -1,22 +1,20 @@
-# Adnuntius iOS SDK
+# Adnuntius SDK
 
-Adnuntius iOS SDK is an ios sdk which allows business partners to embed Adnuntius ads in their native ios applications.
+Adnuntius iOS SDK for iOS enables embedded Ads into your iOS applications.
 
-## Wiki Information
+## The Wiki
 
-- [Building the SDK for your project with Carthage](https://github.com/Adnuntius/ios_sdk/wiki/Building)
-- [Integrating the SDK into your code](https://github.com/Adnuntius/ios_sdk/wiki/Integrating)
-- [Upgrading and Backwards Compatibility Issues](https://github.com/Adnuntius/ios_sdk/wiki/Upgrading)
+All the information about integrating and using the SDK is on the [Wiki](https://github.com/Adnuntius/ios_sdk/wiki)
 
-# Examples
+## Examples
 
-Some examples of using the SDK are available from https://github.com/Adnuntius/ios_sdk_examples
+Some examples of using the SDK are available [here](https://github.com/Adnuntius/ios_sdk_examples)
 
 ## Bugs, Issues and Support
 
 This SDK is a work in progress and we release new versions as needed to fix bugs or add functionality our customers require.  You
 can raise issues on github or via zen desk at https://admin.adnuntius.com
 
-# License
+## License
 
 This project uses the Apache 2 License.  Refer to the LICENSE file.
