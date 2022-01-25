@@ -8,28 +8,96 @@
 
 import Foundation
 
+public struct InternalAdRequest {
+    public let script: String
+    public let baseUrl: String
+    
+    public init(_ script: String, _ baseUrl: String) {
+        self.script = script
+        self.baseUrl = baseUrl
+    }
+}
 
-public struct LivePreviewConfig {
+public class LivePreviewConfig {
     public let lpl: String
     public let lpc: String
     
-    public init(lpl: String, lpc: String) {
+    public init(_ lpl: String, _ lpc: String) {
         self.lpl = lpl
         self.lpc = lpc
     }
 }
 
-public struct AdRequestConfig {
+@objc public class AdRequest: NSObject {
     public let auId: String
-    public let adUnitsJson: String
-    public let otherJson: String
-    public let lp: LivePreviewConfig?
+    public var auH: String?
+    public var auW: String?
+    public var kv: [String: [String]]?
+    public var c: [String]?
+    public var userId: String?
+    public var useCookies: Bool?
+    public var sessionId: String?
+    public var consentString: String?
+    public var globalParameters: [String: String]?
+    public var livePreview: LivePreviewConfig?
     
-    public init(auId: String, adUnitsJson: String, otherJson: String, lp: LivePreviewConfig?) {
+    @objc public init(_ auId: String) {
         self.auId = auId
-        self.adUnitsJson = adUnitsJson
-        self.otherJson = otherJson
-        self.lp = lp
+    }
+
+    @objc public func userId(_ userId: String) {
+        self.userId = userId
+    }
+    
+    @objc public func sessionId(_ sessionId: String) {
+        self.sessionId = sessionId
+    }
+    
+    @objc public func consentString(_ consentString: String) {
+        self.consentString = consentString
+    }
+    
+    @objc public func useCookies(_ useCookies: Bool) {
+        self.useCookies = useCookies
+    }
+    
+    @objc public func width(_ auW: String) {
+        self.auW = auW
+    }
+    
+    @objc public func height(_ auH: String) {
+        self.auH = auH
+    }
+    
+    @objc public func category(_ category: String) {
+        if self.c == nil {
+            self.c = [category]
+        } else {
+            self.c!.append(category)
+        }
+    }
+    
+    @objc public func keyValue(_ key: String, _ value: String) {
+        if self.kv == nil {
+            self.kv = [:]
+        }
+        
+        if self.kv![key] != nil {
+            self.kv![key]!.append(value)
+        } else {
+            self.kv![key] = [value]
+        }
+    }
+    
+    @objc public func globalParameter(_ key: String, _ value: String) {
+        if self.globalParameters == nil {
+            self.globalParameters = [:]
+        }
+        self.globalParameters![key] = value
+    }
+    
+    @objc public func livePreview(_ lineItemId: String, _ creativeId : String) {
+        self.livePreview = LivePreviewConfig(lineItemId, creativeId)
     }
 }
 
@@ -40,7 +108,10 @@ public class RequestConfigParser {
         self.logger = logger
     }
     
-    open func parseConfig(_ config: [String: Any]) -> AdRequestConfig? {
+    /**
+     Parse deprecated config format
+     */
+    open func parseConfig(_ config: [String: Any]) -> AdRequest? {
         var localConfig = config
         
         guard let adUnits = localConfig["adUnits"] as? [[String : Any]] else {
@@ -64,21 +135,37 @@ public class RequestConfigParser {
             logger.error("Malformed request: kv cannot be an array")
             return nil
         }
+
+        let request = AdRequest(auId)
         
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: adUnits) else {
-            logger.error("Malformed request: Could not parse request")
-            return nil
+        if let kvs = adUnit["kv"] as? [String: [String]] {
+            request.kv = kvs
+        } else if let kvs = adUnit["kv"] as? [String: String] {
+            for key in kvs.keys.sorted() {
+                request.keyValue(key, kvs[key]!)
+            }
         }
         
-        guard let adUnitsJsonText = String(data: jsonData, encoding: .utf8) else {
-            logger.error("Malformed request: Could not parse request")
-            return nil
+        if let c = adUnit["c"] as? [String] {
+            request.c = c
+        }
+        
+        if let c = adUnit["c"] as? String {
+            request.c = [c]
+        }
+        
+        if let auH = adUnit["auH"] as? String {
+            request.auH = auH
+        }
+        
+        if let auH = adUnit["auW"] as? String {
+            request.auH = auH
         }
         localConfig["adUnits"] = nil
         
-        var lp: LivePreviewConfig? = nil
+        // FIXME - apparently can do live preview without specifying the creative id!!!
         if let lpl = localConfig["lpl"] as? String, let lpc = localConfig["lpc"] as? String {
-            lp = LivePreviewConfig(lpl: lpl, lpc: lpc)
+            request.livePreview(lpl, lpc)
         }
         localConfig["lpl"] = nil
         localConfig["lpc"] = nil
@@ -97,21 +184,153 @@ public class RequestConfigParser {
             }
             localConfig["useCookies"] = nil
         }
+        request.useCookies = useCookies
 
-        var otherJsonText = ""
+        if let userId = localConfig["userId"] as? String {
+            request.userId = userId
+            localConfig["userId"] = nil
+        }
+        
+        if let sessionId = localConfig["sessionId"] as? String {
+            request.sessionId = sessionId
+            localConfig["sessionId"] = nil
+        }
+        
+        if let consentString = localConfig["consentString"] as? String {
+            request.consentString = consentString
+            localConfig["consentString"] = nil
+        }
+
         let keys = localConfig.keys.sorted()
         for key in keys {
-            if !otherJsonText.isEmpty {
-                otherJsonText.append(",")
-            }
-            otherJsonText.append("\"\(key)\":\"\(localConfig[key]!)\"")
+            request.globalParameter(key, localConfig[key] as! String)
         }
-        if useCookies == false {
-            if !otherJsonText.isEmpty {
-                otherJsonText.append(",")
-            }
-            otherJsonText.append("\"useCookies\":false")
+        return request
+    }
+    
+    open func toJson(_ config: AdRequest) -> InternalAdRequest {
+        var rootParametersJson = ""
+        if let userId = config.userId {
+            appendWithComma(&rootParametersJson, "userId", "'\(userId)'")
         }
-        return AdRequestConfig(auId: auId, adUnitsJson: adUnitsJsonText, otherJson: otherJsonText, lp: lp)
+        if let sessionId = config.sessionId {
+            appendWithComma(&rootParametersJson, "sessionId", "'\(sessionId)'")
+        }
+        if let useCookies = config.useCookies {
+            appendWithComma(&rootParametersJson, "useCookies", "\(useCookies)")
+        }
+        if let consentString = config.consentString {
+            appendWithComma(&rootParametersJson, "consentString", "'\(consentString)'")
+        }
+        
+        if let globalParameters = config.globalParameters {
+            let keys = globalParameters.keys.sorted()
+            for key in keys {
+                appendWithComma(&rootParametersJson, key, "'\(globalParameters[key]!)'")
+            }
+        }
+        
+        var kvs = ""
+        if let kv = config.kv {
+            let keys = kv.keys.sorted()
+            for key in keys {
+                if let values = kv[key] {
+                    var kvalue = ""
+                    for value in values {
+                        appendWithComma(&kvalue, "'\(value)'")
+                    }
+                    appendWithComma(&kvs, key, "[" + kvalue + "]", true)
+                    
+                }
+            }
+        }
+        
+        var categories = ""
+        if let c = config.c {
+            for value in c {
+                appendWithComma(&categories, "'\(value)'")
+            }
+        }
+        
+        var adUnitJson = ""
+        appendWithComma(&adUnitJson, "auId", "'\(config.auId)'")
+        if let auH = config.auH {
+            appendWithComma(&adUnitJson, "auH", "'\(auH)'")
+        }
+        if let auW = config.auW {
+            appendWithComma(&adUnitJson, "auW", "'\(auW)'")
+        }
+        
+        if kvs != "" {
+            appendWithComma(&adUnitJson, "kv", "{\(kvs)}")
+        }
+        
+        if categories != "" {
+            appendWithComma(&adUnitJson, "c", "[\(categories)]")
+        }
+        
+        // we are overriding these default css settings cos wkwebview does not seem to provide
+        // a UI that can do it, and ive tried many
+        let script = """
+        <html>
+           <head>
+            <script type="text/javascript" src="https://cdn.adnuntius.com/adn.js" async></script>
+            <style>
+            body {
+                margin-top: 0px;
+                margin-left: 0px;
+                margin-bottom: 0px;
+                margin-right: 0px;
+            }
+            </style>
+           </head>
+           <body>
+                <div id="adn-\(config.auId)" style="display:none"></div>
+                <script type="text/javascript">
+                window.adn = window.adn || {}; adn.calls = adn.calls || [];
+                adn.calls.push(function() {
+                    adn.request({
+                        onPageLoad: adnSdkShim.onPageLoad,
+                        onImpressionResponse: adnSdkShim.onImpressionResponse,
+                        onVisible: adnSdkShim.onVisible,
+                        onViewable: adnSdkShim.onViewable,
+                        onRestyle: adnSdkShim.onRestyle,
+                        adUnits: [{\(adUnitJson)}],
+                        \(rootParametersJson)
+                    });
+                });
+                </script>
+           </body>
+        </html>
+        """
+
+        var baseUrl: String = AdnuntiusAdWebView.BASE_URL
+        // FIXME - live preview does not require creativeId
+        if config.livePreview != nil {
+            baseUrl = AdnuntiusAdWebView.BASE_URL + "?adn-lp-li=" + config.livePreview!.lpl + "&adn-lp-c=" + config.livePreview!.lpc
+        }
+        
+        self.logger.debug("Html Request: \(script)")
+        
+        return InternalAdRequest(script, baseUrl)
+    }
+    
+    private func appendWithComma(_ string: inout String, _ key: String, _ value: String, _ includeQuotes: Bool = false) {
+        if !string.isEmpty {
+            string.append(", ")
+        }
+        if includeQuotes {
+            string.append("'\(key)': ")
+        } else {
+            string.append("\(key): ")
+        }
+        string.append("\(value)")
+    }
+
+    private func appendWithComma(_ string: inout String, _ value: String) {
+        if !string.isEmpty {
+            string.append(", ")
+        }
+        string.append("\(value)")
     }
 }
