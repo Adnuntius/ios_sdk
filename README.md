@@ -1,6 +1,6 @@
 # Adnuntius SDK
 
-Adnuntius iOS SDK for iOS enables embedded Ads into your iOS applications.
+Adnuntius iOS SDK for iOS enables embedding Ads into your iOS applications.
 
 ## The Wiki
 
