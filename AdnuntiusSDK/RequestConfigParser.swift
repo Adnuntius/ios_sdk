@@ -59,6 +59,12 @@ public class RequestConfigParser {
             return nil
         }
 
+        let kv = adUnit["kv"] as? [[String : Any]]
+        if kv != nil {
+            logger.error("Malformed request: kv cannot be an array")
+            return nil
+        }
+        
         guard let jsonData = try? JSONSerialization.data(withJSONObject: adUnits) else {
             logger.error("Malformed request: Could not parse request")
             return nil

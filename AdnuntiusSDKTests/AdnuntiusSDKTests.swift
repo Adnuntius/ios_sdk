@@ -19,14 +19,14 @@ class AdnuntiusSDKTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
+    func testOtherConfig() throws {
         let logger: Logger = Logger()
         let configParser: RequestConfigParser = RequestConfigParser(logger)
         
         var config = [
             "adUnits": [
                    [
-                    "auId": "some auId", "kv": [["key": "value"]]
+                    "auId": "some auId", "kv": ["key": ["value"]]
                    ]
             ],
             "useCookies": false
@@ -38,7 +38,7 @@ class AdnuntiusSDKTests: XCTestCase {
         config = [
             "adUnits": [
                    [
-                    "auId": "some auId", "kv": [["key": "value"]]
+                    "auId": "some auId", "kv": ["key": ["value"]]
                    ]
             ],
             "useCookies": true
@@ -50,7 +50,7 @@ class AdnuntiusSDKTests: XCTestCase {
             "userId": "my global user id",
             "adUnits": [
                    [
-                    "auId": "some auId", "kv": [["key": "value"]]
+                    "auId": "some auId", "kv": ["key": ["value"]]
                    ]
             ],
             "useCookies": true
@@ -63,33 +63,20 @@ class AdnuntiusSDKTests: XCTestCase {
             "sessionId": "my session id",
             "adUnits": [
                    [
-                    "auId": "some auId", "kv": [["key": "value"]]
+                    "auId": "some auId", "kv": ["key": ["value"]]
                    ]
             ],
             "useCookies": true
         ] as [String : Any]
         jsonData = configParser.parseConfig(config)
         XCTAssertEqual(jsonData?.otherJson, "\"sessionId\":\"my session id\",\"userId\":\"my global user id\"")
-        
+
         config = [
             "userId": "my global user id",
             "sessionId": "my session id",
             "adUnits": [
                    [
-                    "auId": "some auId", "kv": [["key": "value"]]
-                   ]
-            ],
-            "useCookies": false
-        ] as [String : Any]
-        jsonData = configParser.parseConfig(config)
-        XCTAssertEqual(jsonData?.otherJson, "\"sessionId\":\"my session id\",\"userId\":\"my global user id\",\"useCookies\":false")
-        
-        config = [
-            "userId": "my global user id",
-            "sessionId": "my session id",
-            "adUnits": [
-                   [
-                    "auId": "some auId", "kv": [["key": "value"]]
+                    "auId": "some auId", "kv": ["key": ["value"]]
                    ]
             ],
             "useCookies": false,
@@ -106,7 +93,7 @@ class AdnuntiusSDKTests: XCTestCase {
             "sessionId": "my session id",
             "adUnits": [
                    [
-                    "auId": "some auId", "kv": [["key": "value"]]
+                    "auId": "some auId", "kv": ["key": ["value"]]
                    ]
             ],
             "useCookies": false,
@@ -125,13 +112,52 @@ class AdnuntiusSDKTests: XCTestCase {
             "gdpr": "1",
             "adUnits": [
                    [
-                    "auId": "some auId", "kv": [["key": "value"]]
+                    "auId": "some auId", "kv": ["key": ["value"]]
                    ]
-            ],
+        ],
             "useCookies": false,
             "lpl": "my preview line item"
         ] as [String : Any]
         jsonData = configParser.parseConfig(config)
         XCTAssertEqual(jsonData?.otherJson, "\"gdpr\":\"1\",\"sessionId\":\"my session id\",\"userId\":\"my global user id\",\"useCookies\":false")
+    }
+    
+    func testKvConfig() throws {
+        let logger: Logger = Logger()
+        let configParser: RequestConfigParser = RequestConfigParser(logger)
+        
+        // the kv cannot be an array, it must be a dictionary only
+        var config = ["adUnits": [
+                   [
+                    "auId": "some auId", "kv": [["key": ["value", "value_2"], "key2": ["value2", "value2_2"]]]
+                   ]
+            ]
+        ] as [String : Any]
+        var jsonData = configParser.parseConfig(config)
+        XCTAssertNil(jsonData)
+        
+        config = [
+            "adUnits": [
+                   [
+                    "auId": "some auId", "kv": ["key": ["value", "value_2"], "key2": ["value2", "value2_2"]]
+                   ]
+            ]
+        ] as [String : Any]
+        jsonData = configParser.parseConfig(config)
+        XCTAssertNotNil(jsonData?.adUnitsJson.range(of:"\"kv\":"))
+        XCTAssertNotNil(jsonData?.adUnitsJson.range(of:"\"key2\":[\"value2\",\"value2_2\"]"))
+        XCTAssertNotNil(jsonData?.adUnitsJson.range(of:"\"key\":[\"value\",\"value_2\"]"))
+        
+        config = [
+            "adUnits": [
+                   [
+                    "auId": "some auId", "kv": ["key": "value", "key2": "value2"]
+                   ]
+            ]
+        ] as [String : Any]
+        jsonData = configParser.parseConfig(config)
+        XCTAssertNotNil(jsonData?.adUnitsJson.range(of:"\"kv\":"))
+        XCTAssertNotNil(jsonData?.adUnitsJson.range(of:"\"key2\":\"value2\""))
+        XCTAssertNotNil(jsonData?.adUnitsJson.range(of:"\"key\":\"value\""))
     }
 }
