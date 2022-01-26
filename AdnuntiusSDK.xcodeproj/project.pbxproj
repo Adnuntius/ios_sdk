@@ -1173,7 +1173,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.7.1;
+				CURRENT_PROJECT_VERSION = 1.8.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = DG59465FT9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1187,7 +1187,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7.1;
+				MARKETING_VERSION = 1.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Adnuntius.AdnuntiusSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1205,7 +1205,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.7.1;
+				CURRENT_PROJECT_VERSION = 1.8.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = DG59465FT9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1219,7 +1219,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7.1;
+				MARKETING_VERSION = 1.8.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Adnuntius.AdnuntiusSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

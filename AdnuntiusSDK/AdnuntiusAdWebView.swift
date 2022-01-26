@@ -25,14 +25,10 @@ import WebKit
 }
 
 public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
-    private var completionHandler: AdLoadCompletionHandler?
-    private var adnSdkHandler: AdnSdkHandler?
-    private let logger: Logger = Logger()
-    private let configParser: RequestConfigParser
+    public static var BASE_URL = "https://delivery.adnuntius.com/"
     
     private static var INTERNAL_ADNUNTIUS_MESSAGE_HANDLER = "intAdnuntiusMessageHandler"
     private static var ADNUNTIUS_MESSAGE_HANDLER = "adnuntiusMessageHandler"
-    private static var BASE_URL = "https://delivery.adnuntius.com/"
 
     // https://stackoverflow.com/questions/26295277/wkwebview-equivalent-for-uiwebviews-scalespagetofit
     private static var META_VIEWPORT_JS = """
@@ -45,7 +41,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         document.getElementsByTagName('head')[0].appendChild(meta);
     }
     """
-    
+
     private static var ADNUNTIUS_AJAX_SHIM_JS = """
     var adnSdkHandler = Object()
     adnSdkHandler.closeView = function() {
@@ -156,6 +152,11 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
     }
     """
     
+    private var completionHandler: AdLoadCompletionHandler?
+    private var adnSdkHandler: AdnSdkHandler?
+    private let logger: Logger = Logger()
+    private let configParser: RequestConfigParser
+    
     public override init(frame: CGRect, configuration: WKWebViewConfiguration) {
         self.configParser = RequestConfigParser(logger)
         super.init(frame: frame, configuration: configuration)
@@ -194,77 +195,37 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         self.configuration.userContentController.add(self, name: AdnuntiusAdWebView.ADNUNTIUS_MESSAGE_HANDLER)
     }
 
-    @available(*, deprecated, message: "Use loadAd instead")
-    @objc open func loadFromConfig(_ config: [String: Any], completionHandler: AdLoadCompletionHandler) -> Bool {
-        return self.loadAd(config, completionHandler: completionHandler)
-    }
-    
-    // from 1.5.0 onwards loadFromApi internally just calls loadAd, it does not use the format=json, but the
-    // function is left here to make migration a little less painful
-    @available(*, deprecated, message: "Use loadAd instead")
-    @objc open func loadFromApi(_ config: [String: Any], completionHandler: AdLoadCompletionHandler) -> Bool {
-        return self.loadAd(config, completionHandler: completionHandler)
-    }
-    
     /*
      Return false if the initial validation of the config parameter fails, otherwise all other signals will be via
      the completion handler
      */
-    @objc open func loadAd(_ config: [String: Any], completionHandler: AdLoadCompletionHandler, adnSdkHandler: AdnSdkHandler? = nil) -> Bool {
+    @available(*, deprecated, message: "Use loadAd instead")
+    @objc open func loadFromConfig(_ config: [String: Any], completionHandler: AdLoadCompletionHandler, adnSdkHandler: AdnSdkHandler? = nil) -> Bool {
         setupCallbacks(completionHandler, adnSdkHandler: adnSdkHandler)
 
-        guard let jsonData = self.configParser.parseConfig(config) else {
+        guard let requestConfig = self.configParser.parseConfig(config) else {
             return false
         }
 
-        // we are overriding these default css settings cos wkwebview does not seem to provide
-        // a UI that can do it, and ive tried many
-        let script = """
-        <html>
-           <head>
-            <script type="text/javascript" src="https://cdn.adnuntius.com/adn.js" async></script>
-            <style>
-            body {
-                margin-top: 0px;
-                margin-left: 0px;
-                margin-bottom: 0px;
-                margin-right: 0px;
-            }
-            </style>
-           </head>
-           <body>
-                <div id="adn-\(jsonData.auId)" style="display:none"></div>
-                <script type="text/javascript">
-                window.adn = window.adn || {}; adn.calls = adn.calls || [];
-                adn.calls.push(function() {
-                    adn.request({
-                        onPageLoad: adnSdkShim.onPageLoad,
-                        onImpressionResponse: adnSdkShim.onImpressionResponse,
-                        onVisible: adnSdkShim.onVisible,
-                        onViewable: adnSdkShim.onViewable,
-                        onRestyle: adnSdkShim.onRestyle,
-                        adUnits: \(jsonData.adUnitsJson)\(jsonData.otherJson == "" ? "" : ",")
-                        \(jsonData.otherJson)
-                    });
-                });
-                </script>
-           </body>
-        </html>
-        """
+        let request = self.configParser.toJson(requestConfig)
+        self.loadHTMLString(request.script, baseURL: URL(string: request.baseUrl))
         
-        self.logger.debug("Html Request: \(script)")
+        return true
+    }
+
+    /*
+     Return false if the initial validation of the config parameter fails, otherwise all other signals will be via
+     the completion handler
+     */
+    @objc open func loadAd(_ config: AdRequest, completionHandler: AdLoadCompletionHandler, adnSdkHandler: AdnSdkHandler? = nil) -> Bool {
+        setupCallbacks(completionHandler, adnSdkHandler: adnSdkHandler)
+        let request = self.configParser.toJson(config)
         
-        var baseUrl: String = AdnuntiusAdWebView.BASE_URL
-        if jsonData.lp != nil {
-            baseUrl = AdnuntiusAdWebView.BASE_URL + "?adn-lp-li=" + jsonData.lp!.lpl + "&adn-lp-c=" + jsonData.lp!.lpc
-        }
-        self.loadHTMLString(script, baseURL: URL(string: baseUrl))
+        self.loadHTMLString(request.script, baseURL: URL(string: request.baseUrl))
         
         return true
     }
     
-    
-
     // https://nemecek.be/blog/1/how-to-open-target_blank-links-in-wkwebview-in-ios
     open func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
                  for navigationAction: WKNavigationAction,
