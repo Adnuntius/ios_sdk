@@ -160,7 +160,6 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
     public override init(frame: CGRect, configuration: WKWebViewConfiguration) {
         self.configParser = RequestConfigParser(logger)
         super.init(frame: frame, configuration: configuration)
-        
     }
 
     public required init?(coder: NSCoder) {
@@ -201,18 +200,17 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
      */
     @available(*, deprecated, message: "Use loadAd instead")
     @objc open func loadFromConfig(_ config: [String: Any], completionHandler: AdLoadCompletionHandler, adnSdkHandler: AdnSdkHandler? = nil) -> Bool {
-        setupCallbacks(completionHandler, adnSdkHandler: adnSdkHandler)
+        return loadAd(config, completionHandler: completionHandler, adnSdkHandler: adnSdkHandler)
+    }
 
+    @available(*, deprecated, message: "Use loadAd(AdRequest) instead")
+    open func loadAd(_ config: [String: Any], completionHandler: AdLoadCompletionHandler, adnSdkHandler: AdnSdkHandler? = nil) -> Bool {
         guard let requestConfig = self.configParser.parseConfig(config) else {
             return false
         }
-
-        let request = self.configParser.toJson(requestConfig)
-        self.loadHTMLString(request.script, baseURL: URL(string: request.baseUrl))
-        
-        return true
+        return loadAd(requestConfig, completionHandler: completionHandler, adnSdkHandler: adnSdkHandler)
     }
-
+    
     /*
      Return false if the initial validation of the config parameter fails, otherwise all other signals will be via
      the completion handler
