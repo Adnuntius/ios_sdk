@@ -25,8 +25,6 @@ import WebKit
 }
 
 public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
-    public static var BASE_URL = "https://delivery.adnuntius.com/"
-    
     private static var INTERNAL_ADNUNTIUS_MESSAGE_HANDLER = "intAdnuntiusMessageHandler"
     private static var ADNUNTIUS_MESSAGE_HANDLER = "adnuntiusMessageHandler"
 
@@ -51,33 +49,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
     }
     
     var adnSdkShim = new Object()
-    adnSdkShim.open = XMLHttpRequest.prototype.open
-    adnSdkShim.send = XMLHttpRequest.prototype.send
     adnSdkShim.console = window.console;
-    
-    XMLHttpRequest.prototype.open = function(method, url, async, user, password) {
-        url = url + "&sdk=ios:\(AdnuntiusSDK.sdk_version)"
-        adnSdkShim.open.apply(this, arguments)
-        adnSdkShim.url = method
-        adnSdkShim.url = url
-    }
-
-    XMLHttpRequest.prototype.send = function(data) {
-        var callback = this.onreadystatechange;
-        this.onreadystatechange = function() {
-            // good for debugging purposes to see what ajax stuff is being done
-            if (this.readyState == 4) {
-                adnSdkShim.adnAdnuntiusMessage({
-                      type: "url",
-                      url: adnSdkShim.url,
-                      status: this.status,
-                      statusText: this.statusText
-                })
-            }
-            callback.apply(this, arguments)
-        }
-        adnSdkShim.send.apply(this, arguments)
-    }
 
     adnSdkShim.adnAdnuntiusMessage = function(message) {
         if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.\(INTERNAL_ADNUNTIUS_MESSAGE_HANDLER)) {
@@ -109,8 +81,12 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         //console.log("onViewable:" + JSON.stringify(args))
     }
 
+    adnSdkShim.onImpressionResponse = function(args) {
+        //console.log("onImpressionResponse:" + JSON.stringify(args))
+    }
+    
     adnSdkShim.onPageLoad = function(args) {
-        console.log("onPageLoad:" + JSON.stringify(args))
+        //console.log("onPageLoad:" + JSON.stringify(args))
 
         var clientHeight = document.getElementById(args.targetId).clientHeight || 0
         var height = args.h || args.retAdsH || 0
@@ -135,8 +111,17 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         })
     }
 
-    adnSdkShim.onImpressionResponse = function(args) {
-        //console.log("onImpressionResponse:" + JSON.stringify(args))
+    adnSdkShim.onError = function(args) {
+        if (args.hasOwnProperty('args') && args['args'][0]) {
+            var object = args['args'][0]
+            if ('response' in object && 'status' in object) {
+                adnSdkShim.adnAdnuntiusMessage({
+                    type: "failure",
+                    status: object['status'],
+                    response: object['response']
+                })
+            }
+        }
     }
 
     window.console = {
@@ -156,6 +141,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
     private var adnSdkHandler: AdnSdkHandler?
     private let logger: Logger = Logger()
     private let configParser: RequestConfigParser
+    private let env : AdnuntiusEnvironment = AdnuntiusEnvironment.production;
     
     public override init(frame: CGRect, configuration: WKWebViewConfiguration) {
         self.configParser = RequestConfigParser(logger)
@@ -171,6 +157,11 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         return self
     }
 
+    // not available for objectice-c for now
+    open func setEnv(_ env: AdnuntiusEnvironment) {
+        self.configParser.setEnv(env)
+    }
+    
     @objc open func enableDebug(_ debug: Bool) {
         self.logger.enableDebug(debug)
     }
@@ -266,14 +257,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         if type == "console" {
             let method = dict["method"] as! String
             let message = dict["message"] as! String
-            
-            // this message is output currently by adn.js
-            // TODO - come up with something better
-            if message.contains("Unable to find HTML element") {
-                self.doOnFailure(message)
-            } else {
-                self.logger.debug("\(method): \(message)")
-            }
+            self.logger.debug("\(method): \(message)")
         } else if (type == "impression") {
             let adCount = dict["adCount"] as! Int
             if adCount > 0 {
@@ -283,16 +267,10 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
             } else {
                 self.doOnNoAdResponse()
             }
-        } else if (type == "url") {
+        } else if (type == "failure") {
             let httpStatus = dict["status"] as! Int
-            let requestUrl = dict["url"] as! String
-            
-            if httpStatus != 200 {
-                let statusText = dict["statusText"] as! String
-                self.doOnFailure("\(httpStatus.description) [\(statusText)] error returned for \(requestUrl)")
-            } else {
-                self.logger.debug("Url Request: \(requestUrl)")
-            }
+            let response = dict["response"] as! String
+            self.doOnFailure("\(httpStatus) error: \(response)")
         } else if (type == "closeView") {
             if (self.adnSdkHandler != nil) {
                 self.adnSdkHandler?.onClose(self)
@@ -307,10 +285,11 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         let navigationType = navigationAction.navigationType
         let urlAbsoluteString = url.absoluteString
 
+        let baseUrl = AdUtils.getBaseUrl(env)
         if urlAbsoluteString == "about:blank"
             || urlAbsoluteString == "about:srcdoc"
-            || urlAbsoluteString == AdnuntiusAdWebView.BASE_URL
-            || urlAbsoluteString.contains(AdnuntiusAdWebView.BASE_URL + "?") { // allows for query parameters added to the base url, like for live preview
+            || urlAbsoluteString == baseUrl
+            || urlAbsoluteString.contains(baseUrl + "?") { // allows for query parameters added to the base url, like for live preview
             decisionHandler(.allow)
             return
         }
