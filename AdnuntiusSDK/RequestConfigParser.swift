@@ -103,9 +103,14 @@ public class LivePreviewConfig {
 
 public class RequestConfigParser {
     private let logger: Logger
+    private var env: AdnuntiusEnvironment = AdnuntiusEnvironment.production
     
     public init(_ logger: Logger) {
         self.logger = logger
+    }
+    
+    open func setEnv(_ env: AdnuntiusEnvironment) {
+        self.env = env
     }
     
     /**
@@ -268,13 +273,15 @@ public class RequestConfigParser {
         if categories != "" {
             appendWithComma(&adUnitJson, "c", "[\(categories)]")
         }
+
+        let adnJsUrl = self.getAdnJsUrl()
         
         // we are overriding these default css settings cos wkwebview does not seem to provide
         // a UI that can do it, and ive tried many
         let script = """
         <html>
            <head>
-            <script type="text/javascript" src="https://cdn.adnuntius.com/adn.js" async></script>
+            <script type="text/javascript" src="\(adnJsUrl)" async></script>
             <style>
             body {
                 margin-top: 0px;
@@ -290,11 +297,14 @@ public class RequestConfigParser {
                 window.adn = window.adn || {}; adn.calls = adn.calls || [];
                 adn.calls.push(function() {
                     adn.request({
+                        env: '\(env)',
+                        sdk: 'ios:\(AdnuntiusSDK.sdk_version)',
                         onPageLoad: adnSdkShim.onPageLoad,
                         onImpressionResponse: adnSdkShim.onImpressionResponse,
                         onVisible: adnSdkShim.onVisible,
                         onViewable: adnSdkShim.onViewable,
                         onRestyle: adnSdkShim.onRestyle,
+                        onError: adnSdkShim.onError,
                         adUnits: [{\(adUnitJson)}],
                         \(rootParametersJson)
                     });
@@ -304,13 +314,21 @@ public class RequestConfigParser {
         </html>
         """
 
-        var baseUrl: String = AdnuntiusAdWebView.BASE_URL
-        // FIXME - live preview does not require creativeId
+        var baseUrl: String = AdUtils.getBaseUrl(env)
+        
         if config.livePreview != nil {
-            baseUrl = AdnuntiusAdWebView.BASE_URL + "?adn-lp-li=" + config.livePreview!.lpl + "&adn-lp-c=" + config.livePreview!.lpc
+            baseUrl.append("?adn-lp-li=" + config.livePreview!.lpl)
+            if (config.livePreview?.lpc != nil) {
+                baseUrl.append("&adn-lp-c=" + config.livePreview!.lpc)
+            }
+            if (env == AdnuntiusEnvironment.localhost) {
+                baseUrl.append("&script-override=localhost")
+            }
+        } else if (env == AdnuntiusEnvironment.localhost) {
+            baseUrl.append("?script-override=localhost")
         }
         
-        self.logger.debug("Html Request: \(script)")
+        self.logger.debug("Html Request [\(baseUrl)]: \(script)")
         
         return InternalAdRequest(script, baseUrl)
     }
@@ -332,5 +350,14 @@ public class RequestConfigParser {
             string.append(", ")
         }
         string.append("\(value)")
+    }
+    
+    private func getAdnJsUrl() -> String {
+        if (env == AdnuntiusEnvironment.localhost) {
+            return "http://localhost:8001/adn.src.js"
+        } else {
+            // currently all other envs use prod cdn
+            return "https://cdn.adnuntius.com/adn.js"
+        }
     }
 }
