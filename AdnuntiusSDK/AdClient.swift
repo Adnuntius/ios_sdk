@@ -80,7 +80,7 @@ public class AdClient {
                 }
             }
             
-            guard let adUnits = responseJSON!!["adUnits"] as? [[String: Any]] else {
+            guard let adUnits = responseJSON!["adUnits"] as? [[String: Any]] else {
                 handler.onFailure("Malformed response: missing an adUnits section")
                 return
             }
