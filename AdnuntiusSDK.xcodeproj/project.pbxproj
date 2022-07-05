@@ -23,11 +23,13 @@
 /* Begin PBXBuildFile section */
 		26366F3B270D49A4002B3576 /* AdnuntiusSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26366F3A270D49A4002B3576 /* AdnuntiusSDKTests.swift */; };
 		26366F3D270D49A4002B3576 /* AdnuntiusSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 395193D821345ABE008F961C /* AdnuntiusSDK.framework */; };
-		26366F44270D49DA002B3576 /* RequestConfigParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26366F43270D49DA002B3576 /* RequestConfigParser.swift */; };
 		26366F46270D4BAC002B3576 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26366F45270D4BAC002B3576 /* Logger.swift */; };
 		265F6E0E283B150B009B86F9 /* AdnuntiusEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265F6E0D283B150B009B86F9 /* AdnuntiusEnvironment.swift */; };
 		265F6E10283B1585009B86F9 /* AdUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265F6E0F283B1585009B86F9 /* AdUtils.swift */; };
 		265F6E12283B309E009B86F9 /* AdClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265F6E11283B309E009B86F9 /* AdClient.swift */; };
+		26B35A202876621B00058D8E /* ApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B35A1F2876621B00058D8E /* ApiClient.swift */; };
+		26B35A222876637D00058D8E /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B35A212876637D00058D8E /* HttpClient.swift */; };
+		26B35A2428767DD000058D8E /* ClientHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B35A2328767DD000058D8E /* ClientHandler.swift */; };
 		395193E421345ADF008F961C /* AdnuntiusSDK.swift in Sources */ = {isa = PBXBuildFile; fileRef = 395193E321345ADF008F961C /* AdnuntiusSDK.swift */; };
 		39519424213AFA9C008F961C /* AdnuntiusAdWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39519423213AFA9C008F961C /* AdnuntiusAdWebView.swift */; };
 /* End PBXBuildFile section */
@@ -46,11 +48,13 @@
 		26366F38270D49A4002B3576 /* AdnuntiusSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AdnuntiusSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		26366F3A270D49A4002B3576 /* AdnuntiusSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdnuntiusSDKTests.swift; sourceTree = "<group>"; };
 		26366F3C270D49A4002B3576 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		26366F43270D49DA002B3576 /* RequestConfigParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestConfigParser.swift; sourceTree = "<group>"; };
 		26366F45270D4BAC002B3576 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		265F6E0D283B150B009B86F9 /* AdnuntiusEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdnuntiusEnvironment.swift; sourceTree = "<group>"; };
 		265F6E0F283B1585009B86F9 /* AdUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdUtils.swift; sourceTree = "<group>"; };
 		265F6E11283B309E009B86F9 /* AdClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdClient.swift; sourceTree = "<group>"; };
+		26B35A1F2876621B00058D8E /* ApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiClient.swift; sourceTree = "<group>"; };
+		26B35A212876637D00058D8E /* HttpClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
+		26B35A2328767DD000058D8E /* ClientHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientHandler.swift; sourceTree = "<group>"; };
 		395193D821345ABE008F961C /* AdnuntiusSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AdnuntiusSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		395193DC21345ABE008F961C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		395193E321345ADF008F961C /* AdnuntiusSDK.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdnuntiusSDK.swift; sourceTree = "<group>"; };
@@ -394,11 +398,13 @@
 				395193E321345ADF008F961C /* AdnuntiusSDK.swift */,
 				39519423213AFA9C008F961C /* AdnuntiusAdWebView.swift */,
 				A7AB5B8A234EDA2C009E48D2 /* AdnuntiusSDK.h */,
-				26366F43270D49DA002B3576 /* RequestConfigParser.swift */,
 				26366F45270D4BAC002B3576 /* Logger.swift */,
 				265F6E0D283B150B009B86F9 /* AdnuntiusEnvironment.swift */,
 				265F6E0F283B1585009B86F9 /* AdUtils.swift */,
 				265F6E11283B309E009B86F9 /* AdClient.swift */,
+				26B35A1F2876621B00058D8E /* ApiClient.swift */,
+				26B35A212876637D00058D8E /* HttpClient.swift */,
+				26B35A2328767DD000058D8E /* ClientHandler.swift */,
 			);
 			path = AdnuntiusSDK;
 			sourceTree = "<group>";
@@ -991,12 +997,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26B35A202876621B00058D8E /* ApiClient.swift in Sources */,
 				395193E421345ADF008F961C /* AdnuntiusSDK.swift in Sources */,
+				26B35A222876637D00058D8E /* HttpClient.swift in Sources */,
 				265F6E0E283B150B009B86F9 /* AdnuntiusEnvironment.swift in Sources */,
 				265F6E10283B1585009B86F9 /* AdUtils.swift in Sources */,
 				265F6E12283B309E009B86F9 /* AdClient.swift in Sources */,
-				26366F44270D49DA002B3576 /* RequestConfigParser.swift in Sources */,
 				39519424213AFA9C008F961C /* AdnuntiusAdWebView.swift in Sources */,
+				26B35A2428767DD000058D8E /* ClientHandler.swift in Sources */,
 				26366F46270D4BAC002B3576 /* Logger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1185,7 +1193,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.8.4;
+				CURRENT_PROJECT_VERSION = 1.9.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = DG59465FT9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1199,7 +1207,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8.4;
+				MARKETING_VERSION = 1.9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Adnuntius.AdnuntiusSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1217,7 +1225,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.8.4;
+				CURRENT_PROJECT_VERSION = 1.9.0;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = DG59465FT9;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1231,7 +1239,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.8.4;
+				MARKETING_VERSION = 1.9.0;
 				PRODUCT_BUNDLE_IDENTIFIER = Adnuntius.AdnuntiusSDK;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

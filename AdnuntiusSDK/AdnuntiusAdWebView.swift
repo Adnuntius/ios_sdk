@@ -4,152 +4,148 @@
 
 import WebKit
 
-// an optional protocol which can be used to respond to javascript calls
-// on the new adnSdkHandler javascript object.   For this version we
-// are adding support for closeWindow, later versions may add additional methods
 @objc public protocol AdnSdkHandler {
+    /*
+     Used for close view from layout
+     https://github.com/Adnuntius/ios_sdk/wiki/Adnuntius-Advertising#close-view-from-layout
+     */
     func onClose(_ view: AdnuntiusAdWebView)
 }
 
 @objc public protocol AdLoadCompletionHandler {
-    // if this is called, it means no ads were matched
+    /*
+     if this is called, it means no ads were matched
+    */
     func onNoAdResponse(_ view: AdnuntiusAdWebView)
     
-    // if adnuntius delivery returns a non 200 status, or there is no target div
-    // or adn.js reports any other issue, this will be called
+    /*
+     if adnuntius delivery returns a non 200 status, or there is no target div
+     or adn.js reports any other issue, this will be called
+    */
     func onFailure(_ view: AdnuntiusAdWebView, _ message: String)
 
-    // will return the size in pixels of each ad loaded
-    // this will not be called if there is no ad rendered (should be obvious)
+    /*
+     Will return the size in pixels of each ad loaded
+     this will not be called if there is no ad rendered (should be obvious)
+    */
     func onAdResponse(_ view: AdnuntiusAdWebView, _ width: Int, _ height: Int)
 }
 
+public struct AdResponseInfo {
+    public var definedWidth: Int = 0
+    public var definedHeight: Int = 0
+    public var width: Int = 0
+    public var height: Int = 0
+    public var creativeId: String = ""
+    public var lineItemId: String = ""
+}
+
+public protocol LoadAdHandler {
+    /*
+     No ads was returned
+     */
+    func onNoAdResponse()
+   
+    /*
+     If adnuntius ad server returns a non 200 status, or there is no target div
+     or adn.js reports any other issue
+    */
+    func onFailure(_ message: String)
+    
+    /*
+     This will not be called if there is no ad rendered (should be obvious)
+    */
+    func onAdResponse(_ response: AdResponseInfo)
+    
+    /*
+     Pass through the onRestyle event from adn.js, this is currently
+     enabled experimentally and for debugging purposes only
+     */
+    func onAdResize(_ response: AdResponseInfo)
+    
+    /*
+     Used for close view from layout
+     https://github.com/Adnuntius/ios_sdk/wiki/Adnuntius-Advertising#close-view-from-layout
+     */
+    func onLayoutCloseView()
+}
+
+public extension LoadAdHandler {
+    func onLayoutCloseView() {
+        // do nothing
+    }
+    
+    func onFailure(_ message: String) {
+        // do nothing
+    }
+    
+    func onNoAdResponse() {
+        // do nothing
+    }
+    
+    func onAdResponse(_ response: AdResponseInfo) {
+        // do nothing
+    }
+    
+    func onAdResize(_ response: AdResponseInfo) {
+        // do nothing
+    }
+}
+
+private class HandlerAdaptor: LoadAdHandler {
+    private let webView: AdnuntiusAdWebView?
+    var adnAdLoadHandler: AdLoadCompletionHandler?
+    var adnSdkHandler: AdnSdkHandler?
+    
+    public init(_ webview: AdnuntiusAdWebView) {
+        self.webView = webview
+    }
+    
+    func onLayoutCloseView() {
+        if adnSdkHandler != nil {
+            adnSdkHandler!.onClose(self.webView!)
+        }
+    }
+    
+    func onFailure(_ message: String) {
+        if adnAdLoadHandler != nil {
+            adnAdLoadHandler!.onFailure(self.webView!, message)
+        }
+    }
+    
+    func onNoAdResponse() {
+        if adnAdLoadHandler != nil {
+            adnAdLoadHandler!.onNoAdResponse(self.webView!)
+        }
+    }
+    
+    func onAdResponse(_ response: AdResponseInfo) {
+        if adnAdLoadHandler != nil {
+            adnAdLoadHandler!.onAdResponse(self.webView!, response.definedWidth, response.definedHeight)
+        }
+    }
+}
+
 public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
-    private static var INTERNAL_ADNUNTIUS_MESSAGE_HANDLER = "intAdnuntiusMessageHandler"
-    private static var ADNUNTIUS_MESSAGE_HANDLER = "adnuntiusMessageHandler"
-
-    // https://stackoverflow.com/questions/26295277/wkwebview-equivalent-for-uiwebviews-scalespagetofit
-    private static var META_VIEWPORT_JS = """
-    var viewportMetaTag = document.querySelector('meta[name="viewport"]');
-    var viewportMetaTagIsUsed = viewportMetaTag && viewportMetaTag.hasAttribute('content');
-    if (!viewportMetaTagIsUsed) {
-        var meta = document.createElement('meta');
-        meta.setAttribute('name', 'viewport');
-        meta.setAttribute('content', 'initial-scale=1.0');
-        document.getElementsByTagName('head')[0].appendChild(meta);
-    }
-    """
-
-    private static var ADNUNTIUS_AJAX_SHIM_JS = """
-    var adnSdkHandler = Object()
-    adnSdkHandler.closeView = function() {
-        if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.\(ADNUNTIUS_MESSAGE_HANDLER)) {
-              window.webkit.messageHandlers.\(ADNUNTIUS_MESSAGE_HANDLER).postMessage({type: "closeView"})
-        }
-    }
-    
-    var adnSdkShim = new Object()
-    adnSdkShim.console = window.console;
-
-    adnSdkShim.adnAdnuntiusMessage = function(message) {
-        if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.\(INTERNAL_ADNUNTIUS_MESSAGE_HANDLER)) {
-              window.webkit.messageHandlers.\(INTERNAL_ADNUNTIUS_MESSAGE_HANDLER).postMessage(message)
-        }
-    }
-
-    // we direct the window.console to the app, but also we still
-    // send it to the console log in the browser
-    adnSdkShim.handleConsole = function(method, args) {
-        var message = Array.prototype.slice.apply(args).join(' ')
-        adnSdkShim.adnAdnuntiusMessage({
-                              type: "console",
-                              method: method,
-                              message: message
-        })
-        adnSdkShim.console[method](message)
-    }
-    
-    adnSdkShim.onVisible = function(args) {
-        //console.log("onVisible:" + JSON.stringify(args))
-    }
-
-    adnSdkShim.onRestyle = function(args) {
-        //console.log("onRestyle:" + JSON.stringify(args))
-    }
-    
-    adnSdkShim.onViewable = function(args) {
-        //console.log("onViewable:" + JSON.stringify(args))
-    }
-
-    adnSdkShim.onImpressionResponse = function(args) {
-        //console.log("onImpressionResponse:" + JSON.stringify(args))
-    }
-    
-    adnSdkShim.onPageLoad = function(args) {
-        //console.log("onPageLoad:" + JSON.stringify(args))
-
-        var clientHeight = document.getElementById(args.targetId).clientHeight || 0
-        var height = args.h || args.retAdsH || 0
-
-        if (height == 0 || (clientHeight > 0 && height > clientHeight)) {
-            height = clientHeight
-        }
-        
-        var width = args.w || args.retAdsW || 0
-        var clientWidth = document.getElementById(args.targetId).clientWidth || 0
-        if (width == 0 || (clientWidth > 0 && height > clientWidth)) {
-            width = clientWidth
-        }
-
-        adnSdkShim.adnAdnuntiusMessage({
-                              type: "impression",
-                              id: args.auId || "",
-                              target: args.targetId || "",
-                              adCount: args.retAdCount || 0,
-                              height: height,
-                              width: width
-        })
-    }
-
-    adnSdkShim.onError = function(args) {
-        if (args.hasOwnProperty('args') && args['args'][0]) {
-            var object = args['args'][0]
-            if ('response' in object && 'status' in object) {
-                adnSdkShim.adnAdnuntiusMessage({
-                    type: "failure",
-                    status: object['status'],
-                    response: object['response']
-                })
-            }
-        }
-    }
-
-    window.console = {
-        log: function() {
-            adnSdkShim.handleConsole('log', arguments)
-        }
-        , warn: function() {
-            adnSdkShim.handleConsole('warn', arguments)
-        }
-        , error: function() {
-            adnSdkShim.handleConsole('error', arguments)
-        }
-    }
-    """
-    
-    private var completionHandler: AdLoadCompletionHandler?
-    private var adnSdkHandler: AdnSdkHandler?
     private let logger: Logger = Logger()
-    private let configParser: RequestConfigParser
-    private let env : AdnuntiusEnvironment = AdnuntiusEnvironment.production;
+    
+    private var loadAdHandler: LoadAdHandler?
+    
+    // for objective c and legacy apps a handler adaptor we will only create when first used
+    private var handlerAdaptor: HandlerAdaptor?
+    
+    private var env : AdnuntiusEnvironment = AdnuntiusEnvironment.production
     
     public override init(frame: CGRect, configuration: WKWebViewConfiguration) {
-        self.configParser = RequestConfigParser(logger)
-        super.init(frame: frame, configuration: configuration)
+        super.init(frame: frame, configuration: AdnuntiusAdWebView.allowsInlineMediaPlayback(configuration))
+    }
+
+    private static func allowsInlineMediaPlayback(_ configuration: WKWebViewConfiguration) -> WKWebViewConfiguration {
+        configuration.allowsInlineMediaPlayback = true
+        return configuration
     }
 
     public required init?(coder: NSCoder) {
-        self.configParser = RequestConfigParser(logger)
         super.init(coder: coder)
     }
     
@@ -157,64 +153,76 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         return self
     }
 
-    // not available for objectice-c for now
+    /*
+    internal adnuntius dev use only
+    */
     open func setEnv(_ env: AdnuntiusEnvironment) {
-        self.configParser.setEnv(env)
+        self.env = env
     }
     
     @objc open func enableDebug(_ debug: Bool) {
         self.logger.enableDebug(debug)
     }
     
-    private func setupCallbacks(_ completionHandler: AdLoadCompletionHandler, adnSdkHandler: AdnSdkHandler? = nil) {
-        self.completionHandler = completionHandler
-        self.adnSdkHandler = adnSdkHandler
+    private func setupCallbacks(_ loadAdHandler: LoadAdHandler) {
+        // we only want to do this once
+        if self.loadAdHandler == nil {
+            let metaScript = WKUserScript(source: AdUtils.META_VIEWPORT_JS,
+                                                injectionTime: WKUserScriptInjectionTime.atDocumentEnd, forMainFrameOnly: true)
+
+            let shimScript = WKUserScript(source: AdUtils.ADNUNTIUS_AJAX_SHIM_JS,
+                                        injectionTime: WKUserScriptInjectionTime.atDocumentStart, forMainFrameOnly: true)
+
+            self.configuration.userContentController.addUserScript(metaScript)
+            self.configuration.userContentController.addUserScript(shimScript)
+            self.configuration.userContentController.add(self, name: AdUtils.INTERNAL_ADNUNTIUS_MESSAGE_HANDLER)
+            self.configuration.userContentController.add(self, name: AdUtils.ADNUNTIUS_MESSAGE_HANDLER)
+        }
+        
+        self.loadAdHandler = loadAdHandler
 
         self.navigationDelegate = self
         self.uiDelegate = self
-        
-        let metaScript = WKUserScript(source: AdnuntiusAdWebView.META_VIEWPORT_JS,
-                                            injectionTime: WKUserScriptInjectionTime.atDocumentEnd, forMainFrameOnly: true)
-                
-        let shimScript = WKUserScript(source: AdnuntiusAdWebView.ADNUNTIUS_AJAX_SHIM_JS,
-                                    injectionTime: WKUserScriptInjectionTime.atDocumentStart, forMainFrameOnly: true)
-
-        self.configuration.userContentController.addUserScript(metaScript)
-        self.configuration.userContentController.addUserScript(shimScript)
-        self.configuration.userContentController.add(self, name: AdnuntiusAdWebView.INTERNAL_ADNUNTIUS_MESSAGE_HANDLER)
-        self.configuration.userContentController.add(self, name: AdnuntiusAdWebView.ADNUNTIUS_MESSAGE_HANDLER)
     }
 
     /*
      Return false if the initial validation of the config parameter fails, otherwise all other signals will be via
      the completion handler
      */
-    @available(*, deprecated, message: "Use loadAd instead")
-    @objc open func loadFromConfig(_ config: [String: Any], completionHandler: AdLoadCompletionHandler, adnSdkHandler: AdnSdkHandler? = nil) -> Bool {
-        return loadAd(config, completionHandler: completionHandler, adnSdkHandler: adnSdkHandler)
-    }
-
-    @available(*, deprecated, message: "Use loadAd(AdRequest) instead")
-    open func loadAd(_ config: [String: Any], completionHandler: AdLoadCompletionHandler, adnSdkHandler: AdnSdkHandler? = nil) -> Bool {
-        guard let requestConfig = self.configParser.parseConfig(config) else {
+    @available(*, deprecated, message: "Use loadAd(AdRequest, LoadAdHandler) instead")
+    open func loadAd(_ config: [String: Any], completionHandler: AdLoadCompletionHandler) -> Bool {
+        guard let requestConfig = AdUtils.parseConfig(config, self.logger) else {
             return false
         }
-        return loadAd(requestConfig, completionHandler: completionHandler, adnSdkHandler: adnSdkHandler)
+        return loadAd(requestConfig, completionHandler: completionHandler)
     }
-    
+
     /*
-     Return false if the initial validation of the config parameter fails, otherwise all other signals will be via
-     the completion handler
+     The return state can be ignored it will always be true.   Was accidentally left in the method signature when migrating from the
+     previous loadAd method.
      */
-    @objc open func loadAd(_ config: AdRequest, completionHandler: AdLoadCompletionHandler, adnSdkHandler: AdnSdkHandler? = nil) -> Bool {
-        setupCallbacks(completionHandler, adnSdkHandler: adnSdkHandler)
-        let request = self.configParser.toJson(config)
+    @objc open func loadAd(_ config: AdRequest, completionHandler: AdLoadCompletionHandler? = nil, adnSdkHandler: AdnSdkHandler? = nil) -> Bool {
+        if self.handlerAdaptor == nil {
+            self.handlerAdaptor = HandlerAdaptor(self)
+        }
+        self.handlerAdaptor!.adnAdLoadHandler = completionHandler
+        self.handlerAdaptor!.adnSdkHandler = adnSdkHandler
+        setupCallbacks(self.handlerAdaptor!)
         
-        self.loadHTMLString(request.script, baseURL: URL(string: request.baseUrl))
-        
+        let request = AdUtils.toJson(config, self.env)
+        self.loadHTMLString(request.script, baseURL: request.baseUrl)
         return true
     }
     
+    /*
+     Swift Only implementation which relies on default implementations of methods in the LoadAdHandler for extensibility
+     */
+    open func loadAd(_ config: AdRequest, _ loadAdHandler: LoadAdHandler) -> Void {
+        setupCallbacks(loadAdHandler)
+        let request = AdUtils.toJson(config, self.env)
+        self.loadHTMLString(request.script, baseURL: request.baseUrl)
+    }
+
     // https://nemecek.be/blog/1/how-to-open-target_blank-links-in-wkwebview-in-ios
     open func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration,
                  for navigationAction: WKNavigationAction,
@@ -244,7 +252,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
                      didFailProvisionalNavigation navigation: WKNavigation!,
                      withError error: Error) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
-        self.doOnFailure("Failed loading: \(error as NSError?)")
+        self.loadAdHandler!.onFailure("Failed loading: \(error as NSError?)")
     }
     
     open func userContentController(_ userContentController: WKUserContentController,
@@ -258,26 +266,47 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
             let method = dict["method"] as! String
             let message = dict["message"] as! String
             self.logger.debug("\(method): \(message)")
-        } else if (type == "impression") {
+        } else if (type == "pageLoad") {
             let adCount = dict["adCount"] as! Int
-            if adCount > 0 {
-                let width = dict["width"] as! Int
-                let height = dict["height"] as! Int
-                self.doOnAdResponse(width, height)
+            if (adCount > 0) {
+                let response: AdResponseInfo = newAdResponseInfo(dict)
+                self.loadAdHandler!.onAdResponse(response)
             } else {
-                self.doOnNoAdResponse()
+                self.loadAdHandler!.onNoAdResponse()
+            }
+        } else if (type == "resize") {
+            let response: AdResponseInfo = newAdResponseInfo(dict)
+            if response.width > 0 && response.height > 0 {
+                self.loadAdHandler!.onAdResize(response)
             }
         } else if (type == "failure") {
             let httpStatus = dict["status"] as! Int
             let response = dict["response"] as! String
-            self.doOnFailure("\(httpStatus) error: \(response)")
+            self.loadAdHandler!.onFailure("\(httpStatus) error: \(response)")
         } else if (type == "closeView") {
-            if (self.adnSdkHandler != nil) {
-                self.adnSdkHandler?.onClose(self)
-            }
+            self.loadAdHandler!.onLayoutCloseView()
         }
     }
-
+    
+    // FIXME - perhaps there is an automated way to populate the AdResponseInfo from the dict
+    private func newAdResponseInfo(_ dict: [String : AnyObject]) -> AdResponseInfo {
+        let definedWidth = dict["definedWidth"] as! Int
+        let definedHeight = dict["definedHeight"] as! Int
+        let height = dict["height"] as! Int
+        let width = dict["width"] as! Int
+        let creativeId = dict["creativeId"] as! String
+        let lineItemId = dict["lineItemId"] as! String
+        
+        var adResponseInfo = AdResponseInfo()
+        adResponseInfo.width = width
+        adResponseInfo.height = height
+        adResponseInfo.definedWidth = definedWidth
+        adResponseInfo.definedHeight = definedHeight
+        adResponseInfo.creativeId = creativeId
+        adResponseInfo.lineItemId = lineItemId
+        return adResponseInfo
+    }
+    
     open func webView(_ webView: WKWebView,
                      decidePolicyFor navigationAction: WKNavigationAction,
                      decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
@@ -304,33 +333,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
             return
         }
     }
-    
-    private func doOnNoAdResponse() {
-        if (self.completionHandler != nil) {
-            self.completionHandler?.onNoAdResponse(self)
-        }
-    }
-    
-    private func doOnFailure(_ message: String) {
-        self.logger.debug(message)
-        if (self.completionHandler != nil) {
-            self.completionHandler?.onFailure(self, message)
-        }
-    }
-    
-    private func doOnAdResponse(_ width: Int, _ height: Int) {
-        if (self.completionHandler != nil) {
-            if (width == 0) {
-                let frameWidth = Int(self.frame.width)
-                self.logger.debug("Ad Response: frameWidth=\(frameWidth), heigth=\(height)")
-                self.completionHandler?.onAdResponse(self, frameWidth, height)
-            } else {
-                self.logger.debug("Ad Response: width=\(width), heigth=\(height)")
-                self.completionHandler?.onAdResponse(self, width, height)
-            }
-        }
-    }
-    
+        
     private func doClick(_ url: URL) {
         if #available(iOS 10.0, *) {
             UIApplication.shared.open(url)

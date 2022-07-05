@@ -25,6 +25,10 @@ public class Logger {
         }
     }
     
+    open func isDebugEnabled() -> Bool {
+        return self.debug
+    }
+    
     open func error(_ message: String) {
         print("ERROR: \(message)")
     }

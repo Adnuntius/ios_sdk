@@ -9,8 +9,9 @@
 import XCTest
 import AdnuntiusSDK
 
-class AdnuntiusSDKTests: XCTestCase {
-
+class AdnuntiusSDKTests: XCTestCase, ApiClientHandler {
+    private var count: Int = 0
+    
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
@@ -21,7 +22,6 @@ class AdnuntiusSDKTests: XCTestCase {
 
     func testOtherConfig() throws {
         let logger: Logger = Logger()
-        let configParser: RequestConfigParser = RequestConfigParser(logger)
         
         var config = [
             "adUnits": [
@@ -31,7 +31,7 @@ class AdnuntiusSDKTests: XCTestCase {
             ],
             "useCookies": false
         ] as [String : Any]
-        var requestConfig = configParser.parseConfig(config)
+        var requestConfig = AdUtils.parseConfig(config, logger)
         XCTAssertEqual(requestConfig?.useCookies!, false)
         XCTAssertEqual(requestConfig?.auId, "some auId")
         XCTAssertNil(requestConfig?.kv)
@@ -52,7 +52,7 @@ class AdnuntiusSDKTests: XCTestCase {
             ],
             "useCookies": false
         ] as [String : Any]
-        requestConfig = configParser.parseConfig(config)
+        requestConfig = AdUtils.parseConfig(config, logger)
         XCTAssertEqual(requestConfig?.useCookies!, false)
         XCTAssertEqual(requestConfig?.auId, "some auId")
         
@@ -64,7 +64,7 @@ class AdnuntiusSDKTests: XCTestCase {
             ],
             "noCookies": true
         ] as [String : Any]
-        requestConfig = configParser.parseConfig(config)
+        requestConfig = AdUtils.parseConfig(config, logger)
         XCTAssertEqual(requestConfig?.useCookies!, false)
         XCTAssertEqual(requestConfig?.auId, "some auId")
         
@@ -78,7 +78,7 @@ class AdnuntiusSDKTests: XCTestCase {
             ],
             "useCookies": true
         ] as [String : Any]
-        requestConfig = configParser.parseConfig(config)
+        requestConfig = AdUtils.parseConfig(config, logger)
         XCTAssertEqual(requestConfig?.useCookies!, true)
         XCTAssertEqual(requestConfig?.auId, "some auId")
         XCTAssertEqual(requestConfig?.userId!, "my global user id")
@@ -96,7 +96,7 @@ class AdnuntiusSDKTests: XCTestCase {
             "lpl": "my preview line item",
             "lpc": "my preview creative"
         ] as [String : Any]
-        requestConfig = configParser.parseConfig(config)
+        requestConfig = AdUtils.parseConfig(config, logger)
         XCTAssertEqual(requestConfig?.auId, "some auId")
         XCTAssertEqual(requestConfig?.userId!, "my global user id")
         XCTAssertEqual(requestConfig?.sessionId!, "my session id")
@@ -114,7 +114,7 @@ class AdnuntiusSDKTests: XCTestCase {
             "useCookies": false,
             "lpl": "my preview line item"
         ] as [String : Any]
-        requestConfig = configParser.parseConfig(config)
+        requestConfig = AdUtils.parseConfig(config, logger)
         XCTAssertEqual(requestConfig?.auId, "some auId")
         XCTAssertEqual(requestConfig?.userId!, "my global user id")
         XCTAssertEqual(requestConfig?.sessionId!, "my session id")
@@ -134,7 +134,7 @@ class AdnuntiusSDKTests: XCTestCase {
             "useCookies": false,
             "lpl": "my preview line item"
         ] as [String : Any]
-        requestConfig = configParser.parseConfig(config)
+        requestConfig = AdUtils.parseConfig(config, logger)
         XCTAssertEqual(requestConfig?.auId, "some auId")
         XCTAssertEqual(requestConfig?.userId!, "my global user id")
         XCTAssertEqual(requestConfig?.sessionId!, "my session id")
@@ -145,7 +145,6 @@ class AdnuntiusSDKTests: XCTestCase {
     
     func testKvConfig() throws {
         let logger: Logger = Logger()
-        let configParser: RequestConfigParser = RequestConfigParser(logger)
         
         // the kv cannot be an array, it must be a dictionary only
         var config = ["adUnits": [
@@ -154,7 +153,7 @@ class AdnuntiusSDKTests: XCTestCase {
                    ]
             ]
         ] as [String : Any]
-        var requestConfig = configParser.parseConfig(config)
+        var requestConfig = AdUtils.parseConfig(config, logger)
         XCTAssertNil(requestConfig)
         
         config = [
@@ -164,7 +163,7 @@ class AdnuntiusSDKTests: XCTestCase {
                    ]
             ]
         ] as [String : Any]
-        requestConfig = configParser.parseConfig(config)
+        requestConfig = AdUtils.parseConfig(config, logger)
         XCTAssertEqual(requestConfig?.auId, "some auId")
         var value = requestConfig?.kv!["key"]!
         XCTAssertEqual(value!.first, "value")
@@ -180,7 +179,7 @@ class AdnuntiusSDKTests: XCTestCase {
                    ]
             ]
         ] as [String : Any]
-        requestConfig = configParser.parseConfig(config)
+        requestConfig = AdUtils.parseConfig(config, logger)
         XCTAssertEqual(requestConfig?.auId, "some auId")
         value = requestConfig?.kv!["key"]!
         XCTAssertEqual(value!.first, "value")
@@ -190,7 +189,6 @@ class AdnuntiusSDKTests: XCTestCase {
     
     func testCategoryConfig() throws {
         let logger: Logger = Logger()
-        let configParser: RequestConfigParser = RequestConfigParser(logger)
         
         // the kv cannot be an array, it must be a dictionary only
         var config = ["adUnits": [
@@ -199,7 +197,7 @@ class AdnuntiusSDKTests: XCTestCase {
                    ]
             ]
         ] as [String : Any]
-        var requestConfig = configParser.parseConfig(config)
+        var requestConfig = AdUtils.parseConfig(config, logger)
         XCTAssertEqual(requestConfig?.auId, "some auId")
         XCTAssertEqual(requestConfig?.c!.first, "value")
         XCTAssertEqual(requestConfig?.c![1], "value2")
@@ -210,32 +208,84 @@ class AdnuntiusSDKTests: XCTestCase {
                    ]
             ]
         ] as [String : Any]
-        requestConfig = configParser.parseConfig(config)
+        requestConfig = AdUtils.parseConfig(config, logger)
         XCTAssertEqual(requestConfig?.auId, "some auId")
         XCTAssertEqual(requestConfig?.c!.first, "value")
     }
     
     func testToJson() throws {
-        let logger: Logger = Logger()
-        let configParser: RequestConfigParser = RequestConfigParser(logger)
-        
-        let requestConfig = AdRequest("some auId")
-        requestConfig.userId("my global user id")
-        requestConfig.sessionId = "my session id"
-        requestConfig.useCookies(false)
-        requestConfig.consentString("some consent string")
-        requestConfig.width("100")
-        requestConfig.height("200")
-        requestConfig.category("cat1")
-        requestConfig.category("cat2")
-        requestConfig.globalParameter("gdpr", "1")
-        requestConfig.keyValue("car", "holden")
-        requestConfig.keyValue("car", "ford")
-        requestConfig.keyValue("sport", "soccer")
-        let json = configParser.toJson(requestConfig)
+        let config = AdRequest("some auId")
+        config.userId("my global user id")
+        config.sessionId = "my session id"
+        config.useCookies(false)
+        config.consentString("some consent string")
+        config.width("100")
+        config.height("200")
+        config.category("cat1")
+        config.category("cat2")
+        config.globalParameter("gdpr", "1")
+        config.keyValue("car", "holden")
+        config.keyValue("car", "ford")
+        config.keyValue("sport", "soccer")
+        let json = AdUtils.toJson(config, AdnuntiusEnvironment.production)
         let script = json.script.replacingOccurrences(of: "\n", with: "").replacingOccurrences(of: "  ", with: "")
         print(script)
         let expected = "<html> <head><script type=\"text/javascript\" src=\"https://cdn.adnuntius.com/adn.js\" async></script><style>body {margin-top: 0px;margin-left: 0px;margin-bottom: 0px;margin-right: 0px;}</style> </head> <body><div id=\"adn-some auId\" style=\"display:none\"></div><script type=\"text/javascript\">window.adn = window.adn || {}; adn.calls = adn.calls || [];adn.calls.push(function() {adn.request({env: 'production',sdk: 'ios:\(AdnuntiusSDK.sdk_version)',onPageLoad: adnSdkShim.onPageLoad,onImpressionResponse: adnSdkShim.onImpressionResponse,onVisible: adnSdkShim.onVisible,onViewable: adnSdkShim.onViewable,onRestyle: adnSdkShim.onRestyle,onError: adnSdkShim.onError,adUnits: [{auId: 'some auId', auH: '200', auW: '100', kv: {'car': ['holden', 'ford'], 'sport': ['soccer']}, c: ['cat1', 'cat2']}],userId: 'my global user id', sessionId: 'my session id', useCookies: false, consentString: 'some consent string', gdpr: '1'});});</script> </body></html>"
         XCTAssertEqual(expected, script)
+    }
+    
+    func testApiClient() throws {
+        let creativeIds:[String] = [
+            "z539bknqnplvzyjl",
+            "21cq2rb9yfptpkpm",
+            "h7ss1yt0ccjjwhnr",
+            "07fl69n2b8wbpn37",
+            "nw9z2mgs2yl9sqt7",
+            "2ftc67cfl1cbsdfl",
+            "9kwdysnztt7hrzbb",
+            "3v3dc10m2bg30ys7",
+            "bclqbzdw6nmxtm2p",
+            "711fh0nm5lt5w3xg",
+            "8w1595rly1963yzd",
+            "311xxr0mwm75dss6",
+            "y69d11l5k3x7t3f3",
+            "1bcpcpphkb0rdx59",
+            "p6qpcq7sq67m6mzf",
+            "l1l7vz96fdxzdsbm",
+            "8tgz0lsgdyvyjd50",
+            "3fs90nvsqy6702fb",
+            "rhwjnrv6ljrkn035",
+            "z8rjcyy0bhy9357x",
+            "wysy25l7zx5vbv2d",
+            "l1l08kzbpwvhlcxk"
+        ]
+
+        self.count = 0
+        let apiClient = ApiClient()
+        apiClient.authenticate("", "")
+        for cId in creativeIds {
+            apiClient.creative(cId, "fag_pressen", self)
+        }
+        
+        while(self.count < creativeIds.count) {
+            print("Waiting \(count) to be \(creativeIds.count)")
+            sleep(5)
+        }
+    }
+    
+    func onSuccess(_ url: String, _ json: [String : Any]) {
+        let creativeId = json["id"] as! String
+        let lineItem = json["lineItem"] as! [String: Any]
+        let lineItemId = lineItem["id"] as! String
+        print("Creative(\"\(lineItemId)\", \"\(creativeId)\"),")
+        self.count+=1
+    }
+    
+    func onFailure(_ url: String, _ message: String) {
+        print("Failed \(url): \(message)")
+    }
+    
+    func onAuthFailure() {
+        print("Auth failed")
     }
 }
