@@ -5,6 +5,9 @@
 //  Created by Jason Pell on 23/5/2022.
 //  Copyright © 2022 Adnuntius AS. All rights reserved.
 //
+//
+// WARNING: This code should not be used for applications its only by adnuntius developers
+//
 
 import Foundation
 
@@ -67,33 +70,39 @@ public class AdClient {
         
         let task = URLSession.shared.dataTask(with: urlRequest) {(data, response, error) in
             guard let data = data, error == nil else {
-                handler.onFailure(error?.localizedDescription ?? "No data")
+                handler.onFailure("\(String(describing: error))")
                 return
             }
-            
-            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
             
             if let httpResponse = response as? HTTPURLResponse {
                 if (httpResponse.statusCode != 200) {
-                    handler.onFailure("Failed with \(httpResponse.statusCode): \(String(describing: responseJSON!))")
+                    handler.onFailure("Failed with \(httpResponse.statusCode): \(String(describing: response))")
                     return
                 }
             }
             
-            guard let adUnits = responseJSON!!["adUnits"] as? [[String: Any]] else {
-                handler.onFailure("Malformed response: missing an adUnits section")
+            do {
+                if let responseJSON = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                     if let adUnits = responseJSON["adUnits"] as? [[String: Any]] {
+                         if let adUnit = adUnits.first {
+                             if adUnit["matchedAdCount"] as? Int ?? 0 > 0, let html = adUnit["html"] as? String {
+                                 handler.onComplete(baseUrl, "\(html)")
+                                 return
+                             } else {
+                                 handler.onComplete(baseUrl, nil)
+                                 return
+                             }
+                         }
+                     }
+                }
+            } catch let error as NSError {
+                handler.onFailure("\(String(describing: error))")
                 return
             }
             
-            if let adUnit = adUnits.first {
-                if adUnit["matchedAdCount"] as? Int ?? 0 > 0, let html = adUnit["html"] as? String {
-                    handler.onComplete(baseUrl, "\(html)")
-                    return
-                }
-            }
-            handler.onComplete(baseUrl, nil)
+            handler.onFailure("Malformed response: missing an adUnits section")
+            return
         }
-
         task.resume()
     }
 }
