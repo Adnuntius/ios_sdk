@@ -6,14 +6,14 @@
 //  Copyright © 2022 Adnuntius AS. All rights reserved.
 //
 //
-// WARNING: This code should not be used for applications its only by adnuntius developers
+// WARNING: This code is not supported for production applications
+//          Its for internal use only
 //
 
 import Foundation
 
-public protocol AdClientHandler {
+public protocol AdClientHandler: ClientHandler {
     func onComplete(_ baseUrl: String, _ html: String?)
-    func onFailure(_ msg: String)
 }
 
 public class AdClientRequest: Codable {
@@ -36,17 +36,49 @@ public class AdClientRequests: Codable {
     }
 }
 
+private class AdClientHttpHandler: HttpClientHandler {
+    private let baseUrl: String
+    private let handler: AdClientHandler
+    
+    public init(_ baseUrl: String, _ handler: AdClientHandler) {
+        self.baseUrl = baseUrl
+        self.handler = handler
+    }
+
+    func onComplete(_ response: HttpClientResponse) {
+        if (response.code == 200) {
+            if let adUnits = response.data!["adUnits"] as? [[String: Any]] {
+                if let adUnit = adUnits.first {
+                    if adUnit["matchedAdCount"] as? Int ?? 0 > 0, let html = adUnit["html"] as? String {
+                        handler.onComplete(baseUrl, "\(html)")
+                        return
+                    } else {
+                        handler.onComplete(baseUrl, nil)
+                        return
+                    }
+                }
+            }
+            handler.onFailure("Malformed response: missing an adUnits section")
+            return
+        } else if (response.data != nil) {
+            handler.onFailure("\(response.code): \(response.data!)")
+        } else {
+            handler.onFailure("\(response.code): \(response.msg!)")
+        }
+    }
+}
+
 public class AdClient {
     private let encoder = JSONEncoder()
     private var env: AdnuntiusEnvironment = AdnuntiusEnvironment.production
     private let logger: Logger = Logger()
-    private var userAgent: String?
+    private let httpClient: HttpClient = HttpClient()
     
     public init() {
     }
     
     open func setUserAgent(_ userAgent: String) {
-        self.userAgent = userAgent
+        self.httpClient.userAgent(userAgent)
     }
     
     open func setEnv(_ env: AdnuntiusEnvironment) {
@@ -58,51 +90,7 @@ public class AdClient {
         let data = try! self.encoder.encode(requests)
         
         let baseUrl = AdUtils.getBaseUrl(env)
-        let url = URL(string: baseUrl + "/i?format=json&sdk=ios:\(AdnuntiusSDK.sdk_version)")!
-        var urlRequest = URLRequest(url: url)
-        urlRequest.httpMethod = "POST"
-        urlRequest.httpBody = data
-        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        urlRequest.addValue("application/json", forHTTPHeaderField: "Accept")
-        if (self.userAgent != nil) {
-            urlRequest.addValue(self.userAgent!, forHTTPHeaderField: "User-Agent")
-        }
-        
-        let task = URLSession.shared.dataTask(with: urlRequest) {(data, response, error) in
-            guard let data = data, error == nil else {
-                handler.onFailure("\(String(describing: error))")
-                return
-            }
-            
-            if let httpResponse = response as? HTTPURLResponse {
-                if (httpResponse.statusCode != 200) {
-                    handler.onFailure("Failed with \(httpResponse.statusCode): \(String(describing: response))")
-                    return
-                }
-            }
-            
-            do {
-                if let responseJSON = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                     if let adUnits = responseJSON["adUnits"] as? [[String: Any]] {
-                         if let adUnit = adUnits.first {
-                             if adUnit["matchedAdCount"] as? Int ?? 0 > 0, let html = adUnit["html"] as? String {
-                                 handler.onComplete(baseUrl, "\(html)")
-                                 return
-                             } else {
-                                 handler.onComplete(baseUrl, nil)
-                                 return
-                             }
-                         }
-                     }
-                }
-            } catch let error as NSError {
-                handler.onFailure("\(String(describing: error))")
-                return
-            }
-            
-            handler.onFailure("Malformed response: missing an adUnits section")
-            return
-        }
-        task.resume()
+        let url = baseUrl + "/i?format=json&sdk=ios:\(AdnuntiusSDK.sdk_version)"
+        self.httpClient.jsonPost(url, data, AdClientHttpHandler(baseUrl, handler))
     }
 }

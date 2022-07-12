@@ -21,6 +21,11 @@
                BlueprintName = "AdnuntiusSDKTests"
                ReferencedContainer = "container:AdnuntiusSDK.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "AdnuntiusSDKTests/testApiClient()">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>
