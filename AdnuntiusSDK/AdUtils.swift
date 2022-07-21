@@ -120,7 +120,7 @@ public class AdUtils {
     }
     """
 
-    public static var ADNUNTIUS_AJAX_SHIM_JS = """
+    private static var ADNUNTIUS_AJAX_SHIM_JS = """
     var adnSdkHandler = Object()
     adnSdkHandler.closeView = function() {
         if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.\(ADNUNTIUS_MESSAGE_HANDLER)) {
@@ -205,7 +205,7 @@ public class AdUtils {
     }
 
     adnSdkShim.onError = function(response) {
-        console.log("onError:" + JSON.stringify(response))
+        //console.log("onError:" + JSON.stringify(response))
     
         if (response.hasOwnProperty('args') && response.args[0]) {
             var object = response.args[0]
@@ -218,9 +218,16 @@ public class AdUtils {
             }
         }
     }
-
     """
 
+    public static func getAdnuntiusAjaxShimJs(_ debugEnabled: Bool) -> String {
+        if debugEnabled {
+            return ADNUNTIUS_AJAX_SHIM_JS.replacingOccurrences(of: "//console.log", with: "console.log")
+        } else {
+            return ADNUNTIUS_AJAX_SHIM_JS
+        }
+    }
+    
     public static func getBaseUrl(_ env: AdnuntiusEnvironment) -> String {
         if (env == AdnuntiusEnvironment.production) {
             return "https://delivery.adnuntius.com"
