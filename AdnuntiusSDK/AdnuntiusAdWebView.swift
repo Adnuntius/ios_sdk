@@ -170,7 +170,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
             let metaScript = WKUserScript(source: AdUtils.META_VIEWPORT_JS,
                                                 injectionTime: WKUserScriptInjectionTime.atDocumentEnd, forMainFrameOnly: true)
 
-            let shimScript = WKUserScript(source: AdUtils.ADNUNTIUS_AJAX_SHIM_JS,
+            let shimScript = WKUserScript(source: AdUtils.getAdnuntiusAjaxShimJs(self.logger.isDebugEnabled()),
                                         injectionTime: WKUserScriptInjectionTime.atDocumentStart, forMainFrameOnly: true)
 
             self.configuration.userContentController.addUserScript(metaScript)
@@ -257,53 +257,53 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
     
     open func userContentController(_ userContentController: WKUserContentController,
                                    didReceive wkmessage: WKScriptMessage) {
-        guard let dict = wkmessage.body as? [String : AnyObject] else {
-            return
-        }
-
-        let type = dict["type"] as! String
-        if type == "console" {
-            let method = dict["method"] as! String
-            let message = dict["message"] as! String
-            self.logger.debug("\(method): \(message)")
-        } else if (type == "pageLoad") {
-            let adCount = dict["adCount"] as! Int
-            if (adCount > 0) {
-                let response: AdResponseInfo = newAdResponseInfo(dict)
-                self.loadAdHandler!.onAdResponse(response)
-            } else {
-                self.loadAdHandler!.onNoAdResponse()
+        if let dict = wkmessage.body as? [String : AnyObject] {
+            if let type = dict["type"] as? String {
+                if type == "console" {
+                    if let method = dict["method"] as? String, let message = dict["message"] as? String {
+                        self.logger.debug("\(method): \(message)")
+                    }
+                } else if (type == "pageLoad") {
+                    if let adCount = dict["adCount"] as? Int {
+                        if (adCount > 0) {
+                            let response: AdResponseInfo = newAdResponseInfo(dict)
+                            self.loadAdHandler!.onAdResponse(response)
+                        } else {
+                            self.loadAdHandler!.onNoAdResponse()
+                        }
+                    }
+                } else if (type == "resize") {
+                    let response: AdResponseInfo = newAdResponseInfo(dict)
+                    if response.width > 0 && response.height > 0 {
+                        self.loadAdHandler!.onAdResize(response)
+                    }
+                } else if (type == "failure") {
+                    if let httpStatus = dict["status"] as? Int, let response = dict["response"] as? String {
+                        self.loadAdHandler!.onFailure("\(httpStatus) error: \(response)")
+                    }
+                } else if (type == "closeView") {
+                    self.loadAdHandler!.onLayoutCloseView()
+                }
             }
-        } else if (type == "resize") {
-            let response: AdResponseInfo = newAdResponseInfo(dict)
-            if response.width > 0 && response.height > 0 {
-                self.loadAdHandler!.onAdResize(response)
-            }
-        } else if (type == "failure") {
-            let httpStatus = dict["status"] as! Int
-            let response = dict["response"] as! String
-            self.loadAdHandler!.onFailure("\(httpStatus) error: \(response)")
-        } else if (type == "closeView") {
-            self.loadAdHandler!.onLayoutCloseView()
         }
     }
     
     // FIXME - perhaps there is an automated way to populate the AdResponseInfo from the dict
     private func newAdResponseInfo(_ dict: [String : AnyObject]) -> AdResponseInfo {
-        let definedWidth = dict["definedWidth"] as! Int
-        let definedHeight = dict["definedHeight"] as! Int
-        let height = dict["height"] as! Int
-        let width = dict["width"] as! Int
-        let creativeId = dict["creativeId"] as! String
-        let lineItemId = dict["lineItemId"] as! String
-        
         var adResponseInfo = AdResponseInfo()
-        adResponseInfo.width = width
-        adResponseInfo.height = height
-        adResponseInfo.definedWidth = definedWidth
-        adResponseInfo.definedHeight = definedHeight
-        adResponseInfo.creativeId = creativeId
-        adResponseInfo.lineItemId = lineItemId
+        if let definedWidth = dict["definedWidth"] as? Int,
+                    let definedHeight = dict["definedHeight"] as? Int,
+                    let height = dict["height"] as? Int,
+                    let width = dict["width"] as? Int,
+                    let creativeId = dict["creativeId"] as? String,
+                    let lineItemId = dict["lineItemId"] as? String {
+            adResponseInfo.width = width
+            adResponseInfo.height = height
+            adResponseInfo.definedWidth = definedWidth
+            adResponseInfo.definedHeight = definedHeight
+            adResponseInfo.creativeId = creativeId
+            adResponseInfo.lineItemId = lineItemId
+        }
         return adResponseInfo
     }
     
