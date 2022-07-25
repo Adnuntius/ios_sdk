@@ -1,8 +1,4 @@
 //
-//  AdUtils.swift
-//  AdnuntiusSDK
-//
-//  Created by Jason Pell on 23/5/2022.
 //  Copyright © 2022 Adnuntius AS. All rights reserved.
 //
 
@@ -148,6 +144,21 @@ public class AdUtils {
         })
         adnSdkShim.console[method](message)
     }
+    
+    adnSdkShim.log = function(message) {
+        adnSdkShim.adnAdnuntiusMessage({
+                              type: "console",
+                              method: "log",
+                              message: message
+        })
+    }
+    
+    adnSdkShim.version = function(version) {
+        adnSdkShim.adnAdnuntiusMessage({
+                              type: "version",
+                              version: version
+        })
+    }
 
     window.console = {
         log: function() {
@@ -183,29 +194,31 @@ public class AdUtils {
     }
     
     adnSdkShim.onPageLoad = function(response) {
-        //console.log("onPageLoad:" + JSON.stringify(response))
+        //adnSdkShim.log("onPageLoad:" + JSON.stringify(response))
+
         adnSdkShim.onDimsEvent("pageLoad", response)
     }
 
     adnSdkShim.onRestyle = function(response) {
-        //console.log("onResize:" + JSON.stringify(response))
+        //adnSdkShim.log("onResize:" + JSON.stringify(response))
+
         adnSdkShim.onDimsEvent("resize", response)
     }
     
     adnSdkShim.onVisible = function(response) {
-        //console.log("onVisible:" + JSON.stringify(response))
+        //adnSdkShim.log("onVisible:" + JSON.stringify(response))
     }
 
     adnSdkShim.onViewable = function(response) {
-        //console.log("onViewable:" + JSON.stringify(response))
+        //adnSdkShim.log("onViewable:" + JSON.stringify(response))
     }
 
     adnSdkShim.onImpressionResponse = function(response) {
-        //console.log("onImpressionResponse:" + JSON.stringify(response))
+        //adnSdkShim.log("onImpressionResponse:" + JSON.stringify(response))
     }
 
     adnSdkShim.onError = function(response) {
-        //console.log("onError:" + JSON.stringify(response))
+        //adnSdkShim.log("onError:" + JSON.stringify(response))
     
         if (response.hasOwnProperty('args') && response.args[0]) {
             var object = response.args[0]
@@ -222,7 +235,7 @@ public class AdUtils {
 
     public static func getAdnuntiusAjaxShimJs(_ debugEnabled: Bool) -> String {
         if debugEnabled {
-            return ADNUNTIUS_AJAX_SHIM_JS.replacingOccurrences(of: "//console.log", with: "console.log")
+            return ADNUNTIUS_AJAX_SHIM_JS.replacingOccurrences(of: "//adnSdkShim.log", with: "adnSdkShim.log")
         } else {
             return ADNUNTIUS_AJAX_SHIM_JS
         }
@@ -238,104 +251,7 @@ public class AdUtils {
         }
     }
 
-    public static func parseConfig(_ config: [String: Any], _ logger: Logger) -> AdRequest? {
-        var localConfig = config
-        
-        guard let adUnits = localConfig["adUnits"] as? [[String : Any]] else {
-            logger.error("Malformed request: missing an adUnits section")
-            return nil
-        }
-        
-        guard adUnits.count == 1 else {
-            logger.error("Malformed request: Too many adUnits in adUnits section")
-            return nil
-        }
-
-        let adUnit = adUnits.first!
-        guard let auId = adUnit["auId"] as? String else {
-            logger.error("Malformed request: Missing an auId for the adUnit")
-            return nil
-        }
-
-        let kv = adUnit["kv"] as? [[String : Any]]
-        if kv != nil {
-            logger.error("Malformed request: kv cannot be an array")
-            return nil
-        }
-
-        let request = AdRequest(auId)
-        
-        if let kvs = adUnit["kv"] as? [String: [String]] {
-            request.kv = kvs
-        } else if let kvs = adUnit["kv"] as? [String: String] {
-            for key in kvs.keys.sorted() {
-                request.keyValue(key, kvs[key]!)
-            }
-        }
-        
-        if let c = adUnit["c"] as? [String] {
-            request.c = c
-        }
-        
-        if let c = adUnit["c"] as? String {
-            request.c = [c]
-        }
-        
-        if let auH = adUnit["auH"] as? String {
-            request.auH = auH
-        }
-        
-        if let auH = adUnit["auW"] as? String {
-            request.auH = auH
-        }
-        localConfig["adUnits"] = nil
-        
-        // FIXME - apparently can do live preview without specifying the creative id!!!
-        if let lpl = localConfig["lpl"] as? String, let lpc = localConfig["lpc"] as? String {
-            request.livePreview(lpl, lpc)
-        }
-        localConfig["lpl"] = nil
-        localConfig["lpc"] = nil
-        
-        // support the adn.js noCookies parameter, as well as the ad server useCookies
-        // to provide support for loadFromApi customers migrating over
-        var useCookies: Bool = true
-        if let noCookies = localConfig["noCookies"] {
-            if noCookies as! Bool == true {
-                useCookies = false
-            }
-            localConfig["noCookies"] = nil
-        } else if let cUseCookies = localConfig["useCookies"] {
-            if cUseCookies as! Bool == false {
-                useCookies = false
-            }
-            localConfig["useCookies"] = nil
-        }
-        request.useCookies = useCookies
-
-        if let userId = localConfig["userId"] as? String {
-            request.userId = userId
-            localConfig["userId"] = nil
-        }
-        
-        if let sessionId = localConfig["sessionId"] as? String {
-            request.sessionId = sessionId
-            localConfig["sessionId"] = nil
-        }
-        
-        if let consentString = localConfig["consentString"] as? String {
-            request.consentString = consentString
-            localConfig["consentString"] = nil
-        }
-
-        let keys = localConfig.keys.sorted()
-        for key in keys {
-            request.globalParameter(key, localConfig[key] as! String)
-        }
-        return request
-    }
-    
-    public static func toJson(_ config: AdRequest, _ env: AdnuntiusEnvironment) -> InternalAdRequest {
+    public static func toJson(_ adId: String?, _ config: AdRequest, _ env: AdnuntiusEnvironment, _ debugEnabled: Bool) -> InternalAdRequest {
         var rootParametersJson = ""
         if let userId = config.userId {
             appendWithComma(&rootParametersJson, "userId", "'\(userId)'")
@@ -398,6 +314,11 @@ public class AdUtils {
 
         let adnJsUrl = self.getAdnJsUrl(env)
         
+        let impReg = adId != nil ? "'manual'" : "'default'"
+        let externalId = adId != nil ? "'\(adId!)'" : "null"
+        
+        let versionDebug = debugEnabled ? "adnSdkShim.version(adn.version)" : "// no version"
+        
         // we are overriding these default css settings cos wkwebview does not seem to provide
         // a UI that can do it, and ive tried many
         let script = """
@@ -418,8 +339,11 @@ public class AdUtils {
                 <script type="text/javascript">
                 window.adn = window.adn || {}; adn.calls = adn.calls || [];
                 adn.calls.push(function() {
+                    \(versionDebug)
                     adn.request({
                         env: '\(env)',
+                        impReg: \(impReg),
+                        externalId: \(externalId),
                         sdk: 'ios:\(AdnuntiusSDK.sdk_version)',
                         onPageLoad: adnSdkShim.onPageLoad,
                         onImpressionResponse: adnSdkShim.onImpressionResponse,
