@@ -184,11 +184,13 @@ public class AdUtils {
     
     adnSdkShim.onPageLoad = function(response) {
         //console.log("onPageLoad:" + JSON.stringify(response))
+
         adnSdkShim.onDimsEvent("pageLoad", response)
     }
 
     adnSdkShim.onRestyle = function(response) {
         //console.log("onResize:" + JSON.stringify(response))
+
         adnSdkShim.onDimsEvent("resize", response)
     }
     
@@ -420,7 +422,7 @@ public class AdUtils {
                 adn.calls.push(function() {
                     adn.request({
                         env: '\(env)',
-                        sdk: 'ios:\(AdnuntiusSDK.sdk_version)',
+                        sdk: 'marypoppins',
                         onPageLoad: adnSdkShim.onPageLoad,
                         onImpressionResponse: adnSdkShim.onImpressionResponse,
                         onVisible: adnSdkShim.onVisible,

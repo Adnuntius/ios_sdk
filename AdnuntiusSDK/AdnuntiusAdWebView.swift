@@ -127,7 +127,7 @@ private class HandlerAdaptor: LoadAdHandler {
 }
 
 public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, WKScriptMessageHandler {
-    private let logger: Logger = Logger()
+    public let logger: Logger = Logger()
     
     private var loadAdHandler: LoadAdHandler?
     
@@ -152,7 +152,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
     @objc open func adView () -> AdnuntiusAdWebView {
         return self
     }
-
+    
     /*
     internal adnuntius dev use only
     */
@@ -160,8 +160,9 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         self.env = env
     }
     
-    @objc open func enableDebug(_ debug: Bool) {
-        self.logger.enableDebug(debug)
+    @available(*, deprecated, message: "Use logger.debug = b")
+    @objc open func enableDebug(_ b: Bool) {
+        self.logger.debug = b
     }
     
     private func setupCallbacks(_ loadAdHandler: LoadAdHandler) {
@@ -261,7 +262,12 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
             if let type = dict["type"] as? String {
                 if type == "console" {
                     if let method = dict["method"] as? String, let message = dict["message"] as? String {
-                        self.logger.debug("\(method): \(message)")
+                        if self.logger.verbose {
+                            self.logger.verbose("console.\(method): \(message)")
+                        } else if self.logger.debug {
+                            let token = message.components(separatedBy: ":")
+                            self.logger.debug("\(token[0])")
+                        }
                     }
                 } else if (type == "pageLoad") {
                     if let adCount = dict["adCount"] as? Int {
