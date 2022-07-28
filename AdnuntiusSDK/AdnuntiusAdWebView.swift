@@ -239,6 +239,11 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
             return
         }
 
+        // both events already called a waste of time to go any further
+        if (self.hasVisibleCalled && self.hasViewableCalled) {
+            return
+        }
+        
         let container = CGRect(origin: scrollView.contentOffset, size: scrollView.frame.size)
         // for a table view we need the superview for correct visiblity calculations
         if scrollView is UITableView {
