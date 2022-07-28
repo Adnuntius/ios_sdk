@@ -193,7 +193,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
     @objc open func loadAd(_ request: AdRequest, completionHandler: AdLoadCompletionHandler? = nil, adnSdkHandler: AdnSdkHandler? = nil) -> Bool {
         self.handlerAdaptor.adnAdLoadHandler = completionHandler
         self.handlerAdaptor.adnSdkHandler = adnSdkHandler
-        setupCallbacks(false, self.handlerAdaptor)
+        setupCallbacks(true, self.handlerAdaptor)
         
         let requestJson = AdUtils.toJson(self.adId, request, self.env, self.logger.debug)
         self.logger.verbose("\(requestJson)")
