@@ -227,13 +227,15 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         self.loadHTMLString(requestJson.script, baseURL: requestJson.baseUrl)
     }
 
-    /*
-     This method is used by calling code to let the AdnuntiusWebView know if its currently
-     visible in the device view port.
+    /**
+     This function is used by calling code to notify the AdnuntiusWebView of potential changes in its visiblity
+      in the device view port.
+
+      Currently is supported for UIScrollView and UITableView (a table view *is* a ScrollView) only.
      */
     @objc open func updateView(_ scrollView: UIScrollView) {
+        // ignore calls to this method for cases where loadAd has not been called or called with delayViewEvents: false
         if (self.adId == nil) {
-            self.logger.error("loadViewAd does not support delaying viewable / visible events - use loadAd")
             return
         }
 
