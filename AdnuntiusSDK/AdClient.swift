@@ -1,10 +1,5 @@
 //
-//  AdClient.swift
-//  AdnuntiusSDK
-//
-//  Created by Jason Pell on 23/5/2022.
 //  Copyright © 2022 Adnuntius AS. All rights reserved.
-//
 //
 // WARNING: This code is not supported for production applications
 //          Its for internal use only

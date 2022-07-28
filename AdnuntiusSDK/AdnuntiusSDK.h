@@ -1,5 +1,5 @@
 //
-//  Copyright (c) 2020 Adnuntius AS.  All rights reserved.
+//  Copyright (c) 2022 Adnuntius AS.  All rights reserved.
 //
 
 #ifndef AdnuntiusSDK_h
