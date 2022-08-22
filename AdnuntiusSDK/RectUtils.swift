@@ -9,13 +9,26 @@
 import Foundation
 import UIKit
 
+private extension Double {
+    func toInt() -> Int {
+        // this is a rubbish value, Im not sure if it should be zero or something else,
+        // im going with zero for now
+        if self >= Double(Int.min) && self < Double(Int.max) {
+            return Int(self)
+        } else {
+            return Int(0)
+        }
+    }
+}
+
 public class RectUtils {
+    // https://stackoverflow.com/a/40544010
     public static func percentageContains(_ container: CGRect, _ childView: CGRect) -> Int {
         let intersection:CGRect = container.intersection(childView)
         if (intersection.height > 0 && intersection.width > 0) {
             let viewArea = childView.width * childView.height
             let intersectArea = intersection.width * intersection.height
-            let percentage = Int((intersectArea / (viewArea / 100)).rounded())
+            let percentage = ((intersectArea / (viewArea / 100)).rounded()).toInt()
             // a single pixel still must be valid, so just force to 1 percent
             return percentage > 0 ? percentage : 1
         }
