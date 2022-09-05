@@ -245,11 +245,8 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         }
         
         let container = CGRect(origin: scrollView.contentOffset, size: scrollView.frame.size)
-        // for a table view we need the superview for correct visiblity calculations
-        if scrollView is UITableView {
-            let percentage = RectUtils.percentageContains(container, convert(frame, to: scrollView))
-            updateView(percentage)
-        }
+        let percentage = RectUtils.percentageContains(container, convert(frame, to: scrollView))
+        updateView(percentage)
     }
 
     private func updateView(_ percentage: Int) -> Void {
