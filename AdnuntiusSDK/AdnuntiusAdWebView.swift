@@ -243,14 +243,15 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         if (self.hasVisibleCalled && self.hasViewableCalled) {
             return
         }
-        
-        let container = CGRect(origin: scrollView.contentOffset, size: scrollView.frame.size)
+       if isDescendant(of: scrollView) {
+            let container = CGRect(origin: scrollView.contentOffset, size: scrollView.frame.size)
 
-        let convertedFrame = convert(self.frame, to: scrollView)
-        logger.verbose("container offset: \(container)")
-        logger.verbose("rect on scrollview: \(convertedFrame)")
-        let percentage = RectUtils.percentageContains(container, convertedFrame)
-        updateView(percentage)
+            let convertedFrame = convert(frame, to: scrollView)
+            logger.verbose("container offset: \(container)")
+            logger.verbose("rect on scrollview: \(convertedFrame)")
+            let percentage = RectUtils.percentageContains(container, convertedFrame)
+            updateView(percentage)
+       }
     }
 
     private func updateView(_ percentage: Int) -> Void {
