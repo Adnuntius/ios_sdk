@@ -245,7 +245,13 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         }
         
         let container = CGRect(origin: scrollView.contentOffset, size: scrollView.frame.size)
-        let percentage = RectUtils.percentageContains(container, convert(frame, to: scrollView))
+
+        let convertedFrame = convert(self.frame, from: scrollView)
+        let absolutePosition = CGPoint(x: abs(convertedFrame.origin.x), y: abs(convertedFrame.origin.y))
+        let intersectingRect = CGRect(origin: absolutePosition, size: convertedFrame.size)
+        logger.verbose("container: \(container)")
+        logger.verbose("rect on scrollview: \(intersectingRect)")
+        let percentage = RectUtils.percentageContains(container, intersectingRect)
         updateView(percentage)
     }
 
