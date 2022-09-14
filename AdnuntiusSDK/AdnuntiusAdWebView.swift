@@ -246,7 +246,7 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
        if isDescendant(of: scrollView) {
             let container = CGRect(origin: scrollView.contentOffset, size: scrollView.frame.size)
 
-            let convertedFrame = convert(frame, to: scrollView)
+            let convertedFrame = convert(bounds, to: scrollView)
             logger.verbose("container offset: \(container)")
             logger.verbose("rect on scrollview: \(convertedFrame)")
             let percentage = RectUtils.percentageContains(container, convertedFrame)
