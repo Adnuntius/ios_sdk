@@ -5,5 +5,5 @@
 import UIKit
 
 open class AdnuntiusSDK: NSObject {
-    public static let sdk_version = "1.10.2"
+    public static let sdk_version = "1.10.3"
 }
