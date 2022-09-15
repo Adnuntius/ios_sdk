@@ -243,22 +243,14 @@ public class AdnuntiusAdWebView: WKWebView, WKUIDelegate, WKNavigationDelegate, 
         if (self.hasVisibleCalled && self.hasViewableCalled) {
             return
         }
-        
-        let container = CGRect(origin: scrollView.contentOffset, size: scrollView.frame.size)
-        // for a table view we need the superview for correct visiblity calculations
-        if scrollView is UITableView {
-            // a superview will not be accessible if the cell is not on screen, is a good thing
-            if let superview = self.superview {
-                self.logger.verbose("container: \(container)")
-                self.logger.verbose("superview frame: \(superview.frame)")
-                let percentage = RectUtils.percentageContains(container, superview.frame)
-                updateView(percentage)
-            }
-        } else {
-            self.logger.verbose("container: \(container)")
-            self.logger.verbose("frame: \(self.frame)")
-            let percentage = RectUtils.percentageContains(container, self.frame)
-            updateView(percentage)
+
+        if isDescendant(of: scrollView) {
+             let container = CGRect(origin: scrollView.contentOffset, size: scrollView.frame.size)
+             let convertedFrame = convert(bounds, to: scrollView)
+             logger.verbose("container offset: \(container)")
+             logger.verbose("rect on scrollview: \(convertedFrame)")
+             let percentage = RectUtils.percentageContains(container, convertedFrame)
+             updateView(percentage)
         }
     }
 
