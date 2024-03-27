@@ -12,8 +12,7 @@ Some examples of using the SDK are available [here](https://github.com/Adnuntius
 
 ## Bugs, Issues and Support
 
-This SDK is a work in progress and we release new versions as needed to fix bugs or add functionality our customers require.  You
-can raise issues on github or via zen desk at https://admin.adnuntius.com
+This SDK is a work in progress and we release new versions as needed to fix bugs or add functionality our customers require.
 
 ## License
 
