@@ -2,6 +2,7 @@
 .idea
 Carthage
 build
+.build
 xcuserdata
 Cartfile.resolved
 
